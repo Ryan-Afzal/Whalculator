@@ -13,7 +13,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		ISolvable GetExactValue(ExpressionEvaluationArgs args);
 
 		/// <summary>
-		/// Gets the decimal value of the answer. Usually this is getting the double value of the exact answer.
+		/// Gets the decimal value of the answer. This function assumes that the structure cannot be simplified further.
 		/// </summary>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -24,5 +24,10 @@ namespace Whalculator.Core.Calculator.Equation {
 		/// </summary>
 		/// <returns>Returns a functional copy of this ISolvable</returns>
 		ISolvable Clone();
+
+		ISolvable Add(ISolvable other);
+		ISolvable Multiply(ISolvable other);
+		ISolvable Divide(ISolvable other);
+		ISolvable Exponate(ISolvable other);
 	}
 }
