@@ -28,11 +28,11 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public double GetDoubleValue(ExpressionEvaluationArgs args) {
-			throw new NotImplementedException();
+			return this.value;
 		}
 
 		public ISolvable GetExactValue(ExpressionEvaluationArgs args) {
-			throw new NotImplementedException();
+			return this.Clone();
 		}
 
 		public ISolvable Multiply(ISolvable other) {
