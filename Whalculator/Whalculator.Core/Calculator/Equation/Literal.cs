@@ -11,20 +11,8 @@ namespace Whalculator.Core.Calculator.Equation {
 			this.value = value;
 		}
 
-		public ISolvable Add(ISolvable other) {
-			throw new NotImplementedException();
-		}
-
 		public ISolvable Clone() {
 			return new Literal(this.value);
-		}
-
-		public ISolvable Divide(ISolvable other) {
-			throw new NotImplementedException();
-		}
-
-		public ISolvable Exponate(ISolvable other) {
-			throw new NotImplementedException();
 		}
 
 		public double GetDoubleValue(ExpressionEvaluationArgs args) {
@@ -35,8 +23,16 @@ namespace Whalculator.Core.Calculator.Equation {
 			return this.Clone();
 		}
 
-		public ISolvable Multiply(ISolvable other) {
-			throw new NotImplementedException();
+		public override bool Equals(object obj) {
+			if (obj is Literal l) {
+				return this.value == l.value;
+			} else {
+				return false;
+			}
+		}
+
+		public override int GetHashCode() {
+			return base.GetHashCode();
 		}
 	}
 }

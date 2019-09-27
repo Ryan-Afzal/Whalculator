@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Whalculator.Core.Calculator.Equation {
-	public abstract class Operator : ISolvable {
+	public sealed class Operator : ISolvable {
 
-		protected readonly ISolvable[] operands;
+		private readonly ExactValueOperation exactValueOperation;
+		private readonly DoubleValueOperation doubleValueOperation;
 
-		public Operator(params ISolvable[] operands) {
+		private readonly ISolvable[] operands;
+
+		public Operator(ExactValueOperation exactValueOperation, DoubleValueOperation doubleValueOperation, params ISolvable[] operands) {
+			this.exactValueOperation = exactValueOperation;
+			this.doubleValueOperation = doubleValueOperation;
 			this.operands = operands;
 		}
 
-		protected ISolvable[] CloneOperands() {
+		private ISolvable[] CloneOperands() {
 			ISolvable[] output = new ISolvable[this.operands.Length];
 
 			for (int i = 0; i < output.Length; i++) {
@@ -21,12 +26,16 @@ namespace Whalculator.Core.Calculator.Equation {
 			return output;
 		}
 
-		public abstract ISolvable Clone();
-		public abstract double GetDoubleValue(ExpressionEvaluationArgs args);
-		public abstract ISolvable GetExactValue(ExpressionEvaluationArgs args);
-		public abstract ISolvable Add(ISolvable other);
-		public abstract ISolvable Divide(ISolvable other);
-		public abstract ISolvable Exponate(ISolvable other);
-		public abstract ISolvable Multiply(ISolvable other);
+		public ISolvable GetExactValue(ExpressionEvaluationArgs args) {
+			return this.exactValueOperation.Invoke(this.operands);
+		}
+
+		public double GetDoubleValue(ExpressionEvaluationArgs args) {
+			return this.doubleValueOperation.Invoke(this.operands);
+		}
+
+		public ISolvable Clone() {
+			return new Operator(this.exactValueOperation, this.doubleValueOperation, this.CloneOperands());
+		}
 	}
 }

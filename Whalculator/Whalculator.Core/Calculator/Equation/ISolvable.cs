@@ -27,11 +27,6 @@ namespace Whalculator.Core.Calculator.Equation {
 		/// <returns>Returns a functional copy of this ISolvable</returns>
 		ISolvable Clone();
 
-		ISolvable Add(ISolvable other);
-		ISolvable Multiply(ISolvable other);
-		ISolvable Divide(ISolvable other);
-		ISolvable Exponate(ISolvable other);
-
 	}
 
 }
