@@ -10,15 +10,20 @@ namespace Whalculator.Core.Calculator.Equation {
 
 	public struct Operation {
 
-		public static readonly Operation AddOperation = new Operation();
 
-		private Operation(ExactValueOperation exactValueOperation, DoubleValueOperation doubleValueOperation) {
+		private Operation(ExactValueOperation exactValueOperation, DoubleValueOperation doubleValueOperation, int order, char name) {
 			ExactValueOperation = exactValueOperation;
 			DoubleValueOperation = doubleValueOperation;
+			Order = order;
+			Name = name;
 		}
 
-		public ExactValueOperation ExactValueOperation { get; private set; }
-		public DoubleValueOperation DoubleValueOperation { get; private set; }
+		public ExactValueOperation ExactValueOperation { get; }
+		public DoubleValueOperation DoubleValueOperation { get; }
+
+		public int Order { get; }
+
+		public char Name { get; }
 
 	}
 
