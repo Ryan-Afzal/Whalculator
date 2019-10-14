@@ -5,11 +5,11 @@ using System.Text;
 namespace Whalculator.Core.Calculator.Equation {
 	public class InvalidEquationException : Exception {
 
-		public InvalidEquationException(int errorCode) {
+		public InvalidEquationException(ErrorCode errorCode) {
 			ErrorCode = errorCode;
 		}
 
-		public int ErrorCode { get; }
+		public ErrorCode ErrorCode { get; }
 
 	}
 }

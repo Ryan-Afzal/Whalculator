@@ -3,14 +3,24 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Whalculator.Core.Calculator.Equation {
-	public class OperatorSet {
+	public sealed class OperatorSet {
+
+		private readonly IDictionary<char, Operation> dictionary;
+
+		public OperatorSet() {
+			this.dictionary = new Dictionary<char, Operation>();
+		}
+
+		private void AddOperation(Operation operation) {
+			this.dictionary.Add(operation.Name, operation);
+		}
 
 		public bool IsOperator(char c) {
-			throw new NotImplementedException();
+			return this.dictionary.ContainsKey(c);
 		}
 
 		public Operation GetOperation(char c) {
-			throw new NotImplementedException();
+			return this.dictionary[c];
 		}
 
 	}
