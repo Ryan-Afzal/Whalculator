@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Whalculator.Core.Calculator.Equation {
-	public struct ExpressionEvaluationArgs {
-		public IVariableSet VariableSet { get; set; }
+	public interface IOperatorSet {
+		bool IsOperator(char c);
+		Operation GetOperation(char c);
 	}
 }

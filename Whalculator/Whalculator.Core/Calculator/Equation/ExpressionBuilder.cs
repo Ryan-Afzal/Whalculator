@@ -7,7 +7,7 @@ namespace Whalculator.Core.Calculator.Equation {
 	public static class ExpressionBuilder {
 
 		private struct GenerationArgs {
-			public OperatorSet OperatorSet { get; set; }
+			public IOperatorSet OperatorSet { get; set; }
 		}
 
 		public static ISolvable GetSolvableFromText(string text) {
@@ -69,7 +69,7 @@ namespace Whalculator.Core.Calculator.Equation {
 
 			if (index == -1) {
 				if (text[0] == '(') {
-					return GetSolvableFromText(text.Substring(1, text.Length - 2), args);
+					return GetSolvableFromText(text[1..^2], args);
 				} else {
 					bool isVar = false;
 					for (int i = 0; i < text.Length; i++) {
@@ -80,7 +80,7 @@ namespace Whalculator.Core.Calculator.Equation {
 						if (text[i] == '(') {
 							//Function
 							string name = text.Substring(0, i);
-							ISolvable[] _args = SeparateFunctionArguments(text.Substring(i + 1, text.LastIndexOf(')') - (i + 1)), args);
+							ISolvable[] _args = SeparateFunctionArguments(text[(i + 1)..(text.LastIndexOf(')'))], args);
 
 							if (args.BuiltinFunctions.IsFunction(name)) {//Built-in 'special' function
 								return new BuiltinFunction(args.BuiltinFunctions.GetOperationForSymbol(name), _args);
@@ -99,7 +99,7 @@ namespace Whalculator.Core.Calculator.Equation {
 					}
 				}
 			} else if (oDepth != 0) {
-				return GetSolvableFromText(text.Substring(1, text.Length - 2), args);
+				return GetSolvableFromText(text[1..^1], args);
 			} else {
 				return new Operator(args.OperatorSet.GetOperation(op),
 					GetSolvableFromText(text.Substring(0, index), args),
@@ -124,7 +124,7 @@ namespace Whalculator.Core.Calculator.Equation {
 					pDepth--;
 				} else {
 					if (arr[k] == ',' && pDepth == 0) {
-						list.AddLast(input.Substring(last, k - last));
+						list.AddLast(input[last..k]);
 						last = k + 1;
 					}
 				}
