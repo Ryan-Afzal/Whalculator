@@ -59,12 +59,12 @@ namespace Whalculator.Core.Calculator.Equation {
 				}
 
 				if (pDepth < 0) {//Mismatched Parentheses - Too many close-parens
-					throw new InvalidEquationException(ErrorCode.MISMATCHED_PARENTHESES);
+					throw new InvalidEquationException(ErrorCode.MismatchedParentheses);
 				}
 			}
 
 			if (pDepth != 0) {//Mismatched parentheses - Too many parentheses
-				throw new InvalidEquationException(ErrorCode.MISMATCHED_PARENTHESES);
+				throw new InvalidEquationException(ErrorCode.MismatchedParentheses);
 			}
 
 			if (index == -1) {
@@ -82,13 +82,13 @@ namespace Whalculator.Core.Calculator.Equation {
 							string name = text.Substring(0, i);
 							ISolvable[] _args = SeparateFunctionArguments(text[(i + 1)..(text.LastIndexOf(')'))], args);
 
-							if (args.BuiltinFunctions.IsFunction(name)) {//Built-in 'special' function
-								return new BuiltinFunction(args.BuiltinFunctions.GetOperationForSymbol(name), _args);
-							} else {//User-defined function
-								FunctionInfo info = args.Functions.GetFunction(name);
-								info.Function = info.Function.Clone();
-								return new Function(info, _args);
-							}
+							//if (args.BuiltinFunctions.IsFunction(name)) {//Built-in 'special' function
+							//	return new BuiltinFunction(args.BuiltinFunctions.GetOperationForSymbol(name), _args);
+							//} else {//User-defined function
+							//	FunctionInfo info = args.Functions.GetFunction(name);
+							//	info.Function = info.Function.Clone();
+							//	return new Function(info, _args);
+							//}
 						}
 					}
 

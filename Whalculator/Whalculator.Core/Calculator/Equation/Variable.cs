@@ -16,11 +16,11 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public double GetDoubleValue(ExpressionEvaluationArgs args) {
-			return args.VariableSet.GetVariable(this.variableName).GetDoubleValue(args);
+			return args.VariableSet[this.variableName].GetDoubleValue(args);
 		}
 
 		public ISolvable GetExactValue(ExpressionEvaluationArgs args) {
-			return args.VariableSet.GetVariable(this.variableName).GetExactValue(args);
+			return args.VariableSet[this.variableName].GetExactValue(args);
 		}
 	}
 }

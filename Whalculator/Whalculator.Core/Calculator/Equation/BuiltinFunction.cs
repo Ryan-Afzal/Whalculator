@@ -5,24 +5,17 @@ using System.Text;
 namespace Whalculator.Core.Calculator.Equation {
 	public sealed class BuiltinFunction : ISolvable {
 
-		private readonly string name;
-		private readonly int numargs;
-
-		private readonly BuiltinFunctionExactValueOperation exactValueOperation;
-		private readonly BuiltinFunctionDoubleValueOperation doubleValueOperation;
+		private readonly BuiltinFunctionOperation operation;
 
 		private readonly ISolvable[] operands;
 
-		public BuiltinFunction(string name, int numargs, BuiltinFunctionExactValueOperation exactValueOperation, BuiltinFunctionDoubleValueOperation doubleValueOperation, params ISolvable[] operands) {
-			this.name = name;
-			this.numargs = numargs;
+		public BuiltinFunction(BuiltinFunctionOperation operation, params ISolvable[] operands) {
+			this.operation = operation;
 
-			if (operands.Length != this.numargs) {
-				throw new ArgumentException("Function " + this.name + " requires " + this.numargs + " arguments.");
+			if (operands.Length != this.operation.NumArgs) {
+				throw new ArgumentException("Function " + this.operation.Name + " requires " + this.operation.NumArgs + " arguments.");
 			}
 
-			this.exactValueOperation = exactValueOperation;
-			this.doubleValueOperation = doubleValueOperation;
 			this.operands = operands;
 		}
 
@@ -37,19 +30,16 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public ISolvable GetExactValue(ExpressionEvaluationArgs args) {
-			return this.exactValueOperation.Invoke(this.operands);
+			return this.operation.ExactValueOperation.Invoke(this.operands);
 		}
 
 		public double GetDoubleValue(ExpressionEvaluationArgs args) {
-			return this.doubleValueOperation.Invoke(this.operands);
+			return this.operation.DoubleValueOperation.Invoke(this.operands);
 		}
 
 		public ISolvable Clone() {
 			return new BuiltinFunction(
-				this.name, 
-				this.numargs, 
-				this.exactValueOperation, 
-				this.doubleValueOperation, 
+				this.operation, 
 				this.CloneOperands());
 		}
 	}

@@ -24,6 +24,7 @@ namespace Whalculator.Core.Calculator.Equation {
 
 			this.AddConstant("pi", new Literal(Math.PI));
 			this.AddConstant("e", new Literal(Math.E));
+			//this.AddConstant("i", );
 		}
 
 		private void AddConstant(string name, ISolvable value) {
