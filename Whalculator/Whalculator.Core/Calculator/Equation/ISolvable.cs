@@ -7,15 +7,15 @@ namespace Whalculator.Core.Calculator.Equation {
 	public interface ISolvable {
 
 		/// <summary>
-		/// Gets the exact simplified value of the <code>ISolvable</code>
+		/// Gets the exact simplified value of the ISolvable
 		/// </summary>
 		/// <param name="args"></param>
 		/// <returns></returns>
 		ISolvable GetExactValue(ExpressionEvaluationArgs args);
 
 		/// <summary>
-		/// Gets the decimal value of this <code>ISolvable</code>.
-		/// Note that this function assumes that the <code>ISolvable</code> cannot be simplified further.
+		/// Gets the decimal value of this ISolvable.
+		/// Note that this function assumes that the ISolvable cannot be simplified further.
 		/// </summary>
 		/// <param name="args"></param>
 		/// <returns></returns>
