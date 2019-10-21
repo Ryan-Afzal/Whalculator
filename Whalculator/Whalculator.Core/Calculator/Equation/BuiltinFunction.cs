@@ -13,7 +13,7 @@ namespace Whalculator.Core.Calculator.Equation {
 			this.operation = operation;
 
 			if (operands.Length != this.operation.NumArgs) {
-				throw new ArgumentException("Function " + this.operation.Name + " requires " + this.operation.NumArgs + " arguments.");
+				throw new InvalidEquationException(ErrorCode.InvalidNumArguments);
 			}
 
 			this.operands = operands;
@@ -30,11 +30,11 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public ISolvable GetExactValue(ExpressionEvaluationArgs args) {
-			return this.operation.ExactValueOperation.Invoke(this.operands);
+			return this.operation.ExactValueOperation.Invoke(this.operands, args);
 		}
 
 		public double GetDoubleValue(ExpressionEvaluationArgs args) {
-			return this.operation.DoubleValueOperation.Invoke(this.operands);
+			return this.operation.DoubleValueOperation.Invoke(this.operands, args);
 		}
 
 		public ISolvable Clone() {

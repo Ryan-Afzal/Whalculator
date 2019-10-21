@@ -12,11 +12,11 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public override ISolvable GetExactValue(ExpressionEvaluationArgs args) {
-			return this.operation.ExactValueOperation.Invoke(this.operands);
+			return this.operation.ExactValueOperation.Invoke(this.operands, args);
 		}
 
 		public override double GetDoubleValue(ExpressionEvaluationArgs args) {
-			return this.operation.DoubleValueOperation.Invoke(this.operands);
+			return this.operation.DoubleValueOperation.Invoke(this.operands, args);
 		}
 
 		public override ISolvable Clone() {

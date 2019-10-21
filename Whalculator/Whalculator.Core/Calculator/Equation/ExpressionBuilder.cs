@@ -8,11 +8,13 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		private struct GenerationArgs {
 			public IOperatorSet OperatorSet { get; set; }
+			public IBuiltinFunctionOperationSet BuiltinFunctionOperationSet { get; set; }
 		}
 
 		public static ISolvable GetSolvableFromText(string text) {
 			GenerationArgs args = new GenerationArgs() {
-				OperatorSet = new OperatorSet()
+				OperatorSet = new OperatorSet(),
+				BuiltinFunctionOperationSet = new BuiltinFunctionOperationSet()
 			};
 
 			return GetSolvableFromText(text, args);
@@ -82,13 +84,13 @@ namespace Whalculator.Core.Calculator.Equation {
 							string name = text.Substring(0, i);
 							ISolvable[] _args = SeparateFunctionArguments(text[(i + 1)..(text.LastIndexOf(')'))], args);
 
-							//if (args.BuiltinFunctions.IsFunction(name)) {//Built-in 'special' function
-							//	return new BuiltinFunction(args.BuiltinFunctions.GetOperationForSymbol(name), _args);
-							//} else {//User-defined function
-							//	FunctionInfo info = args.Functions.GetFunction(name);
-							//	info.Function = info.Function.Clone();
-							//	return new Function(info, _args);
-							//}
+							if (args.BuiltinFunctionOperationSet.IsBuiltinFunctionOperation(name)) {//Built-in 'special' function
+								return new BuiltinFunction(args.BuiltinFunctionOperationSet[name], _args);
+							}/* else {//User-defined function
+								FunctionInfo info = args.Functions.GetFunction(name);
+								info.Function = info.Function.Clone();
+								return new Function(info, _args);
+							}*/
 						}
 					}
 

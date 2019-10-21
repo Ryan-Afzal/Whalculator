@@ -4,14 +4,13 @@ using System.Collections.Generic;
 
 namespace Whalculator.Core.Calculator.Equation {
 
-	public delegate ISolvable ExactValueOperation(ISolvable[] operands);
+	public delegate ISolvable ExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args);
 
-	public delegate double DoubleValueOperation(ISolvable[] operands);
+	public delegate double DoubleValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args);
 
 	public struct Operation {
 
-
-		private Operation(ExactValueOperation exactValueOperation, DoubleValueOperation doubleValueOperation, int order, char name) {
+		internal Operation(ExactValueOperation exactValueOperation, DoubleValueOperation doubleValueOperation, int order, char name) {
 			ExactValueOperation = exactValueOperation;
 			DoubleValueOperation = doubleValueOperation;
 			Order = order;

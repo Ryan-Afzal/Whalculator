@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Whalculator.Core.Calculator.Equation {
-	public delegate ISolvable BuiltinFunctionExactValueOperation(ISolvable[] operands);
+	public delegate ISolvable BuiltinFunctionExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args);
 
-	public delegate double BuiltinFunctionDoubleValueOperation(ISolvable[] operands);
+	public delegate double BuiltinFunctionDoubleValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args);
 
 	public struct BuiltinFunctionOperation {
 		
-		private BuiltinFunctionOperation(string name, int numargs, BuiltinFunctionExactValueOperation exactValueOperation, BuiltinFunctionDoubleValueOperation doubleValueOperation) {
+		internal BuiltinFunctionOperation(string name, int numargs, BuiltinFunctionExactValueOperation exactValueOperation, BuiltinFunctionDoubleValueOperation doubleValueOperation) {
 			Name = name;
 			NumArgs = numargs;
 			ExactValueOperation = exactValueOperation;
