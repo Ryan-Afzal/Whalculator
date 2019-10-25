@@ -146,19 +146,19 @@ namespace Whalculator.Core.Calculator.Equation {
 			return parts;
 		}
 
-		private static ISolvable Simplify(this ISolvable solvable, ISimplifier simplifier) {
+		private static ISolvable Simplify(this ISolvable solvable, Simplifier simplifier) {
 			if (solvable is NestedSolvable nested) {
 				for (int i = 0; i < nested.operands.Length; i++) {
-					nested.operands[i] = simplifier.Simplify(nested.operands[i]);
+					nested.operands[i] = simplifier.Invoke(nested.operands[i]);
 				}
 
-				return simplifier.Simplify(nested);
+				return simplifier.Invoke(nested);
 			} else {
-				return simplifier.Simplify(solvable);
+				return simplifier.Invoke(solvable);
 			}
 		}
 
-		public static ISolvable SimplifySolvable(this ISolvable solvable, IEnumerable<ISimplifier> simplifiers) {
+		public static ISolvable SimplifySolvable(this ISolvable solvable, IEnumerable<Simplifier> simplifiers) {
 			ISolvable s = solvable;
 			string str = "";
 
@@ -166,7 +166,7 @@ namespace Whalculator.Core.Calculator.Equation {
 				str = s.GetEquationString();
 
 				foreach (var sim in simplifiers) {
-					s = sim.Simplify(s);
+					s = Simplify(s, sim);
 				}
 			}
 
