@@ -22,5 +22,9 @@ namespace Whalculator.Core.Calculator.Equation {
 		public ISolvable GetExactValue(ExpressionEvaluationArgs args) {
 			return args.VariableSet[this.variableName].GetExactValue(args);
 		}
+
+		public string GetEquationString() {
+			return this.variableName;
+		}
 	}
 }

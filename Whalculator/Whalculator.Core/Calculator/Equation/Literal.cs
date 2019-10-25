@@ -23,6 +23,10 @@ namespace Whalculator.Core.Calculator.Equation {
 			return this.Clone();
 		}
 
+		public string GetEquationString() {
+			return $"{value}";
+		}
+
 		public override bool Equals(object obj) {
 			if (obj is Literal l) {
 				return this.value == l.value;

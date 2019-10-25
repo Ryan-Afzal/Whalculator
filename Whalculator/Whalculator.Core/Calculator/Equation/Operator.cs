@@ -22,5 +22,18 @@ namespace Whalculator.Core.Calculator.Equation {
 		public override ISolvable Clone() {
 			return new Operator(this.operation, this.CloneOperands());
 		}
+
+		public override string GetEquationString() {
+			StringBuilder builder = new StringBuilder();
+
+			builder.Append(operands[0].GetEquationString());
+			
+			for (int i = 1; i < operands.Length; i++) {
+				builder.Append(operation.Name);
+				builder.Append(operands[i].GetEquationString());
+			}
+
+			return builder.ToString();
+		}
 	}
 }

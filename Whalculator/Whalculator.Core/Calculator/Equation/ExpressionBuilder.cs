@@ -17,7 +17,9 @@ namespace Whalculator.Core.Calculator.Equation {
 				BuiltinFunctionOperationSet = new BuiltinFunctionOperationSet()
 			};
 
-			return GetSolvableFromText(text, args);
+			return GetSolvableFromText(text, args)/*.SimplifySolvable(new ISimplifier[] {
+				
+			})*/;
 		}
 
 		private static ISolvable GetSolvableFromText(string text, GenerationArgs args) {
@@ -61,12 +63,12 @@ namespace Whalculator.Core.Calculator.Equation {
 				}
 
 				if (pDepth < 0) {//Mismatched Parentheses - Too many close-parens
-					throw new InvalidEquationException(ErrorCode.MismatchedParentheses);
+					throw new MalformedEquationException(ErrorCode.MismatchedParentheses);
 				}
 			}
 
 			if (pDepth != 0) {//Mismatched parentheses - Too many parentheses
-				throw new InvalidEquationException(ErrorCode.MismatchedParentheses);
+				throw new MalformedEquationException(ErrorCode.MismatchedParentheses);
 			}
 
 			if (index == -1) {
@@ -144,5 +146,31 @@ namespace Whalculator.Core.Calculator.Equation {
 			return parts;
 		}
 
+		private static ISolvable Simplify(this ISolvable solvable, ISimplifier simplifier) {
+			if (solvable is NestedSolvable nested) {
+				for (int i = 0; i < nested.operands.Length; i++) {
+					nested.operands[i] = simplifier.Simplify(nested.operands[i]);
+				}
+
+				return simplifier.Simplify(nested);
+			} else {
+				return simplifier.Simplify(solvable);
+			}
+		}
+
+		public static ISolvable SimplifySolvable(this ISolvable solvable, IEnumerable<ISimplifier> simplifiers) {
+			ISolvable s = solvable;
+			string str = "";
+
+			while (!str.Equals(s.GetEquationString())) {
+				str = s.GetEquationString();
+
+				foreach (var sim in simplifiers) {
+					s = sim.Simplify(s);
+				}
+			}
+
+			return s;
+		}
 	}
 }

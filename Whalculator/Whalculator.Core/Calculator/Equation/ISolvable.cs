@@ -27,6 +27,12 @@ namespace Whalculator.Core.Calculator.Equation {
 		/// <returns>Returns a functional copy of this ISolvable</returns>
 		ISolvable Clone();
 
+		/// <summary>
+		/// Gets a string such that if put back into the EquationBuilder, it would reproduce this ISolvable.
+		/// </summary>
+		/// <returns></returns>
+		string GetEquationString();
+
 	}
 
 }
