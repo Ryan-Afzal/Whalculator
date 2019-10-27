@@ -17,17 +17,61 @@ namespace Whalculator.Core.Calculator.Equation {
 				if (o.Operation.Name == '+') {
 					int len = o.operands.Length;
 
-
+					for (int i = 0; i < o.operands.Length; i++) {
+						if (o.operands[i] is Operator _o && _o.Operation.Name == o.Operation.Name) {
+							len += _o.operands.Length;
+						}
+					}
 
 					if (len == o.operands.Length) {
 						return solvable;
 					} else {
 						ISolvable[] arr = new ISolvable[len];
+						int c = 0;
 
-						throw new NotImplementedException();
+						for (int i = 0; i < o.operands.Length; i++) {
+							if (o.operands[i] is Operator _o && _o.Operation.Name == o.Operation.Name) {
+								foreach (var s in _o.operands) {
+									arr[c] = s;
+									c++;
+								}
+							} else {
+								arr[c] = o.operands[i];
+								c++;
+							}
+						}
+
+						return new Operator(o.Operation, arr);
 					}
 				} else if (o.Operation.Name == '*') {
+					int len = o.operands.Length;
 
+					for (int i = 0; i < o.operands.Length; i++) {
+						if (o.operands[i] is Operator _o && _o.Operation.Name == o.Operation.Name) {
+							len += _o.operands.Length;
+						}
+					}
+
+					if (len == o.operands.Length) {
+						return solvable;
+					} else {
+						ISolvable[] arr = new ISolvable[len];
+						int c = 0;
+
+						for (int i = 0; i < o.operands.Length; i++) {
+							if (o.operands[i] is Operator _o && _o.Operation.Name == o.Operation.Name) {
+								foreach (var s in _o.operands) {
+									arr[c] = s;
+									c++;
+								}
+							} else {
+								arr[c] = o.operands[i];
+								c++;
+							}
+						}
+
+						return new Operator(o.Operation, arr);
+					}
 				} else {
 					return solvable;
 				}
