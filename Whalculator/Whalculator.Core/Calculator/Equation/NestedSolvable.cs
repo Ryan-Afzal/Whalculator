@@ -5,7 +5,7 @@ using System.Text;
 namespace Whalculator.Core.Calculator.Equation {
 	public abstract class NestedSolvable : ISolvable {
 
-		protected internal readonly ISolvable[] operands;
+		public readonly ISolvable[] operands;
 
 		protected NestedSolvable(ISolvable[] operands) {
 			this.operands = operands;
