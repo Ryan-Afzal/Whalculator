@@ -26,14 +26,24 @@ namespace Whalculator.Core.Calculator.Equation {
 		public override string GetEquationString() {
 			StringBuilder builder = new StringBuilder();
 
-			builder.Append(operands[0].GetEquationString());
+			builder.Append(this.GetStringFromOperand(operands[0]));
 			
 			for (int i = 1; i < operands.Length; i++) {
 				builder.Append(Operation.Name);
-				builder.Append(operands[i].GetEquationString());
+				builder.Append(this.GetStringFromOperand(operands[i]));
 			}
 
 			return builder.ToString();
+		}
+
+		private string GetStringFromOperand(ISolvable x) {
+			if (x is Operator o) {
+				if (o.Operation.Order < Operation.Order) {
+					return $"({o.GetEquationString()})";
+				}
+			}
+
+			return x.GetEquationString();
 		}
 	}
 }

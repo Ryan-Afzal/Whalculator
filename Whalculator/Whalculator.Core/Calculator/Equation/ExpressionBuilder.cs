@@ -18,7 +18,7 @@ namespace Whalculator.Core.Calculator.Equation {
 			};
 
 			return GetSolvableFromText(text, args).SimplifySolvable(new Simplifier[] {
-				
+				Simplifiers.SimplifyLevelOperators
 			});
 		}
 
@@ -148,7 +148,7 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		private static ISolvable Simplify(this ISolvable solvable, Simplifier simplifier) {
 			if (solvable is NestedSolvable nested) {
-				for (int i = 0; i < nested.NumOperands; i++) {
+				for (int i = 0; i < nested.operands.Length; i++) {
 					nested.operands[i] = simplifier.Invoke(nested.operands[i]);
 				}
 

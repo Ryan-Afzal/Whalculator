@@ -18,14 +18,16 @@ namespace Whalculator.Tests {
 			Assert.AreEqual("1+2+3", output.GetEquationString());
 		}
 
-		//[TestMethod]
+		[TestMethod]
 		public void TestBuildOperatorMultiplication1() {
-			throw new NotImplementedException();
+			var output = ExpressionBuilder.GetSolvableFromText("1*1");
+			Assert.AreEqual("1*1", output.GetEquationString());
 		}
 
-		//[TestMethod]
+		[TestMethod]
 		public void TestBuildOperatorMultiplication2() {
-			throw new NotImplementedException();
+			var output = ExpressionBuilder.GetSolvableFromText("1*2*3");
+			Assert.AreEqual("1*2*3", output.GetEquationString());
 		}
 
 	}
