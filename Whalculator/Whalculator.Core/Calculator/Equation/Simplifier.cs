@@ -8,8 +8,20 @@ namespace Whalculator.Core.Calculator.Equation {
 
 	public static class Simplifiers {
 
-		public static ISolvable SimplifySubtraction(ISolvable solvable) {
-			throw new NotImplementedException();
+		public static ISolvable SimplifyTransformNegatives(ISolvable solvable) {
+			if (solvable is Operator o) {
+				if (o.Operation.Name == '-') {
+					if (o.operands[0] is Literal l) {
+						if (l.GetDoubleValue(new ExpressionEvaluationArgs()) == 0) {
+							return new Operator(Operations.MultiplyOperation, new Literal(-1), o.operands[1]);
+						}
+					}
+
+					return new Operator(Operations.AddOperation, o.operands[0], new Operator(Operations.MultiplyOperation, new Literal(-1), o.operands[1]));
+				}
+			}
+
+			return solvable;
 		}
 
 		public static ISolvable SimplifyLevelOperators(ISolvable solvable) {

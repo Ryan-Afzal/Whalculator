@@ -9,7 +9,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		private struct GenerationArgs {
 			public IOperatorSet OperatorSet { get; set; }
 			public IBuiltinFunctionOperationSet BuiltinFunctionOperationSet { get; set; }
-			public FunctionSet Functions { get; set; }
+			public IFunctionSet Functions { get; set; }
 		}
 
 		public static ISolvable GetSolvableFromText(string text) {

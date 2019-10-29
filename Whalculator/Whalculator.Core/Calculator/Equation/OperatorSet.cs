@@ -9,7 +9,11 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		public OperatorSet() {
 			this.dictionary = new Dictionary<char, Operation>();
-			this.AddOperation(new Operation(Operations.AddExactValueOperation, Operations.AddDoubleValueOperation, 0, '+'));
+			this.AddOperation(Operations.AddOperation);
+			this.AddOperation(Operations.SubtractOperation);
+			this.AddOperation(Operations.MultiplyOperation);
+			this.AddOperation(Operations.DivideOperation);
+			this.AddOperation(Operations.ExponateOperation);
 		}
 
 		private void AddOperation(Operation operation) {

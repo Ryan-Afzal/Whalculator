@@ -11,7 +11,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		public Dictionary<string, int> ArgNames { get; internal set; }
 	}
 
-	public sealed class FunctionSet {
+	public sealed class FunctionSet : IFunctionSet {
 
 		private readonly Dictionary<string, FunctionInfo> functions;
 

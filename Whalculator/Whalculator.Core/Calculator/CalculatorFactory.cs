@@ -6,7 +6,7 @@ namespace Whalculator.Core.Calculator {
     public static class CalculatorFactory {
 
         public static ICalculator GetDefaultCalculator() {
-            throw new NotImplementedException();
+			return new Calculator();
         }
 
     }
