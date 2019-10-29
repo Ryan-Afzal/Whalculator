@@ -20,7 +20,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public ISolvable GetExactValue(ExpressionEvaluationArgs args) {
-			return args.VariableSet[this.variableName].GetExactValue(args);
+			return this.Clone();
 		}
 
 		public string GetEquationString() {

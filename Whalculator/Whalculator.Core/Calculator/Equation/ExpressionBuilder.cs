@@ -9,6 +9,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		private struct GenerationArgs {
 			public IOperatorSet OperatorSet { get; set; }
 			public IBuiltinFunctionOperationSet BuiltinFunctionOperationSet { get; set; }
+			public FunctionSet Functions { get; set; }
 		}
 
 		public static ISolvable GetSolvableFromText(string text) {
@@ -88,11 +89,11 @@ namespace Whalculator.Core.Calculator.Equation {
 
 							if (args.BuiltinFunctionOperationSet.IsBuiltinFunctionOperation(name)) {//Built-in 'special' function
 								return new BuiltinFunction(args.BuiltinFunctionOperationSet[name], _args);
-							}/* else {//User-defined function
+							} else {//User-defined function
 								FunctionInfo info = args.Functions.GetFunction(name);
 								info.Function = info.Function.Clone();
 								return new Function(info, _args);
-							}*/
+							}
 						}
 					}
 
