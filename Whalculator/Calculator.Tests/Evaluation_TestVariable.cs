@@ -1,0 +1,40 @@
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using Whalculator.Core.Calculator.Equation;
+
+namespace Whalculator.Tests {
+	[TestClass]
+	public class Evaluation_TestVariable {
+
+		[TestMethod]
+		public void TestEvaluateVariableSimple1() {
+			var output = ExpressionBuilder.GetSolvableFromText("x");
+			var set = new VariableSet();
+			set.SetVariable("x", new Literal(25));
+			Assert.AreEqual(
+				25,
+				output.GetDoubleValue(
+					new ExpressionEvaluationArgs() {
+						VariableSet = set
+					}
+				)
+			);
+		}
+
+		[TestMethod]
+		public void TestEvaluateVariableSimple2() {
+			var output = ExpressionBuilder.GetSolvableFromText("x");
+			var set = new VariableSet();
+			set.SetVariable("x", new Literal(25.00001));
+			Assert.AreEqual(
+				25.00001,
+				output.GetDoubleValue(
+					new ExpressionEvaluationArgs() {
+						VariableSet = set
+					}
+				)
+			);
+		}
+
+	}
+}
