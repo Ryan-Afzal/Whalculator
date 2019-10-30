@@ -75,7 +75,7 @@ namespace Whalculator.Core.Calculator.Equation {
 
 			if (index == -1) {
 				if (text[0] == '(') {
-					return GetSolvableFromText(text[1..^2], args);
+					return GetSolvableFromText(text[1..^1], args);
 				} else {
 					bool isVar = false;
 					for (int i = 0; i < text.Length; i++) {

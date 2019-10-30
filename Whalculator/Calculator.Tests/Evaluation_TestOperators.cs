@@ -91,6 +91,24 @@ namespace Whalculator.Tests {
 		}
 
 		[TestMethod]
+		public void TestEvaluateOperatorLiteral15() {
+			var output = ExpressionBuilder.GetSolvableFromText("1^2");
+			Assert.AreEqual(1, output.GetDoubleValue(new ExpressionEvaluationArgs() { }));
+		}
+
+		[TestMethod]
+		public void TestEvaluateOperatorLiteral16() {
+			var output = ExpressionBuilder.GetSolvableFromText("2^3");
+			Assert.AreEqual(8, output.GetDoubleValue(new ExpressionEvaluationArgs() { }));
+		}
+
+		[TestMethod]
+		public void TestEvaluateOperatorLiteral17() {
+			var output = ExpressionBuilder.GetSolvableFromText("4^(0.5)");
+			Assert.AreEqual(2, output.GetDoubleValue(new ExpressionEvaluationArgs() { }));
+		}
+
+		[TestMethod]
 		public void TestEvaluateOperatorMixed01() {
 			var output = ExpressionBuilder.GetSolvableFromText("1+4*2");
 			Assert.AreEqual(9, output.GetDoubleValue(new ExpressionEvaluationArgs() { }));
@@ -100,6 +118,12 @@ namespace Whalculator.Tests {
 		public void TestEvaluateOperatorMixed02() {
 			var output = ExpressionBuilder.GetSolvableFromText("(1+4)*2");
 			Assert.AreEqual(10, output.GetDoubleValue(new ExpressionEvaluationArgs() { }));
+		}
+		
+		[TestMethod]
+		public void TestEvaluateOperatorMixed03() {
+			var output = ExpressionBuilder.GetSolvableFromText("4^(1/2)");
+			Assert.AreEqual(2, output.GetDoubleValue(new ExpressionEvaluationArgs() { }));
 		}
 
 	}
