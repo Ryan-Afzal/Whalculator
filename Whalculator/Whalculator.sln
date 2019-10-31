@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whalculator.Core", "Whalculator.Core\Whalculator.Core.csproj", "{0C8A50E9-C7AC-4C79-9D2F-51B8B70AB4C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whalculator.Tests", "Calculator.Tests\Whalculator.Tests.csproj", "{E0BDA143-1EF6-4B56-87CF-E71A0E4063CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whalculator.Tests", "Calculator.Tests\Whalculator.Tests.csproj", "{E0BDA143-1EF6-4B56-87CF-E71A0E4063CE}"
 	ProjectSection(ProjectDependencies) = postProject
 		{0C8A50E9-C7AC-4C79-9D2F-51B8B70AB4C3} = {0C8A50E9-C7AC-4C79-9D2F-51B8B70AB4C3}
 	EndProjectSection

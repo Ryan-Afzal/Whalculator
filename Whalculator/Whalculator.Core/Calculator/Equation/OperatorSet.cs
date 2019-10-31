@@ -8,11 +8,12 @@ namespace Whalculator.Core.Calculator.Equation {
 		private readonly IDictionary<char, Operation> dictionary;
 
 		public OperatorSet() {
-			this.dictionary = new Dictionary<char, Operation>();
+			this.dictionary = new Dictionary<char, Operation>(6);
 			this.AddOperation(Operations.AddOperation);
 			this.AddOperation(Operations.SubtractOperation);
 			this.AddOperation(Operations.MultiplyOperation);
 			this.AddOperation(Operations.DivideOperation);
+			this.AddOperation(Operations.ModuloOperation);
 			this.AddOperation(Operations.ExponateOperation);
 		}
 

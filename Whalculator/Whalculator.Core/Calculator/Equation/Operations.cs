@@ -8,9 +8,9 @@ namespace Whalculator.Core.Calculator.Equation {
 		public static readonly Operation AddOperation = new Operation(AddExactValueOperation, AddDoubleValueOperation, 0, '+');
 		public static readonly Operation SubtractOperation = new Operation(SubtractExactValueOperation, SubtractDoubleValueOperation, 0, '-');
 		public static readonly Operation DivideOperation = new Operation(DivideExactValueOperation, DivideDoubleValueOperation, 1, '/');
+		public static readonly Operation ModuloOperation = new Operation(ModuloExactValueOperation, ModuloDoubleValueOperation, 1, '%');
 		public static readonly Operation MultiplyOperation = new Operation(MultiplyExactValueOperation, MultiplyDoubleValueOperation, 2, '*');
 		public static readonly Operation ExponateOperation = new Operation(ExponateExactValueOperation, ExponateDoubleValueOperation, 3, '^');
-
 		public static ISolvable AddExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
 			double sum = 0.0;
 
@@ -87,5 +87,12 @@ namespace Whalculator.Core.Calculator.Equation {
 			return Math.Pow(operands[0].GetDoubleValue(args), operands[1].GetDoubleValue(args));
 		}
 
+		public static ISolvable ModuloExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(operands[0].GetDoubleValue(args) % operands[1].GetDoubleValue(args));
+		}
+
+		public static double ModuloDoubleValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return operands[0].GetDoubleValue(args) % operands[1].GetDoubleValue(args);
+		}
 	}
 }

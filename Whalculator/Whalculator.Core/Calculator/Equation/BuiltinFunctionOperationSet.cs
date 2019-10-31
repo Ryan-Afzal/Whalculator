@@ -15,6 +15,10 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		public BuiltinFunctionOperationSet() {
 			this.operations = new Dictionary<string, BuiltinFunctionOperation>();
+			this.AddOperation(BuiltinFunctionOperations.AbsOperation);
+			this.AddOperation(BuiltinFunctionOperations.CeilOperation);
+			this.AddOperation(BuiltinFunctionOperations.FloorOperation);
+
 			this.AddOperation(BuiltinFunctionOperations.SineOperation);
 		}
 
