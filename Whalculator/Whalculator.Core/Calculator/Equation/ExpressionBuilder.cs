@@ -6,18 +6,13 @@ using System.Text;
 namespace Whalculator.Core.Calculator.Equation {
 	public static class ExpressionBuilder {
 
-		private struct GenerationArgs {
+		public struct GenerationArgs {
 			public IOperatorSet OperatorSet { get; set; }
 			public IBuiltinFunctionOperationSet BuiltinFunctionOperationSet { get; set; }
 			public IFunctionSet Functions { get; set; }
 		}
 
-		public static ISolvable GetSolvableFromText(string text) {
-			GenerationArgs args = new GenerationArgs() {
-				OperatorSet = new OperatorSet(),
-				BuiltinFunctionOperationSet = new BuiltinFunctionOperationSet()
-			};
-
+		public static ISolvable GetSolvable(string text, GenerationArgs args) {
 			return GetSolvableFromText(text, args).SimplifySolvable(new Simplifier[] {
 				Simplifiers.SimplifyLevelOperators, 
 				Simplifiers.SimplifyTransformNegatives
@@ -91,9 +86,13 @@ namespace Whalculator.Core.Calculator.Equation {
 							if (args.BuiltinFunctionOperationSet.IsBuiltinFunctionOperation(name)) {//Built-in 'special' function
 								return new BuiltinFunction(args.BuiltinFunctionOperationSet[name], _args);
 							} else {//User-defined function
-								FunctionInfo info = args.Functions.GetFunction(name);
-								info.Function = info.Function.Clone();
-								return new Function(info, _args);
+								if (args.Functions.ContainsFunction(name)) {
+									FunctionInfo info = args.Functions.GetFunction(name);
+									info.Function = info.Function.Clone();
+									return new Function(info, _args);
+								} else {
+									throw new InvalidEquationException(ErrorCode.NonexistentFunction);
+								}
 							}
 						}
 					}

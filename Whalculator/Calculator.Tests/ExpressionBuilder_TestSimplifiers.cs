@@ -8,7 +8,7 @@ namespace Whalculator.Tests {
 
 		[TestMethod]
 		public void TestBuildTransformNegatives1() {
-			var output = ExpressionBuilder.GetSolvableFromText("1-2") as Operator;
+			var output = TestManager.GetSolvableFromText("1-2") as Operator;
 			if (output.Operation.Name == '+') {
 				if (output.operands[0] is Literal && output.operands[1] is Operator _o) {
 					if (_o.operands[0] is Literal && _o.operands[0] is Literal) {
@@ -22,7 +22,7 @@ namespace Whalculator.Tests {
 
 		[TestMethod]
 		public void TestBuildTransformNegatives2() {
-			var output = ExpressionBuilder.GetSolvableFromText("-2") as Operator;
+			var output = TestManager.GetSolvableFromText("-2") as Operator;
 			if (output.Operation.Name == '*' && output.operands[0] is Literal && output.operands[1] is Literal) {
 				return;
 			} else {
@@ -32,7 +32,7 @@ namespace Whalculator.Tests {
 
 		[TestMethod]
 		public void TestBuildLevelOperators1() {
-			var output = ExpressionBuilder.GetSolvableFromText("1+2+3") as Operator;
+			var output = TestManager.GetSolvableFromText("1+2+3") as Operator;
 			foreach (var x in output.operands) {
 				if (x is Operator) {
 					Assert.Fail();

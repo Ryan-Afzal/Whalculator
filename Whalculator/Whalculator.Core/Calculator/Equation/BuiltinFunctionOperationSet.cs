@@ -15,12 +15,11 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		public BuiltinFunctionOperationSet() {
 			this.operations = new Dictionary<string, BuiltinFunctionOperation>();
+			this.AddOperation(BuiltinFunctionOperations.SineOperation);
 		}
 
-		private bool SetVariable(string name, BuiltinFunctionOperation value) {
-			this.operations[name] = value;
-
-			return true;
+		private void AddOperation(BuiltinFunctionOperation value) {
+			this.operations[value.Name] = value;
 		}
 
 		public bool IsBuiltinFunctionOperation(string name) {

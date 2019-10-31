@@ -8,25 +8,25 @@ namespace Whalculator.Tests {
 
 		[TestMethod]
 		public void TestBuildLiteralSimple1() {
-			var output = ExpressionBuilder.GetSolvableFromText("0");
+			var output = TestManager.GetSolvableFromText("0");
 			Assert.AreEqual("0", output.GetEquationString());
 		}
 
 		[TestMethod]
 		public void TestBuildLiteralSimple2() {
-			var output = ExpressionBuilder.GetSolvableFromText("250");
+			var output = TestManager.GetSolvableFromText("250");
 			Assert.AreEqual("250", output.GetEquationString());
 		}
 
 		[TestMethod]
 		public void TestBuildLiteralDecimal1() {
-			var output = ExpressionBuilder.GetSolvableFromText("42.420");
+			var output = TestManager.GetSolvableFromText("42.420");
 			Assert.AreEqual("42.42", output.GetEquationString());
 		}
 
 		[TestMethod]
 		public void TestBuildLiteralDecimal2() {
-			var output = ExpressionBuilder.GetSolvableFromText("12.000001");
+			var output = TestManager.GetSolvableFromText("12.000001");
 			Assert.AreEqual("12.000001", output.GetEquationString());
 		}
 

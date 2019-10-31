@@ -5,10 +5,10 @@ using System.Text;
 namespace Whalculator.Core.Calculator.Equation {
 
 	public struct FunctionInfo {
-		public ISolvable Function { get; internal set; }
-		public string Name { get; internal set; }
-		public string Head { get; internal set; }
-		public Dictionary<string, int> ArgNames { get; internal set; }
+		public ISolvable Function { get; set; }
+		public string Name { get; set; }
+		public string Head { get; set; }
+		public Dictionary<string, int> ArgNames { get; set; }
 	}
 
 	public sealed class FunctionSet : IFunctionSet {

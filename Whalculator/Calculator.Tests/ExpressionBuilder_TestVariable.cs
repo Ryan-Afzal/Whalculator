@@ -8,13 +8,13 @@ namespace Whalculator.Tests {
 
 		[TestMethod]
 		public void TestBuildVariableSimple1() {
-			var output = ExpressionBuilder.GetSolvableFromText("x");
+			var output = TestManager.GetSolvableFromText("x");
 			Assert.AreEqual("x", output.GetEquationString());
 		}
 
 		[TestMethod]
 		public void TestBuildVariableSimple2() {
-			var output = ExpressionBuilder.GetSolvableFromText("name");
+			var output = TestManager.GetSolvableFromText("name");
 			Assert.AreEqual("name", output.GetEquationString());
 		}
 

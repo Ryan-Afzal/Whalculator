@@ -8,7 +8,7 @@ namespace Whalculator.Tests {
 
 		[TestMethod]
 		public void TestEvaluateVariableSimple1() {
-			var output = ExpressionBuilder.GetSolvableFromText("x");
+			var output = TestManager.GetSolvableFromText("x");
 			var set = new VariableSet();
 			set.SetVariable("x", new Literal(25));
 			Assert.AreEqual(
@@ -23,7 +23,7 @@ namespace Whalculator.Tests {
 
 		[TestMethod]
 		public void TestEvaluateVariableSimple2() {
-			var output = ExpressionBuilder.GetSolvableFromText("x");
+			var output = TestManager.GetSolvableFromText("x");
 			var set = new VariableSet();
 			set.SetVariable("x", new Literal(25.00001));
 			Assert.AreEqual(

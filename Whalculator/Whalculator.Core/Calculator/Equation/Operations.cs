@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Whalculator.Core.Calculator.Equation {
-	public class Operations {
+	public static class Operations {
 
 		public static readonly Operation AddOperation = new Operation(AddExactValueOperation, AddDoubleValueOperation, 0, '+');
 		public static readonly Operation SubtractOperation = new Operation(SubtractExactValueOperation, SubtractDoubleValueOperation, 0, '-');
