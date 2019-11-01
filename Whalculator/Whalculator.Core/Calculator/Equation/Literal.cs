@@ -24,12 +24,12 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public string GetEquationString() {
-			return $"{value}";
+			return $"{Value}";
 		}
 
 		public override bool Equals(object obj) {
 			if (obj is Literal l) {
-				return Value == l.value;
+				return Value == l.Value;
 			} else {
 				return false;
 			}

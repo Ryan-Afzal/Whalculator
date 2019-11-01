@@ -12,7 +12,7 @@ namespace Whalculator.Tests {
 		public static readonly IFunctionSet Functions = new FunctionSet();
 
 		public static ISolvable GetSolvableFromText(string text) {
-			return ExpressionBuilder.GetSolvable(text, new ExpressionBuilder.GenerationArgs() {
+			return ExpressionBuilder.GetSolvable(text, new GenerationArgs() {
 				OperatorSet = Operators,
 				BuiltinFunctionOperationSet = BuiltinFunctionOperations, 
 				Functions = Functions

@@ -10,7 +10,10 @@ namespace Whalculator.Core.Calculator.Equation {
 		public static BuiltinFunctionOperation FloorOperation = new BuiltinFunctionOperation("floor", 1, FloorExactValueOperation, FloorDoubleValueOperation);
 		public static BuiltinFunctionOperation RootOperation = new BuiltinFunctionOperation("root", 2, RootExactValueOperation, RootDoubleValueOperation);
 		public static BuiltinFunctionOperation SqrtOperation = new BuiltinFunctionOperation("sqrt", 1, SqrtExactValueOperation, SqrtDoubleValueOperation);
-		
+		public static BuiltinFunctionOperation LogOperation = new BuiltinFunctionOperation("log", 2, LogExactValueOperation, LogDoubleValueOperation);
+		public static BuiltinFunctionOperation LnOperation = new BuiltinFunctionOperation("ln", 1, LnExactValueOperation, LnDoubleValueOperation);
+
+
 		public static BuiltinFunctionOperation SineOperation = new BuiltinFunctionOperation("sin", 1, SineExactValueOperation, SineDoubleValueOperation);
 
 		public static ISolvable AbsExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
@@ -51,6 +54,22 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		public static double SqrtDoubleValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
 			return Math.Sqrt(operands[0].GetDoubleValue(args));
+		}
+
+		public static ISolvable LogExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Log(operands[1].GetDoubleValue(args)) / Math.Log(operands[0].GetDoubleValue(args)));
+		}
+
+		public static double LogDoubleValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return Math.Log(operands[1].GetDoubleValue(args)) / Math.Log(operands[0].GetDoubleValue(args));
+		}
+
+		public static ISolvable LnExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Log(operands[0].GetDoubleValue(args)));
+		}
+
+		public static double LnDoubleValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return Math.Log(operands[0].GetDoubleValue(args));
 		}
 
 		public static ISolvable SineExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {

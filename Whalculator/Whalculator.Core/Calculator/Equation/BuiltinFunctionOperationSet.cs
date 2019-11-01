@@ -18,6 +18,10 @@ namespace Whalculator.Core.Calculator.Equation {
 			this.AddOperation(BuiltinFunctionOperations.AbsOperation);
 			this.AddOperation(BuiltinFunctionOperations.CeilOperation);
 			this.AddOperation(BuiltinFunctionOperations.FloorOperation);
+			this.AddOperation(BuiltinFunctionOperations.RootOperation);
+			this.AddOperation(BuiltinFunctionOperations.SqrtOperation);
+			this.AddOperation(BuiltinFunctionOperations.LogOperation);
+			this.AddOperation(BuiltinFunctionOperations.LnOperation);
 
 			this.AddOperation(BuiltinFunctionOperations.SineOperation);
 		}
