@@ -4,13 +4,14 @@ using System.Diagnostics;
 using System.Text;
 
 namespace Whalculator.Core.Calculator.Equation {
-	public static class ExpressionBuilder {
 
-		public struct GenerationArgs {
-			public IOperatorSet OperatorSet { get; set; }
-			public IBuiltinFunctionOperationSet BuiltinFunctionOperationSet { get; set; }
-			public IFunctionSet Functions { get; set; }
-		}
+	public struct GenerationArgs {
+		public IOperatorSet OperatorSet { get; set; }
+		public IBuiltinFunctionOperationSet BuiltinFunctionOperationSet { get; set; }
+		public IFunctionSet Functions { get; set; }
+	}
+
+	public static class ExpressionBuilder {
 
 		public static ISolvable GetSolvable(string text, GenerationArgs args) {
 			return GetSolvableFromText(text, args).SimplifySolvable(new Simplifier[] {

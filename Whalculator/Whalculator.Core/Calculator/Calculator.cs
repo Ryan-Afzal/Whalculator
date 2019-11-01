@@ -27,12 +27,59 @@ namespace Whalculator.Core.Calculator {
 			throw new NotImplementedException();
 		}
 
+		public ISolvable GetSolvableFromText(string input) {
+			return ExpressionBuilder.GetSolvable(input, new GenerationArgs() {
+				OperatorSet = OperatorSet,
+				BuiltinFunctionOperationSet = BuiltinFunctionOperationSet,
+				Functions = Functions
+			});
+		}
+
 		public double GetDoubleValue(string input) {
-			throw new NotImplementedException();
+			return this.GetSolvableFromText(input)
+				.GetDoubleValue(new ExpressionEvaluationArgs() { VariableSet = Variables });
 		}
 
 		public string GetExactValue(string input) {
-			throw new NotImplementedException();
+			return this.GetSolvableFromText(input)
+				.GetExactValue(new ExpressionEvaluationArgs() { VariableSet = Variables })
+				.GetEquationString();
+		}
+
+		public struct DerivativeArgs {
+			public string IndependentVariable { get; set; }
+		}
+
+		public static ISolvable GetDerivative(ISolvable input, string ind) {
+			return GetDerivative(input, new DerivativeArgs() { IndependentVariable = ind });
+		}
+
+		public static ISolvable GetDerivative(ISolvable input, DerivativeArgs args) {
+			if (input is Literal) {
+				return new Literal(0);
+			} else if (input is Variable v) {
+				if (v.VariableName.Equals(args.IndependentVariable)) {
+					return new Literal(1);
+				} else {
+					return new Literal(0);
+				}
+			} else if (input is Operator o) {
+				if (o.Operation.Name == '+') {
+					throw new NotImplementedException();
+				} else if (o.Operation.Name == '*') {
+					throw new NotImplementedException();
+				} else if (o.Operation.Name == '/') {
+					throw new NotImplementedException();
+				} else if (o.Operation.Name == '^') {
+					throw new NotImplementedException();
+				} else {
+					throw new NotImplementedException();
+				}
+			} else if (input is BuiltinFunction f) {
+				throw new NotImplementedException();
+			} else {
+				throw new NotImplementedException();
+			}
 		}
 	}
 }
