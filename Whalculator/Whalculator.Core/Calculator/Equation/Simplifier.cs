@@ -67,6 +67,49 @@ namespace Whalculator.Core.Calculator.Equation {
 			throw new NotImplementedException();
 		}
 
+		public static ISolvable SimplifyZeros(ISolvable solvable) {
+			if (solvable is Operator o) {
+				if (o.Operation.Name == '*') {
+					for (int i = 0; i < o.operands.Length; i++) {
+						if (o.operands[i] is Literal l) {
+							if (l.Value == 0) {
+								return new Literal(0);
+							}
+						}
+					}
+				} else if (o.Operation.Name == '+') {
+					int z = 0;
+					for (int i = 0; i < o.operands.Length; i++) {
+						if (o.operands[i] is Literal l) {
+							if (l.Value == 0) {
+								z++;
+							}
+						}
+					}
+
+					if (z != 0) {
+						ISolvable[] args = new ISolvable[o.operands.Length - z];
+						int k = 0;
+
+						for (int i = 0; i < o.operands.Length; i++) {
+							if (o.operands[i] is Literal l) {
+								if (l.Value == 0) {
+									continue;
+								}
+							}
+
+							args[k] = o.operands[i];
+							k++;
+						}
+
+						return new Operator(o.Operation, args);
+					}
+				}
+			}
+
+			return solvable;
+		}
+
 	}
 	
 }

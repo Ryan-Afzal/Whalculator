@@ -14,7 +14,7 @@ namespace Whalculator.Core.Calculator.Equation {
 	public static class ExpressionBuilder {
 
 		public static ISolvable GetSolvable(string text, GenerationArgs args) {
-			return GetSolvableFromText(text, args).SimplifySolvable(new Simplifier[] {
+			return GetSolvableFromText(text, args).Simplify(new Simplifier[] {
 				Simplifiers.SimplifyLevelOperators, 
 				Simplifiers.SimplifyTransformNegatives
 			});
@@ -148,10 +148,10 @@ namespace Whalculator.Core.Calculator.Equation {
 			return parts;
 		}
 
-		private static ISolvable Simplify(this ISolvable solvable, Simplifier simplifier) {
+		private static ISolvable Simplify(ISolvable solvable, Simplifier simplifier) {
 			if (solvable is NestedSolvable nested) {
 				for (int i = 0; i < nested.operands.Length; i++) {
-					nested.operands[i] = simplifier.Invoke(nested.operands[i]);
+					nested.operands[i] = Simplify(nested.operands[i], simplifier);
 				}
 
 				return simplifier.Invoke(nested);
@@ -160,7 +160,7 @@ namespace Whalculator.Core.Calculator.Equation {
 			}
 		}
 
-		public static ISolvable SimplifySolvable(this ISolvable solvable, IEnumerable<Simplifier> simplifiers) {
+		public static ISolvable Simplify(this ISolvable solvable, IEnumerable<Simplifier> simplifiers) {
 			ISolvable s = solvable;
 			string str = "";
 

@@ -11,14 +11,14 @@ namespace Whalculator.Tests {
 		public void TestDifferentiateLinear() {
 			var calc = CalculatorFactory.GetDefaultCalculator();
 			var eqn = calc.GetSolvableFromText("2*x");
-			Assert.AreEqual("0*x+2*1", Calculator.GetDerivative(eqn, "x").GetEquationString());
+			Assert.AreEqual("2*1", eqn.GetDerivative("x").GetEquationString());
 		}
 
 		[TestMethod]
 		public void TestDifferentiateQuadratic() {
 			var calc = CalculatorFactory.GetDefaultCalculator();
 			var eqn = calc.GetSolvableFromText("x^2");
-			var derivative = Calculator.GetDerivative(eqn, "x");
+			var derivative = eqn.GetDerivative("x");
 			var args = new ExpressionEvaluationArgs() {
 				VariableSet = calc.Variables
 			};
