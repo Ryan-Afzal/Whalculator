@@ -40,5 +40,10 @@ namespace Whalculator.Tests {
 			}
 		}
 
+		[TestMethod]
+		public void TestBuildCollectLikeTerms1() {
+			var output = TestManager.GetSolvableFromText("(x^2)*(x^3)");
+			Assert.AreEqual("x^(2+3)", output.GetEquationString());
+		}
 	}
 }

@@ -16,7 +16,9 @@ namespace Whalculator.Core.Calculator.Equation {
 		public static ISolvable GetSolvable(string text, GenerationArgs args) {
 			return GetSolvableFromText(text, args).Simplify(new Simplifier[] {
 				Simplifiers.SimplifyLevelOperators, 
-				Simplifiers.SimplifyTransformNegatives
+				Simplifiers.SimplifyTransformNegatives,
+				//Simplifiers.SimplifyZeros,
+				Simplifiers.SimplifyCollectLikeTerms
 			});
 		}
 
