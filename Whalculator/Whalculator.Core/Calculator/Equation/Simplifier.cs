@@ -64,7 +64,21 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public static ISolvable SimplifyRationalExpressions(ISolvable solvable) {
-			throw new NotImplementedException();
+			if (solvable is Operator o) {
+				if (o.Operation.Name == '/') {
+					return new Operator(
+						Operations.MultiplyOperation,
+						o.operands[0],
+						new Operator(
+							Operations.ExponateOperation,
+							o.operands[1],
+							new Literal(-1)
+						)
+					);
+				}
+			}
+
+			return solvable;
 		}
 
 		public static ISolvable SimplifyZeros(ISolvable solvable) {
@@ -110,49 +124,16 @@ namespace Whalculator.Core.Calculator.Equation {
 			return solvable;
 		}
 
+		public static ISolvable SimplifySortTerms(ISolvable solvable) {
+			throw new NotImplementedException();
+		}
+
 		public static ISolvable SimplifyCollectLikeTerms(ISolvable solvable) {
 			if (solvable is Operator o) {
 				if (o.Operation.Name == '+') {
-
+					throw new NotImplementedException();
 				} else if (o.Operation.Name == '*') {
-					Dictionary<string, Operator> bases = new Dictionary<string, Operator>();
-					int k = 0;
-
-					for (int i = 0; i < o.operands.Length; i++) {
-						if (o.operands[i] is Operator _o && _o.Operation.Name == '^' && _o.operands[0] is Variable v) {
-							if (bases.ContainsKey(v.VariableName)) {
-								bases[v.VariableName].operands[1] = new Operator(Operations.AddOperation, bases[v.VariableName].operands[1], _o.operands[1]);
-							} else {
-								bases[v.VariableName] = (Operator)_o.Clone();
-							}
-						} else {
-							k++;
-						}
-					}
-
-					ISolvable[] args = new ISolvable[bases.Count + k];
-					int c = 0;
-					for (int i = 0; i < o.operands.Length; i++) {
-						if (o.operands[i] is Operator _o && ((_o.Operation.Name == '^' && _o.operands[0] is Variable) || (_o.Operation.Name == '/' && _o.operands[1] is Variable))) {
-							Variable v;
-							if (_o.Operation.Name == '^') {
-								v = _o.operands[0] as Variable;
-							} else {
-								v = _o.operands[1] as Variable;
-							}
-							
-							if (bases.ContainsKey(v.VariableName)) {
-								args[c] = bases[v.VariableName];
-								bases.Remove(v.VariableName);
-								c++;
-							}
-						} else {
-							args[c] = o.operands[i];
-							c++;
-						}
-					}
-
-					return new Operator(o.Operation, args);
+					throw new NotImplementedException();
 				}
 			}
 
