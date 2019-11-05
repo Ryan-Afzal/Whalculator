@@ -11,7 +11,13 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		public static ISolvable GetDerivative(this ISolvable input, string ind) {
 			return GetDerivative(input, new DerivativeArgs() { IndependentVariable = ind })
-				.Simplify(new Simplifier[] { Simplifiers.SimplifyZeros, Simplifiers.SimplifyLevelOperators, Simplifiers.SimplifyCollectLikeTerms });
+				.Simplify(new Simplifier[] {
+					Simplifiers.SimplifyZeros,
+					Simplifiers.SimplifyRationalExpressions,
+					Simplifiers.SimplifySortTerms,
+					Simplifiers.SimplifyCollectLikeTerms
+				}
+			);
 		}
 
 		private static ISolvable GetDerivative(ISolvable input, DerivativeArgs args) {

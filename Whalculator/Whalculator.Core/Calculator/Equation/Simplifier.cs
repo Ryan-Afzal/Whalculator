@@ -148,9 +148,36 @@ namespace Whalculator.Core.Calculator.Equation {
 		public static ISolvable SimplifyCollectLikeTerms(ISolvable solvable) {
 			if (solvable is Operator o) {
 				if (o.Operation.Name == '+') {
-					throw new NotImplementedException();
+					
 				} else if (o.Operation.Name == '*') {
-					throw new NotImplementedException();
+					int c = o.operands.Length;
+
+					for (int i = c; i > 0; i++) {
+						if (o.operands[i] is Literal l || o.operands[i] is Variable) {
+							o.operands[i] = new Operator(Operations.ExponateOperation, o.operands[i], new Literal(1));
+						}
+
+						if (o.operands[i - 1] is Operator _o) {
+							if (_o.Operation.Name == '^') {
+								if (_o.operands[0].Equals(o.operands[i])) {
+									o.operands[i - 1] = new Operator(Operations.ExponateOperation, _o.operands[0], new Operator(Operations.AddOperation, _o.operands[1], o.operands[1]));
+									o.operands[i] = null;
+									c--;
+								}
+							}
+						}
+					}
+
+					ISolvable[] output = new ISolvable[c];
+					int k = 0;
+					for (int i = 0; i < o.operands.Length; i++) {
+						if (!(o.operands[i] is null)) {
+							output[k] = o.operands[i];
+							k++;
+						}
+					}
+
+					return new Operator(Operations.MultiplyOperation, output);
 				}
 			}
 

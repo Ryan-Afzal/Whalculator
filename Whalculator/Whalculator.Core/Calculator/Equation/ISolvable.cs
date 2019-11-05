@@ -37,6 +37,14 @@ namespace Whalculator.Core.Calculator.Equation {
 			return this.GetEquationString().CompareTo(other.GetEquationString());
 		}
 
+		bool Equals(object other) {
+			if (other is ISolvable s) {
+				return this.GetEquationString().Equals(s.GetEquationString());
+			} else {
+				return false;
+			}
+		}
+
 	}
 
 }
