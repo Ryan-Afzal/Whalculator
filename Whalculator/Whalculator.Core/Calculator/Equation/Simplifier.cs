@@ -63,6 +63,11 @@ namespace Whalculator.Core.Calculator.Equation {
 			}
 		}
 
+		/// <summary>
+		/// Turns division into negative exponation
+		/// </summary>
+		/// <param name="solvable"></param>
+		/// <returns></returns>
 		public static ISolvable SimplifyRationalExpressions(ISolvable solvable) {
 			if (solvable is Operator o) {
 				if (o.Operation.Name == '/') {
@@ -125,7 +130,19 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public static ISolvable SimplifySortTerms(ISolvable solvable) {
-			throw new NotImplementedException();
+			if (solvable is Operator o) {
+				if (o.Operation.Name == '+') {
+					Array.Sort(o.operands);
+
+					return solvable;
+				} else if (o.Operation.Name == '*') {
+					Array.Sort(o.operands);
+
+					return solvable;
+				}
+			}
+
+			return solvable;
 		}
 
 		public static ISolvable SimplifyCollectLikeTerms(ISolvable solvable) {
