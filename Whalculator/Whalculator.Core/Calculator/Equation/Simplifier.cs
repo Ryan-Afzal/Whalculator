@@ -86,7 +86,7 @@ namespace Whalculator.Core.Calculator.Equation {
 			return solvable;
 		}
 
-		public static ISolvable SimplifyZeros(ISolvable solvable) {
+		public static ISolvable SimplifyRemoveZeros(ISolvable solvable) {
 			if (solvable is Operator o) {
 				if (o.Operation.Name == '*') {
 					for (int i = 0; i < o.operands.Length; i++) {
@@ -129,6 +129,30 @@ namespace Whalculator.Core.Calculator.Equation {
 			return solvable;
 		}
 
+		public static ISolvable SimplifyExponate(ISolvable solvable) {
+			if (solvable is Operator o) {
+				if (o.Operation.Name == '^') {
+					if (o.operands[0] is Literal l) {
+						if (l.Value == 0) {
+							return new Literal(0);
+						} else if (l.Value == 1) {
+							return new Literal(1);
+						}
+					}
+					
+					if (o.operands[1] is Literal _l) {
+						if (_l.Value == 0) {
+							return new Literal(1);
+						} else if (_l.Value == 1) {
+							return o.operands[0];
+						}
+					}
+				}
+			}
+
+			return solvable;
+		}
+
 		public static ISolvable SimplifySortTerms(ISolvable solvable) {
 			if (solvable is Operator o) {
 				if (o.Operation.Name == '+') {
@@ -148,11 +172,17 @@ namespace Whalculator.Core.Calculator.Equation {
 		public static ISolvable SimplifyCollectLikeTerms(ISolvable solvable) {
 			if (solvable is Operator o) {
 				if (o.Operation.Name == '+') {
-					
+					//TODO
 				} else if (o.Operation.Name == '*') {
 					int c = o.operands.Length - 1;
 
 					for (int i = c; i > 0; i--) {
+						if (o.operands[i] is Literal l && l.Value == 0) {
+							o.operands[i] = null;
+							c--;
+							continue;
+						}
+
 						if (!(o.operands[i] is Operator exp && exp.Operation.Name == '^')) {
 							o.operands[i] = new Operator(Operations.ExponateOperation, o.operands[i], new Literal(1));
 						}

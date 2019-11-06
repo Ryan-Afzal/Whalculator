@@ -11,7 +11,7 @@ namespace Whalculator.Tests {
 		public void TestDifferentiateLinear() {
 			var calc = CalculatorFactory.GetDefaultCalculator();
 			var eqn = calc.GetSolvableFromText("2*x");
-			Assert.AreEqual("2*1", eqn.GetDerivative("x").GetEquationString());
+			Assert.AreEqual("1*2", eqn.GetDerivative("x").GetEquationString());
 		}
 
 		[TestMethod]
