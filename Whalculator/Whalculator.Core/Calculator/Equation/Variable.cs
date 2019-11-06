@@ -36,5 +36,13 @@ namespace Whalculator.Core.Calculator.Equation {
 				return 1;
 			}
 		}
+
+		public override bool Equals(object obj) {
+			if (obj is Variable v && v.VariableName.Equals(VariableName)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 	}
 }

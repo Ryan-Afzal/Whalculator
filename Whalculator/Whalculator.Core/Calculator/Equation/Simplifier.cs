@@ -150,17 +150,19 @@ namespace Whalculator.Core.Calculator.Equation {
 				if (o.Operation.Name == '+') {
 					
 				} else if (o.Operation.Name == '*') {
-					int c = o.operands.Length;
+					int c = o.operands.Length - 1;
 
-					for (int i = c; i > 0; i++) {
-						if (o.operands[i] is Literal l || o.operands[i] is Variable) {
+					for (int i = c; i > 0; i--) {
+						if (!(o.operands[i] is Operator exp && exp.Operation.Name == '^')) {
 							o.operands[i] = new Operator(Operations.ExponateOperation, o.operands[i], new Literal(1));
 						}
 
-						if (o.operands[i - 1] is Operator _o) {
-							if (_o.Operation.Name == '^') {
-								if (_o.operands[0].Equals(o.operands[i])) {
-									o.operands[i - 1] = new Operator(Operations.ExponateOperation, _o.operands[0], new Operator(Operations.AddOperation, _o.operands[1], o.operands[1]));
+						var curr = o.operands[i] as Operator;
+
+						if (o.operands[i - 1] is Operator prevOperator) {
+							if (prevOperator.Operation.Name == '^') {
+								if (prevOperator.operands[0].Equals(curr.operands[0])) {
+									o.operands[i - 1] = new Operator(Operations.ExponateOperation, prevOperator.operands[0], new Operator(Operations.AddOperation, prevOperator.operands[1], curr.operands[1]));
 									o.operands[i] = null;
 									c--;
 								}
@@ -168,7 +170,7 @@ namespace Whalculator.Core.Calculator.Equation {
 						}
 					}
 
-					ISolvable[] output = new ISolvable[c];
+					ISolvable[] output = new ISolvable[c + 1];
 					int k = 0;
 					for (int i = 0; i < o.operands.Length; i++) {
 						if (!(o.operands[i] is null)) {
