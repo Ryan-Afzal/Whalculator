@@ -29,6 +29,10 @@ namespace Whalculator.Core.Calculator.Equation {
 				if (o.Operation.Name == '+' || o.Operation.Name == '*') {
 					int len = o.operands.Length;
 
+					if (len == 1) {
+						return o.operands[0];
+					}
+
 					for (int i = 0; i < o.operands.Length; i++) {
 						if (o.operands[i] is Operator _o && _o.Operation.Name == o.Operation.Name) {
 							len += _o.operands.Length - 1;
@@ -63,11 +67,6 @@ namespace Whalculator.Core.Calculator.Equation {
 			}
 		}
 
-		/// <summary>
-		/// Turns division into negative exponation
-		/// </summary>
-		/// <param name="solvable"></param>
-		/// <returns></returns>
 		public static ISolvable SimplifyRationalExpressions(ISolvable solvable) {
 			if (solvable is Operator o) {
 				if (o.Operation.Name == '/') {
@@ -130,15 +129,7 @@ namespace Whalculator.Core.Calculator.Equation {
 
 						return new Operator(o.Operation, args);
 					}
-				}
-			}
-
-			return solvable;
-		}
-
-		public static ISolvable SimplifyExponate(ISolvable solvable) {
-			if (solvable is Operator o) {
-				if (o.Operation.Name == '^') {
+				} else if (o.Operation.Name == '^') {
 					if (o.operands[0] is Literal l) {
 						if (l.Value == 0) {
 							return new Literal(0);
@@ -146,7 +137,7 @@ namespace Whalculator.Core.Calculator.Equation {
 							return new Literal(1);
 						}
 					}
-					
+
 					if (o.operands[1] is Literal _l) {
 						if (_l.Value == 0) {
 							return new Literal(1);
@@ -179,15 +170,57 @@ namespace Whalculator.Core.Calculator.Equation {
 		public static ISolvable SimplifyCollectLikeTerms(ISolvable solvable) {
 			if (solvable is Operator o) {
 				if (o.Operation.Name == '+') {
-					//TODO
+					int c = o.operands.Length - 1;
+
+					for (int i = c; i > 0; i--) {
+						if (o.operands[i] is Literal l) {
+							if (o.operands[i - 1] is Literal _l) {
+								o.operands[i - 1] = new Literal(l.Value + _l.Value);
+								o.operands[i] = null;
+								c--;
+								continue;
+							}
+						}
+
+						//if (!(o.operands[i] is Operator mult && mult.Operation.Name == '*')) {
+						//	o.operands[i] = new Operator(Operations.MultiplyOperation, o.operands[i], new Literal(1));
+						//}
+
+						//var curr = o.operands[i] as Operator;
+
+						//if (o.operands[i - 1] is Operator prevOperator) {
+						//	if (prevOperator.Operation.Name == '^') {
+						//		if (prevOperator.operands[0].Equals(curr.operands[0])) {
+						//			o.operands[i - 1] = new Operator(Operations.ExponateOperation, prevOperator.operands[0], new Operator(Operations.AddOperation, prevOperator.operands[1], curr.operands[1]));
+						//			o.operands[i] = null;
+						//			c--;
+						//			continue;
+						//		}
+						//	}
+						//}
+					}
+
+					ISolvable[] output = new ISolvable[c + 1];
+					int k = 0;
+					for (int i = 0; i < o.operands.Length; i++) {
+						if (!(o.operands[i] is null)) {
+							output[k] = o.operands[i];
+							k++;
+						}
+					}
+
+					return new Operator(Operations.AddOperation, output);
 				} else if (o.Operation.Name == '*') {
 					int c = o.operands.Length - 1;
 
 					for (int i = c; i > 0; i--) {
-						if (o.operands[i] is Literal l && l.Value == 0) {
-							o.operands[i] = null;
-							c--;
-							continue;
+						if (o.operands[i] is Literal l) {
+							if (o.operands[i - 1] is Literal _l) {
+								o.operands[i - 1] = new Literal(l.Value * _l.Value);
+								o.operands[i] = null;
+								c--;
+								continue;
+							}
 						}
 
 						if (!(o.operands[i] is Operator exp && exp.Operation.Name == '^')) {
@@ -202,6 +235,7 @@ namespace Whalculator.Core.Calculator.Equation {
 									o.operands[i - 1] = new Operator(Operations.ExponateOperation, prevOperator.operands[0], new Operator(Operations.AddOperation, prevOperator.operands[1], curr.operands[1]));
 									o.operands[i] = null;
 									c--;
+									continue;
 								}
 							}
 						}

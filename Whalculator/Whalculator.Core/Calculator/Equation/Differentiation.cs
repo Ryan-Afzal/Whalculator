@@ -11,17 +11,9 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		public static ISolvable GetDerivative(this ISolvable input, string ind) {
 			return GetDerivative(input, new DerivativeArgs() { IndependentVariable = ind })
-				.Simplify(new Simplifier[] {
-					Simplifiers.SimplifyRemoveZeros,
-					Simplifiers.SimplifyRationalExpressions,
-					Simplifiers.SimplifySortTerms,
-					Simplifiers.SimplifyCollectLikeTerms,
-					Simplifiers.SimplifyLevelOperators
-				})
-				.Simplify(new Simplifier[] {
-					Simplifiers.SimplifyRemoveZeros,
-					Simplifiers.SimplifyExponate
-				});
+				.SimplifyDerivative1()
+				.SimplifyDerivative2()
+				.SimplifyDerivative3();
 		}
 
 		private static ISolvable GetDerivative(ISolvable input, DerivativeArgs args) {
@@ -107,6 +99,30 @@ namespace Whalculator.Core.Calculator.Equation {
 			} else {
 				throw new NotImplementedException();
 			}
+		}
+
+		private static ISolvable SimplifyDerivative1(this ISolvable input) {
+			return input.Simplify(new Simplifier[] {
+					Simplifiers.SimplifyRemoveZeros,
+					Simplifiers.SimplifySortTerms,
+					Simplifiers.SimplifyLevelOperators
+				});
+		}
+
+		private static ISolvable SimplifyDerivative2(this ISolvable input) {
+			return input.Simplify(new Simplifier[] {
+					Simplifiers.SimplifyRationalExpressions,
+					Simplifiers.SimplifySortTerms,
+					Simplifiers.SimplifyCollectLikeTerms,
+					Simplifiers.SimplifyLevelOperators
+				});
+		}
+
+		private static ISolvable SimplifyDerivative3(this ISolvable input) {
+			return input.Simplify(new Simplifier[] {
+					Simplifiers.SimplifyRemoveZeros,
+					Simplifiers.SimplifySortTerms
+				});
 		}
 	}
 }
