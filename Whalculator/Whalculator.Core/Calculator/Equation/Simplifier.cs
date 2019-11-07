@@ -101,20 +101,27 @@ namespace Whalculator.Core.Calculator.Equation {
 					for (int i = 0; i < o.operands.Length; i++) {
 						if (o.operands[i] is Literal l) {
 							if (l.Value == 0) {
+								o.operands[i] = null;
 								z++;
 							}
 						}
 					}
 
 					if (z != 0) {
+						if (o.operands.Length - z == 1) {
+							for (int i = 0; i < o.operands.Length; i++) {
+								if (!(o.operands[i] is null)) {
+									return o.operands[i];
+								}
+							}
+						}
+
 						ISolvable[] args = new ISolvable[o.operands.Length - z];
 						int k = 0;
 
 						for (int i = 0; i < o.operands.Length; i++) {
-							if (o.operands[i] is Literal l) {
-								if (l.Value == 0) {
-									continue;
-								}
+							if (o.operands[i] is null) {
+								continue;
 							}
 
 							args[k] = o.operands[i];
