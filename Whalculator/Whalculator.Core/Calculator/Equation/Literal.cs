@@ -27,14 +27,6 @@ namespace Whalculator.Core.Calculator.Equation {
 			return $"{Value}";
 		}
 
-		public override bool Equals(object obj) {
-			if (obj is Literal l) {
-				return Value == l.Value;
-			} else {
-				return false;
-			}
-		}
-
 		public override int GetHashCode() {
 			return base.GetHashCode();
 		}

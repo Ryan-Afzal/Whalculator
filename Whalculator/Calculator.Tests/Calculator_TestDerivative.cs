@@ -94,16 +94,16 @@ namespace Whalculator.Tests {
 			var calc = CalculatorFactory.GetDefaultCalculator();
 			var eqn = calc.GetSolvableFromText("(x+1)^2");
 			var derivative = eqn.GetDerivative("x");
-			Assert.AreEqual("2*(x+1)", derivative.GetEquationString());
+			Assert.AreEqual("2*(1+x)", derivative.GetEquationString());
 			var args = new ExpressionEvaluationArgs() {
 				VariableSet = calc.Variables
 			};
 			calc.Variables.SetVariable("x", new Literal(0));
-			Assert.AreEqual(0, derivative.GetDoubleValue(args));
+			Assert.AreEqual(2, derivative.GetDoubleValue(args));
 			calc.Variables.SetVariable("x", new Literal(1));
-			Assert.AreEqual(3, derivative.GetDoubleValue(args));
+			Assert.AreEqual(4, derivative.GetDoubleValue(args));
 			calc.Variables.SetVariable("x", new Literal(2));
-			Assert.AreEqual(12, derivative.GetDoubleValue(args));
+			Assert.AreEqual(6, derivative.GetDoubleValue(args));
 		}
 
 	}
