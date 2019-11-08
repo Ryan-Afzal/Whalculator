@@ -123,7 +123,8 @@ namespace Whalculator.Core.Calculator.Equation {
 		private static ISolvable SimplifyDerivative3(this ISolvable input) {
 			return input.Simplify(new Simplifier[] {
 					Simplifiers.SimplifyRemoveZeros,
-					Simplifiers.SimplifySortTerms
+					Simplifiers.SimplifySortTerms,
+					Simplifiers.SimplifyLevelOperators
 				});
 		}
 	}

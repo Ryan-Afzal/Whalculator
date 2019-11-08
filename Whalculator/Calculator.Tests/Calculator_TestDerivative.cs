@@ -41,9 +41,9 @@ namespace Whalculator.Tests {
 		[TestMethod]
 		public void TestDifferentiateQuadratic2() {
 			var calc = CalculatorFactory.GetDefaultCalculator();
-			var eqn = calc.GetSolvableFromText("x^2+2x+1");
+			var eqn = calc.GetSolvableFromText("x^2+2*x+1");
 			var derivative = eqn.GetDerivative("x");
-			Assert.AreEqual("2*x+2", derivative.GetEquationString());
+			Assert.AreEqual("2+2*x", derivative.GetEquationString());
 			var args = new ExpressionEvaluationArgs() {
 				VariableSet = calc.Variables
 			};
