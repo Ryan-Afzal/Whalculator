@@ -40,11 +40,17 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public int CompareTo(ISolvable solvable) {
-			if (solvable is Literal l && l.Value > Value) {
-				return -1;
-			} else {
-				return 1;
+			if (solvable is Literal l) {
+				if (Value < l.Value) {
+					return -1;
+				} else if (Value == l.Value) {
+					return 0;
+				} else {
+					return 1;
+				}
 			}
+
+			return -1;
 		}
 	}
 }

@@ -18,7 +18,7 @@ namespace Whalculator.Tests {
 		[TestMethod]
 		public void TestBuildBuiltinFunctionSine2() {
 			var output = TestManager.GetSolvableFromText("sin(x + 10)");
-			Assert.AreEqual("sin(x + 10)", output.GetEquationString());
+			Assert.AreEqual("sin(x+10)", output.GetEquationString());
 			if (!(output is BuiltinFunction)) {
 				Assert.Fail();
 			}

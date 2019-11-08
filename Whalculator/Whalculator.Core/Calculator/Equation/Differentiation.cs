@@ -105,7 +105,8 @@ namespace Whalculator.Core.Calculator.Equation {
 			return input.Simplify(new Simplifier[] {
 					Simplifiers.SimplifyRemoveZeros,
 					Simplifiers.SimplifySortTerms,
-					Simplifiers.SimplifyLevelOperators
+					Simplifiers.SimplifyLevelOperators,
+					Simplifiers.SimplifyRationalExpressions
 				});
 		}
 
@@ -114,7 +115,8 @@ namespace Whalculator.Core.Calculator.Equation {
 					Simplifiers.SimplifyRationalExpressions,
 					Simplifiers.SimplifySortTerms,
 					Simplifiers.SimplifyCollectLikeTerms,
-					Simplifiers.SimplifyLevelOperators
+					Simplifiers.SimplifyLevelOperators,
+					Simplifiers.SimplifyRemoveZeros
 				});
 		}
 

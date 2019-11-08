@@ -45,5 +45,15 @@ namespace Whalculator.Core.Calculator.Equation {
 
 			return x.GetEquationString();
 		}
+
+		public int CompareTo(ISolvable other) {
+			if (other is Literal) {
+				return 1;
+			} else if (other is Variable) {
+				return 1;
+			} else {
+				return this.GetEquationString().CompareTo(other.GetEquationString());
+			}
+		}
 	}
 }

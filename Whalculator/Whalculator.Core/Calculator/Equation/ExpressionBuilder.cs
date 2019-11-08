@@ -14,6 +14,8 @@ namespace Whalculator.Core.Calculator.Equation {
 	public static class ExpressionBuilder {
 
 		public static ISolvable GetSolvable(string text, GenerationArgs args) {
+			text = text.Replace(" ", "");
+
 			return GetSolvableFromText(text, args).Simplify(new Simplifier[] {
 				Simplifiers.SimplifyLevelOperators, 
 				Simplifiers.SimplifyTransformNegatives

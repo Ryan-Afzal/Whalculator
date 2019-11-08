@@ -43,7 +43,7 @@ namespace Whalculator.Tests {
 		[TestMethod]
 		public void TestBuildCollectLikeTerms1() {
 			var output = TestManager.GetSolvableFromText("(x^2)*(x^3)").Simplify(new Simplifier[] { Simplifiers.SimplifySortTerms, Simplifiers.SimplifyCollectLikeTerms });
-			Assert.AreEqual("x^(2+3)", output.GetEquationString());
+			Assert.AreEqual("x^5", output.GetEquationString());
 		}
 	}
 }
