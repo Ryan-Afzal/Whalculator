@@ -27,16 +27,6 @@ namespace Whalculator.Core.Calculator.Equation {
 			return VariableName;
 		}
 
-		public int CompareTo(ISolvable solvable) {
-			if (solvable is Literal) {
-				return 1;
-			} else if (solvable is Variable v) {
-				return VariableName.CompareTo(v.VariableName);
-			} else {
-				return -1;
-			}
-		}
-
 		public override bool Equals(object obj) {
 			if (obj is Variable v && v.VariableName.Equals(VariableName)) {
 				return true;

@@ -77,7 +77,7 @@ namespace Whalculator.Tests {
 			var calc = CalculatorFactory.GetDefaultCalculator();
 			var eqn = calc.GetSolvableFromText("x^3+3*x^2+3*x+1");
 			var derivative = eqn.GetDerivative("x");
-			Assert.AreEqual("3+3*x^2+6*x", derivative.GetEquationString());
+			Assert.AreEqual("3+6*x+3*x^2", derivative.GetEquationString());
 			var args = new ExpressionEvaluationArgs() {
 				VariableSet = calc.Variables
 			};

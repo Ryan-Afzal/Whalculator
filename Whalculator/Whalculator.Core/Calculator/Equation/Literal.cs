@@ -38,19 +38,5 @@ namespace Whalculator.Core.Calculator.Equation {
 		public override int GetHashCode() {
 			return base.GetHashCode();
 		}
-
-		public int CompareTo(ISolvable solvable) {
-			if (solvable is Literal l) {
-				if (Value < l.Value) {
-					return -1;
-				} else if (Value == l.Value) {
-					return 0;
-				} else {
-					return 1;
-				}
-			}
-
-			return -1;
-		}
 	}
 }

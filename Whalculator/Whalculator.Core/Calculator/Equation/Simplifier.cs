@@ -154,11 +154,11 @@ namespace Whalculator.Core.Calculator.Equation {
 		public static ISolvable SimplifySortTerms(ISolvable solvable) {
 			if (solvable is Operator o) {
 				if (o.Operation.Name == '+') {
-					Array.Sort(o.operands);
+					Array.Sort(o.operands, ISolvable.Compare);
 
 					return solvable;
 				} else if (o.Operation.Name == '*') {
-					Array.Sort(o.operands);
+					Array.Sort(o.operands, ISolvable.Compare);
 
 					return solvable;
 				}
