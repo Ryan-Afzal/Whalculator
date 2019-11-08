@@ -106,5 +106,22 @@ namespace Whalculator.Tests {
 			Assert.AreEqual(6, derivative.GetDoubleValue(args));
 		}
 
+		[TestMethod]
+		public void TestDifferentiateSqrt1() {
+			var calc = CalculatorFactory.GetDefaultCalculator();
+			var eqn = calc.GetSolvableFromText("x^(1/2)");
+			var derivative = eqn.GetDerivative("x");
+			//Assert.AreEqual("2*(1+x)", derivative.GetEquationString());
+			var args = new ExpressionEvaluationArgs() {
+				VariableSet = calc.Variables
+			};
+			calc.Variables.SetVariable("x", new Literal(1));
+			Assert.AreEqual(1/2, derivative.GetDoubleValue(args));
+			calc.Variables.SetVariable("x", new Literal(4));
+			Assert.AreEqual(1/4, derivative.GetDoubleValue(args));
+			calc.Variables.SetVariable("x", new Literal(9));
+			Assert.AreEqual(1/6, derivative.GetDoubleValue(args));
+		}
+
 	}
 }
