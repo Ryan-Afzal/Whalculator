@@ -24,6 +24,9 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public override string GetEquationString() {
+			if (this.operands.Length == 0) {
+				return "";
+			}
 			StringBuilder builder = new StringBuilder();
 
 			builder.Append(this.GetStringFromOperand(operands[0]));

@@ -88,13 +88,47 @@ namespace Whalculator.Core.Calculator.Equation {
 		public static ISolvable SimplifyRemoveZeros(ISolvable solvable) {
 			if (solvable is Operator o) {
 				if (o.Operation.Name == '*') {
+					int z = 0;
 					for (int i = 0; i < o.operands.Length; i++) {
 						if (o.operands[i] is Literal l) {
 							if (l.Value == 0) {
 								return new Literal(0);
+							} else if (l.Value == 1) {
+								o.operands[i] = null;
+								z++;
 							}
 						}
 					}
+
+					if (z != 0) {
+						int length = o.operands.Length - z;
+
+						if (length == 0) {
+							return new Literal(1);
+						} else if (length == 1) {
+							for (int i = 0; i < o.operands.Length; i++) {
+								if (!(o.operands[i] is null)) {
+									return o.operands[i];
+								}
+							}
+						}
+
+						ISolvable[] args = new ISolvable[length];
+						int k = 0;
+
+						for (int i = 0; i < o.operands.Length; i++) {
+							if (o.operands[i] is null) {
+								continue;
+							}
+
+							args[k] = o.operands[i];
+							k++;
+						}
+
+						return new Operator(o.Operation, args);
+					}
+
+					return solvable;
 				} else if (o.Operation.Name == '+') {
 					int z = 0;
 					for (int i = 0; i < o.operands.Length; i++) {
@@ -107,7 +141,11 @@ namespace Whalculator.Core.Calculator.Equation {
 					}
 
 					if (z != 0) {
-						if (o.operands.Length - z == 1) {
+						int length = o.operands.Length - z;
+
+						if (length == 0) {
+							return new Literal(0);
+						} else if (length == 1) {
 							for (int i = 0; i < o.operands.Length; i++) {
 								if (!(o.operands[i] is null)) {
 									return o.operands[i];
@@ -115,7 +153,7 @@ namespace Whalculator.Core.Calculator.Equation {
 							}
 						}
 
-						ISolvable[] args = new ISolvable[o.operands.Length - z];
+						ISolvable[] args = new ISolvable[length];
 						int k = 0;
 
 						for (int i = 0; i < o.operands.Length; i++) {

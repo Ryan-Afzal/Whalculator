@@ -111,16 +111,67 @@ namespace Whalculator.Tests {
 			var calc = CalculatorFactory.GetDefaultCalculator();
 			var eqn = calc.GetSolvableFromText("x^(1/2)");
 			var derivative = eqn.GetDerivative("x");
-			//Assert.AreEqual("2*(1+x)", derivative.GetEquationString());
+			Assert.AreEqual("2^-1*x^(-1/2)", derivative.GetEquationString());
 			var args = new ExpressionEvaluationArgs() {
 				VariableSet = calc.Variables
 			};
 			calc.Variables.SetVariable("x", new Literal(1));
-			Assert.AreEqual(1/2, derivative.GetDoubleValue(args));
+			Assert.AreEqual(1.0 / 2, derivative.GetDoubleValue(args));
 			calc.Variables.SetVariable("x", new Literal(4));
-			Assert.AreEqual(1/4, derivative.GetDoubleValue(args));
+			Assert.AreEqual(1.0 / 4, derivative.GetDoubleValue(args));
 			calc.Variables.SetVariable("x", new Literal(9));
-			Assert.AreEqual(1/6, derivative.GetDoubleValue(args));
+			Assert.AreEqual(1.0 / 6, derivative.GetDoubleValue(args));
+		}
+
+		[TestMethod]
+		public void TestDifferentiateChainSqrt1() {
+			var calc = CalculatorFactory.GetDefaultCalculator();
+			var eqn = calc.GetSolvableFromText("(2*x)^(1/2)");
+			var derivative = eqn.GetDerivative("x");
+			Assert.AreEqual("(2*x)^(-1/2)", derivative.GetEquationString());
+			var args = new ExpressionEvaluationArgs() {
+				VariableSet = calc.Variables
+			};
+			calc.Variables.SetVariable("x", new Literal(0.5));
+			Assert.AreEqual(1.0, derivative.GetDoubleValue(args));
+			calc.Variables.SetVariable("x", new Literal(2));
+			Assert.AreEqual(1.0 / 2, derivative.GetDoubleValue(args));
+			calc.Variables.SetVariable("x", new Literal(4.5));
+			Assert.AreEqual(1.0 / 6, derivative.GetDoubleValue(args));
+		}
+
+		[TestMethod]
+		public void TestDifferentiateLn1() {
+			var calc = CalculatorFactory.GetDefaultCalculator();
+			var eqn = calc.GetSolvableFromText("ln(x)");
+			var derivative = eqn.GetDerivative("x");
+			Assert.AreEqual("x^-1", derivative.GetEquationString());
+			var args = new ExpressionEvaluationArgs() {
+				VariableSet = calc.Variables
+			};
+			calc.Variables.SetVariable("x", new Literal(1));
+			Assert.AreEqual(1.0, derivative.GetDoubleValue(args));
+			calc.Variables.SetVariable("x", new Literal(2));
+			Assert.AreEqual(1.0 / 2, derivative.GetDoubleValue(args));
+			calc.Variables.SetVariable("x", new Literal(3));
+			Assert.AreEqual(1.0 / 3, derivative.GetDoubleValue(args));
+		}
+
+		[TestMethod]
+		public void TestDifferentiateLn2() {
+			var calc = CalculatorFactory.GetDefaultCalculator();
+			var eqn = calc.GetSolvableFromText("2*ln(x+5)");
+			var derivative = eqn.GetDerivative("x");
+			Assert.AreEqual("2*(5+x)^-1", derivative.GetEquationString());
+			var args = new ExpressionEvaluationArgs() {
+				VariableSet = calc.Variables
+			};
+			calc.Variables.SetVariable("x", new Literal(1));
+			Assert.AreEqual(1.0 / 3, derivative.GetDoubleValue(args));
+			calc.Variables.SetVariable("x", new Literal(2));
+			Assert.AreEqual(2.0 / 7, derivative.GetDoubleValue(args));
+			calc.Variables.SetVariable("x", new Literal(3));
+			Assert.AreEqual(1.0 / 4, derivative.GetDoubleValue(args));
 		}
 
 	}
