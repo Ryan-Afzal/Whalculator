@@ -103,20 +103,20 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		private static ISolvable SimplifyDerivative1(this ISolvable input) {
 			return input.Simplify(new Simplifier[] {
+					Simplifiers.SimplifyLevelOperators,
 					Simplifiers.SimplifyRemoveZeros,
 					Simplifiers.SimplifySortTerms,
-					Simplifiers.SimplifyLevelOperators,
 					Simplifiers.SimplifyRationalExpressions
 				});
 		}
 
 		private static ISolvable SimplifyDerivative2(this ISolvable input) {
 			return input.Simplify(new Simplifier[] {
+					Simplifiers.SimplifyRemoveZeros,
+					Simplifiers.SimplifyLevelOperators,
 					Simplifiers.SimplifyRationalExpressions,
 					Simplifiers.SimplifySortTerms,
-					Simplifiers.SimplifyCollectLikeTerms,
-					Simplifiers.SimplifyLevelOperators,
-					Simplifiers.SimplifyRemoveZeros
+					Simplifiers.SimplifyCollectLikeTerms
 				});
 		}
 

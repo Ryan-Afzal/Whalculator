@@ -294,6 +294,16 @@ namespace Whalculator.Core.Calculator.Equation {
 
 			return solvable;
 		}
+
+		public static ISolvable SimplifyNegativeExponents(ISolvable solvable) {
+			if (solvable is Operator mult) {
+				if (mult.Operation.Name == '*') {
+					throw new NotImplementedException();
+				}
+			}
+
+			return solvable;
+		}
 	}
 
 }
