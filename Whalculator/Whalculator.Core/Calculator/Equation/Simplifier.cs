@@ -8,6 +8,11 @@ namespace Whalculator.Core.Calculator.Equation {
 
 	public static class Simplifiers {
 
+		/// <summary>
+		/// Turns subtraction into addition with a negative multiplier
+		/// </summary>
+		/// <param name="solvable"></param>
+		/// <returns></returns>
 		public static ISolvable SimplifyTransformNegatives(ISolvable solvable) {
 			if (solvable is Operator o) {
 				if (o.Operation.Name == '-') {
@@ -24,6 +29,11 @@ namespace Whalculator.Core.Calculator.Equation {
 			return solvable;
 		}
 
+		/// <summary>
+		/// Levels nested addition and multiplication operators
+		/// </summary>
+		/// <param name="solvable"></param>
+		/// <returns></returns>
 		public static ISolvable SimplifyLevelOperators(ISolvable solvable) {
 			if (solvable is Operator o) {
 				if (o.Operation.Name == '+' || o.Operation.Name == '*') {
@@ -67,6 +77,11 @@ namespace Whalculator.Core.Calculator.Equation {
 			}
 		}
 
+		/// <summary>
+		/// Turns rational expressions into negative exponation
+		/// </summary>
+		/// <param name="solvable"></param>
+		/// <returns></returns>
 		public static ISolvable SimplifyRationalExpressions(ISolvable solvable) {
 			if (solvable is Operator o) {
 				if (o.Operation.Name == '/') {
@@ -85,7 +100,12 @@ namespace Whalculator.Core.Calculator.Equation {
 			return solvable;
 		}
 
-		public static ISolvable SimplifyRemoveZeros(ISolvable solvable) {
+		/// <summary>
+		/// Removes zeros and ones in addition, multiplication, and exponation
+		/// </summary>
+		/// <param name="solvable"></param>
+		/// <returns></returns>
+		public static ISolvable SimplifyRemoveZerosOnes(ISolvable solvable) {
 			if (solvable is Operator o) {
 				if (o.Operation.Name == '*') {
 					int z = 0;
@@ -189,6 +209,11 @@ namespace Whalculator.Core.Calculator.Equation {
 			return solvable;
 		}
 
+		/// <summary>
+		/// Sorts operands of addition and multiplication
+		/// </summary>
+		/// <param name="solvable"></param>
+		/// <returns></returns>
 		public static ISolvable SimplifySortTerms(ISolvable solvable) {
 			if (solvable is Operator o) {
 				if (o.Operation.Name == '+') {
@@ -205,6 +230,11 @@ namespace Whalculator.Core.Calculator.Equation {
 			return solvable;
 		}
 
+		/// <summary>
+		/// Collects like terms in addition and multiplication
+		/// </summary>
+		/// <param name="solvable"></param>
+		/// <returns></returns>
 		public static ISolvable SimplifyCollectLikeTerms(ISolvable solvable) {
 			if (solvable is Operator o) {
 				if (o.Operation.Name == '+') {
@@ -295,10 +325,47 @@ namespace Whalculator.Core.Calculator.Equation {
 			return solvable;
 		}
 
+		/// <summary>
+		/// Turns negative exponation into rational expressions
+		/// </summary>
+		/// <param name="solvable"></param>
+		/// <returns></returns>
 		public static ISolvable SimplifyNegativeExponents(ISolvable solvable) {
 			if (solvable is Operator mult) {
 				if (mult.Operation.Name == '*') {
-					throw new NotImplementedException();
+					int numNegative = 0;
+
+					for (int i = 0; i < mult.operands.Length; i++) {
+						if (mult.operands[i] is Operator o
+							&& o.Operation.Name == '^'
+							&& o.operands[1] is Literal l
+							&& l.Value < 0) {
+							numNegative++;
+						}
+					}
+
+					if (numNegative != 0) {
+						ISolvable[] numerator = new ISolvable[mult.operands.Length - numNegative];
+						ISolvable[] denominator = new ISolvable[numNegative];
+
+						int n = 0;
+						int d = 0;
+
+						for (int i = 0; i < mult.operands.Length; i++) {
+							if (mult.operands[i] is Operator o
+							&& o.Operation.Name == '^'
+							&& o.operands[1] is Literal l
+							&& l.Value < 0) {
+								denominator[d] = mult.operands[i];
+								d++;
+							} else {
+								numerator[d] = mult.operands[i];
+								n++;
+							}
+						}
+
+						return new Operator(Operations.DivideOperation, new Operator(Operations.MultiplyOperation, numerator), new Operator(Operations.MultiplyOperation, denominator));
+					}
 				}
 			}
 

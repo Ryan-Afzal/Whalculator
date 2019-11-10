@@ -104,7 +104,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		private static ISolvable SimplifyDerivative1(this ISolvable input) {
 			return input.Simplify(new Simplifier[] {
 					Simplifiers.SimplifyLevelOperators,
-					Simplifiers.SimplifyRemoveZeros,
+					Simplifiers.SimplifyRemoveZerosOnes,
 					Simplifiers.SimplifySortTerms,
 					Simplifiers.SimplifyRationalExpressions
 				});
@@ -112,7 +112,7 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		private static ISolvable SimplifyDerivative2(this ISolvable input) {
 			return input.Simplify(new Simplifier[] {
-					Simplifiers.SimplifyRemoveZeros,
+					Simplifiers.SimplifyRemoveZerosOnes,
 					Simplifiers.SimplifyLevelOperators,
 					Simplifiers.SimplifyRationalExpressions,
 					Simplifiers.SimplifySortTerms,
@@ -122,7 +122,7 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		private static ISolvable SimplifyDerivative3(this ISolvable input) {
 			return input.Simplify(new Simplifier[] {
-					Simplifiers.SimplifyRemoveZeros,
+					Simplifiers.SimplifyRemoveZerosOnes,
 					Simplifiers.SimplifySortTerms,
 					Simplifiers.SimplifyLevelOperators
 				});
