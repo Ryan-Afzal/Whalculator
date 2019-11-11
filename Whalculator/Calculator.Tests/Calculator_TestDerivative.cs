@@ -145,7 +145,7 @@ namespace Whalculator.Tests {
 			var calc = CalculatorFactory.GetDefaultCalculator();
 			var eqn = calc.GetSolvableFromText("ln(x)");
 			var derivative = eqn.GetDerivative("x");
-			Assert.AreEqual("x^-1", derivative.GetEquationString());
+			Assert.AreEqual("1/x", derivative.GetEquationString());
 			var args = new ExpressionEvaluationArgs() {
 				VariableSet = calc.Variables
 			};
@@ -162,7 +162,7 @@ namespace Whalculator.Tests {
 			var calc = CalculatorFactory.GetDefaultCalculator();
 			var eqn = calc.GetSolvableFromText("2*ln(x+5)");
 			var derivative = eqn.GetDerivative("x");
-			Assert.AreEqual("2*(5+x)^-1", derivative.GetEquationString());
+			Assert.AreEqual("2/(5+x)", derivative.GetEquationString());
 			var args = new ExpressionEvaluationArgs() {
 				VariableSet = calc.Variables
 			};

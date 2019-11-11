@@ -103,29 +103,29 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		private static ISolvable SimplifyDerivative1(this ISolvable input) {
 			return input.Simplify(new Simplifier[] {
-					Simplifiers.SimplifyLevelOperators,
-					Simplifiers.SimplifyRemoveZerosOnes,
-					Simplifiers.SimplifySortTerms,
-					Simplifiers.SimplifyRationalExpressions
-				});
+				Simplifiers.SimplifyLevelOperators,
+				Simplifiers.SimplifyRemoveZerosOnes,
+				Simplifiers.SimplifySortTerms,
+				Simplifiers.SimplifyRationalExpressions
+			});
 		}
 
 		private static ISolvable SimplifyDerivative2(this ISolvable input) {
 			return input.Simplify(new Simplifier[] {
-					Simplifiers.SimplifyRemoveZerosOnes,
-					Simplifiers.SimplifyLevelOperators,
-					Simplifiers.SimplifyRationalExpressions,
-					Simplifiers.SimplifySortTerms,
-					Simplifiers.SimplifyCollectLikeTerms
-				});
+				Simplifiers.SimplifyRemoveZerosOnes,
+				Simplifiers.SimplifyLevelOperators,
+				Simplifiers.SimplifyRationalExpressions,
+				Simplifiers.SimplifySortTerms,
+				Simplifiers.SimplifyCollectLikeTerms
+			});
 		}
 
 		private static ISolvable SimplifyDerivative3(this ISolvable input) {
 			return input.Simplify(new Simplifier[] {
-					Simplifiers.SimplifyRemoveZerosOnes,
-					Simplifiers.SimplifySortTerms,
-					Simplifiers.SimplifyLevelOperators
-				});
+				Simplifiers.SimplifyRemoveZerosOnes,
+				Simplifiers.SimplifySortTerms,
+				Simplifiers.SimplifyLevelOperators
+			});
 		}
 	}
 }

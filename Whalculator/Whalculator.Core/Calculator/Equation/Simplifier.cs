@@ -356,6 +356,7 @@ namespace Whalculator.Core.Calculator.Equation {
 							&& o.Operation.Name == '^'
 							&& o.operands[1] is Literal l
 							&& l.Value < 0) {
+								o.operands[1] = new Literal(l.Value * -1);
 								denominator[d] = mult.operands[i];
 								d++;
 							} else {
@@ -364,7 +365,11 @@ namespace Whalculator.Core.Calculator.Equation {
 							}
 						}
 
-						return new Operator(Operations.DivideOperation, new Operator(Operations.MultiplyOperation, numerator), new Operator(Operations.MultiplyOperation, denominator));
+						return new Operator(
+							Operations.DivideOperation, 
+							numerator.Length == 1 ? numerator[0] : new Operator(Operations.MultiplyOperation, numerator), 
+							denominator.Length == 1 ? denominator[0] : new Operator(Operations.MultiplyOperation, denominator)
+						);
 					}
 				}
 			}
