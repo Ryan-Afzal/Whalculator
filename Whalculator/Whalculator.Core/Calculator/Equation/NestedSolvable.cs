@@ -16,7 +16,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		public abstract ISolvable GetExactValue(ExpressionEvaluationArgs args);
 		public abstract string GetEquationString();
 
-		protected ISolvable[] CloneOperands() {
+		protected internal ISolvable[] CloneOperands() {
 			ISolvable[] output = new ISolvable[this.operands.Length];
 
 			for (int i = 0; i < output.Length; i++) {

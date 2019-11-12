@@ -13,8 +13,12 @@ namespace Whalculator.Core.Calculator.Equation {
 		public static BuiltinFunctionOperation LogOperation = new BuiltinFunctionOperation("log", 2, LogExactValueOperation, LogDoubleValueOperation);
 		public static BuiltinFunctionOperation LnOperation = new BuiltinFunctionOperation("ln", 1, LnExactValueOperation, LnDoubleValueOperation);
 
-
 		public static BuiltinFunctionOperation SineOperation = new BuiltinFunctionOperation("sin", 1, SineExactValueOperation, SineDoubleValueOperation);
+		public static BuiltinFunctionOperation CosineOperation = new BuiltinFunctionOperation("cos", 1, CosineExactValueOperation, CosineDoubleValueOperation);
+		public static BuiltinFunctionOperation TangentOperation = new BuiltinFunctionOperation("tan", 1, TangentExactValueOperation, TangentDoubleValueOperation);
+		public static BuiltinFunctionOperation ArcsineOperation = new BuiltinFunctionOperation("arcsin", 1, ArcsineExactValueOperation, ArcsineDoubleValueOperation);
+		public static BuiltinFunctionOperation ArccosineOperation = new BuiltinFunctionOperation("arccos", 1, ArccosineExactValueOperation, ArccosineDoubleValueOperation);
+		public static BuiltinFunctionOperation ArctangentOperation = new BuiltinFunctionOperation("arctan", 1, ArctangentExactValueOperation, ArctangentDoubleValueOperation);
 
 		public static ISolvable AbsExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
 			return new Literal(Math.Abs(operands[0].GetDoubleValue(args)));
@@ -78,6 +82,46 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		public static double SineDoubleValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
 			return Math.Sin(operands[0].GetDoubleValue(args));
+		}
+
+		public static ISolvable CosineExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Cos(operands[0].GetDoubleValue(args)));
+		}
+
+		public static double CosineDoubleValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return Math.Cos(operands[0].GetDoubleValue(args));
+		}
+
+		public static ISolvable TangentExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Tan(operands[0].GetDoubleValue(args)));
+		}
+
+		public static double TangentDoubleValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return Math.Tan(operands[0].GetDoubleValue(args));
+		}
+
+		public static ISolvable ArcsineExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Asin(operands[0].GetDoubleValue(args)));
+		}
+
+		public static double ArcsineDoubleValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return Math.Asin(operands[0].GetDoubleValue(args));
+		}
+
+		public static ISolvable ArccosineExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Cos(operands[0].GetDoubleValue(args)));
+		}
+
+		public static double ArccosineDoubleValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return Math.Cos(operands[0].GetDoubleValue(args));
+		}
+
+		public static ISolvable ArctangentExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Atan(operands[0].GetDoubleValue(args)));
+		}
+
+		public static double ArctangentDoubleValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return Math.Atan(operands[0].GetDoubleValue(args));
 		}
 
 	}

@@ -93,19 +93,37 @@ namespace Whalculator.Core.Calculator.Equation {
 					throw new NotImplementedException();
 				}
 			} else if (input is BuiltinFunction f) {
+				ISolvable output;
+
 				if (f.Operation.Name.Equals("ln")) {
-					return new Operator(Operations.DivideOperation, new Literal(1), f.operands[0].Clone());
+					output = new Operator(Operations.DivideOperation, new Literal(1), f.operands[0].Clone());
 				} else if (f.Operation.Name.Equals("log")) {
-					return new Operator(Operations.DivideOperation,
+					output = new Operator(Operations.DivideOperation,
 						new Literal(1),
 						new Operator(Operations.MultiplyOperation,
 							new BuiltinFunction(BuiltinFunctionOperations.LnOperation,
 								f.operands[1].Clone()
 							),
 							f.operands[0].Clone()));
+				} else if (f.Operation.Name.Equals("sin")) {
+					output = new BuiltinFunction(BuiltinFunctionOperations.CosineOperation, f.CloneOperands());
+				} else if (f.Operation.Name.Equals("cos")) {
+					output = new Operator(Operations.MultiplyOperation, 
+						new Literal(-1), 
+						new BuiltinFunction(BuiltinFunctionOperations.CosineOperation, f.CloneOperands()));
+				} else if (f.Operation.Name.Equals("tan")) {
+					throw new NotImplementedException();
+				} else if (f.Operation.Name.Equals("arcsin")) {
+					throw new NotImplementedException();
+				} else if (f.Operation.Name.Equals("arccos")) {
+					throw new NotImplementedException();
+				} else if (f.Operation.Name.Equals("arctan")) {
+					throw new NotImplementedException();
 				} else {
 					throw new NotImplementedException();
 				}
+
+				return new Operator(Operations.MultiplyOperation, output, GetDerivative(f.operands[0], args));
 			} else if (input is Function _f) {
 				throw new NotImplementedException();
 			} else {

@@ -24,6 +24,11 @@ namespace Whalculator.Core.Calculator.Equation {
 			this.AddOperation(BuiltinFunctionOperations.LnOperation);
 
 			this.AddOperation(BuiltinFunctionOperations.SineOperation);
+			this.AddOperation(BuiltinFunctionOperations.CosineOperation);
+			this.AddOperation(BuiltinFunctionOperations.TangentOperation);
+			this.AddOperation(BuiltinFunctionOperations.ArcsineOperation);
+			this.AddOperation(BuiltinFunctionOperations.ArccosineOperation);
+			this.AddOperation(BuiltinFunctionOperations.ArctangentOperation);
 		}
 
 		private void AddOperation(BuiltinFunctionOperation value) {
