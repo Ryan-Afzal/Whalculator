@@ -179,7 +179,7 @@ namespace Whalculator.Tests {
 			var calc = CalculatorFactory.GetDefaultCalculator();
 			var eqn = calc.GetSolvableFromText("ln(3*x+5)");
 			var derivative = eqn.GetDerivative("x");
-			Assert.AreEqual("3/(5+x)", derivative.GetEquationString());
+			Assert.AreEqual("3/(5+3*x)", derivative.GetEquationString());
 			var args = new ExpressionEvaluationArgs() {
 				VariableSet = calc.Variables
 			};
