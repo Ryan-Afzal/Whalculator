@@ -174,5 +174,22 @@ namespace Whalculator.Tests {
 			Assert.AreEqual(1.0 / 4, derivative.GetDoubleValue(args));
 		}
 
+		[TestMethod]
+		public void TestDifferentiateLn3() {
+			var calc = CalculatorFactory.GetDefaultCalculator();
+			var eqn = calc.GetSolvableFromText("ln(3*x+5)");
+			var derivative = eqn.GetDerivative("x");
+			Assert.AreEqual("3/(5+x)", derivative.GetEquationString());
+			var args = new ExpressionEvaluationArgs() {
+				VariableSet = calc.Variables
+			};
+			calc.Variables.SetVariable("x", new Literal(1));
+			Assert.AreEqual(1.0 / 3, derivative.GetDoubleValue(args));
+			calc.Variables.SetVariable("x", new Literal(2));
+			Assert.AreEqual(2.0 / 7, derivative.GetDoubleValue(args));
+			calc.Variables.SetVariable("x", new Literal(3));
+			Assert.AreEqual(1.0 / 4, derivative.GetDoubleValue(args));
+		}
+
 	}
 }

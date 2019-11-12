@@ -9,6 +9,16 @@ namespace Whalculator.Core.Calculator.Equation {
 			public string IndependentVariable { get; set; }
 		}
 
+		/// <summary>
+		/// Returns the derivative of the provided function.
+		/// <example>
+		/// <code>ISolvable x = ...;</code>
+		/// <code>ISolvable y = x.GetDerivative("x");</code>
+		/// </example>
+		/// </summary>
+		/// <param name="input">The input function</param>
+		/// <param name="ind">The independent variable</param>
+		/// <returns>An <c>ISolvable</c> that is the derivative of <c>input</c></returns>
 		public static ISolvable GetDerivative(this ISolvable input, string ind) {
 			return GetDerivative(input, new DerivativeArgs() { IndependentVariable = ind })
 				.SimplifyDerivative1()
@@ -96,6 +106,8 @@ namespace Whalculator.Core.Calculator.Equation {
 				} else {
 					throw new NotImplementedException();
 				}
+			} else if (input is Function _f) {
+				throw new NotImplementedException();
 			} else {
 				throw new NotImplementedException();
 			}
