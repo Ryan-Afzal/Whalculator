@@ -207,5 +207,21 @@ namespace Whalculator.Tests {
 			Assert.AreEqual("2*cos(2*x)", derivative.GetEquationString());
 		}
 
+		[TestMethod]
+		public void TestDifferentiateCos1() {
+			var calc = CalculatorFactory.GetDefaultCalculator();
+			var eqn = calc.GetSolvableFromText("cos(x)");
+			var derivative = eqn.GetDerivative("x");
+			Assert.AreEqual("-1*sin(x)", derivative.GetEquationString());
+		}
+
+		[TestMethod]
+		public void TestDifferentiateCos2() {
+			var calc = CalculatorFactory.GetDefaultCalculator();
+			var eqn = calc.GetSolvableFromText("cos(2*x)");
+			var derivative = eqn.GetDerivative("x");
+			Assert.AreEqual("-2*sin(2*x)", derivative.GetEquationString());
+		}
+
 	}
 }

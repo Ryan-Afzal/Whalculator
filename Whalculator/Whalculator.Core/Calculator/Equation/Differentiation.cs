@@ -95,9 +95,9 @@ namespace Whalculator.Core.Calculator.Equation {
 			} else if (input is BuiltinFunction f) {
 				ISolvable output;
 
-				if (f.Operation.Name.Equals("ln")) {
+				if (f.Operation.Name.Equals("ln")) {// 1/x
 					output = new Operator(Operations.DivideOperation, new Literal(1), f.operands[0].Clone());
-				} else if (f.Operation.Name.Equals("log")) {
+				} else if (f.Operation.Name.Equals("log")) {// 1/ln(a)x
 					output = new Operator(Operations.DivideOperation,
 						new Literal(1),
 						new Operator(Operations.MultiplyOperation,
@@ -105,19 +105,46 @@ namespace Whalculator.Core.Calculator.Equation {
 								f.operands[1].Clone()
 							),
 							f.operands[0].Clone()));
-				} else if (f.Operation.Name.Equals("sin")) {
+				} else if (f.Operation.Name.Equals("sin")) {// cos(x)
 					output = new BuiltinFunction(BuiltinFunctionOperations.CosineOperation, f.CloneOperands());
-				} else if (f.Operation.Name.Equals("cos")) {
+				} else if (f.Operation.Name.Equals("cos")) {// -sin(x)
 					output = new Operator(Operations.MultiplyOperation, 
 						new Literal(-1), 
-						new BuiltinFunction(BuiltinFunctionOperations.CosineOperation, f.CloneOperands()));
-				} else if (f.Operation.Name.Equals("tan")) {
-					throw new NotImplementedException();
+						new BuiltinFunction(BuiltinFunctionOperations.SineOperation, f.CloneOperands()));
+				} else if (f.Operation.Name.Equals("tan")) {// sec(x)^2
+					output = new Operator(Operations.ExponateOperation,
+						new BuiltinFunction(BuiltinFunctionOperations.SecantOperation, f.CloneOperands()),
+						new Literal(2));
+				} else if (f.Operation.Name.Equals("sec")) {// sec(x)tan(x)
+					output = new Operator(Operations.MultiplyOperation,
+						new BuiltinFunction(BuiltinFunctionOperations.SecantOperation, f.CloneOperands()),
+						new BuiltinFunction(BuiltinFunctionOperations.TangentOperation, f.CloneOperands())
+						);
+				} else if (f.Operation.Name.Equals("csc")) {// -csc(x)cot(x)
+					output = new Operator(Operations.MultiplyOperation,
+						new Literal(-1),
+						new BuiltinFunction(BuiltinFunctionOperations.SecantOperation, f.CloneOperands()),
+						new BuiltinFunction(BuiltinFunctionOperations.TangentOperation, f.CloneOperands())
+						);
+				} else if (f.Operation.Name.Equals("cot")) {// -csc(x)^2
+					output = new Operator(Operations.MultiplyOperation,
+						new Literal(-1),
+						new Operator(Operations.ExponateOperation,
+							new BuiltinFunction(BuiltinFunctionOperations.SecantOperation, f.CloneOperands()),
+							new Literal(2)
+						)
+					);
 				} else if (f.Operation.Name.Equals("arcsin")) {
 					throw new NotImplementedException();
 				} else if (f.Operation.Name.Equals("arccos")) {
 					throw new NotImplementedException();
 				} else if (f.Operation.Name.Equals("arctan")) {
+					throw new NotImplementedException();
+				} else if (f.Operation.Name.Equals("arcsec")) {
+					throw new NotImplementedException();
+				} else if (f.Operation.Name.Equals("arccsc")) {
+					throw new NotImplementedException();
+				} else if (f.Operation.Name.Equals("arccot")) {
 					throw new NotImplementedException();
 				} else {
 					throw new NotImplementedException();
