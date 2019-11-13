@@ -197,15 +197,6 @@ namespace Whalculator.Tests {
 			var eqn = calc.GetSolvableFromText("sin(x)");
 			var derivative = eqn.GetDerivative("x");
 			Assert.AreEqual("cos(x)", derivative.GetEquationString());
-			var args = new ExpressionEvaluationArgs() {
-				VariableSet = calc.Variables
-			};
-			calc.Variables.SetVariable("x", new Literal(Math.PI));
-			Assert.AreEqual(-1, derivative.GetDoubleValue(args));
-			calc.Variables.SetVariable("x", new Literal(2 * Math.PI));
-			Assert.AreEqual(1, derivative.GetDoubleValue(args));
-			calc.Variables.SetVariable("x", new Literal(Math.PI / 2));
-			Assert.AreEqual(0, derivative.GetDoubleValue(args));
 		}
 
 		[TestMethod]
@@ -214,15 +205,6 @@ namespace Whalculator.Tests {
 			var eqn = calc.GetSolvableFromText("sin(2*x)");
 			var derivative = eqn.GetDerivative("x");
 			Assert.AreEqual("2*cos(2*x)", derivative.GetEquationString());
-			var args = new ExpressionEvaluationArgs() {
-				VariableSet = calc.Variables
-			};
-			calc.Variables.SetVariable("x", new Literal(Math.PI / 2));
-			Assert.AreEqual(-1, derivative.GetDoubleValue(args));
-			calc.Variables.SetVariable("x", new Literal(Math.PI));
-			Assert.AreEqual(1, derivative.GetDoubleValue(args));
-			calc.Variables.SetVariable("x", new Literal(Math.PI / 4));
-			Assert.AreEqual(0, derivative.GetDoubleValue(args));
 		}
 
 	}
