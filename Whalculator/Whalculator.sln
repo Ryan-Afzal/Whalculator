@@ -10,7 +10,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whalculator.Tests", "Calcul
 		{0C8A50E9-C7AC-4C79-9D2F-51B8B70AB4C3} = {0C8A50E9-C7AC-4C79-9D2F-51B8B70AB4C3}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whalculator.ConsoleApp", "Whalculator.Console\Whalculator.ConsoleApp.csproj", "{185FC28F-5E5B-4EE7-9EB9-D5A56D550DFE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whalculator.ConsoleApp", "Whalculator.ConsoleApp\Whalculator.ConsoleApp.csproj", "{185FC28F-5E5B-4EE7-9EB9-D5A56D550DFE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
