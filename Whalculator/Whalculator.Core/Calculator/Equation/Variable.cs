@@ -34,5 +34,9 @@ namespace Whalculator.Core.Calculator.Equation {
 				return false;
 			}
 		}
+
+		public override int GetHashCode() {
+			return HashCode.Combine(VariableName);
+		}
 	}
 }

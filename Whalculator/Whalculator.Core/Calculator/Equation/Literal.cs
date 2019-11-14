@@ -28,7 +28,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public override int GetHashCode() {
-			return base.GetHashCode();
+			return HashCode.Combine(Value);
 		}
 	}
 }

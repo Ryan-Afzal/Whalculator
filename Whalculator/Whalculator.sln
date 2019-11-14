@@ -10,6 +10,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whalculator.Tests", "Calcul
 		{0C8A50E9-C7AC-4C79-9D2F-51B8B70AB4C3} = {0C8A50E9-C7AC-4C79-9D2F-51B8B70AB4C3}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whalculator.ConsoleApp", "Whalculator.Console\Whalculator.ConsoleApp.csproj", "{185FC28F-5E5B-4EE7-9EB9-D5A56D550DFE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,10 @@ Global
 		{E0BDA143-1EF6-4B56-87CF-E71A0E4063CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0BDA143-1EF6-4B56-87CF-E71A0E4063CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0BDA143-1EF6-4B56-87CF-E71A0E4063CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{185FC28F-5E5B-4EE7-9EB9-D5A56D550DFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{185FC28F-5E5B-4EE7-9EB9-D5A56D550DFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{185FC28F-5E5B-4EE7-9EB9-D5A56D550DFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{185FC28F-5E5B-4EE7-9EB9-D5A56D550DFE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
