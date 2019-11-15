@@ -89,13 +89,41 @@ namespace Whalculator.Core.Calculator.Equation {
 							if (args.BuiltinFunctionOperationSet.IsBuiltinFunctionOperation(name)) {//Built-in 'special' function
 								return new BuiltinFunction(args.BuiltinFunctionOperationSet[name], _args);
 							} else {//User-defined function
-								if (args.Functions.ContainsFunction(name)) {
-									FunctionInfo info = args.Functions.GetFunction(name);
-									info.Function = info.Function.Clone();
-									return new Function(info, _args);
+								if (name[^0] == '\'') {
+									int fnIndex = 1;
+									for (;fnIndex < name.Length; fnIndex++) {
+										if (name[^fnIndex] != '\'') {
+											break;
+										}
+									}
+
+									string fnName = name[0..^fnIndex];
+
+									if (args.Functions.ContainsFunction(fnName)) {
+										FunctionInfo info = args.Functions.GetFunction(name);
+
+										if (info.ArgNames.Count > 1) {
+											throw new InvalidEquationException(ErrorCode.MultivariableDifferentiation);
+										}
+
+										info.Function = info.Function.Clone();
+
+										string ind = info.ArgNames.Keys.GetEnumerator().Current;
+										for (int d = 0; d < fnIndex; d++) {
+											info.Function = info.Function.GetDerivative(ind);
+										}
+
+										throw new NotImplementedException();
+									}
 								} else {
-									throw new InvalidEquationException(ErrorCode.NonexistentFunction);
+									if (args.Functions.ContainsFunction(name)) {
+										FunctionInfo info = args.Functions.GetFunction(name);
+										info.Function = info.Function.Clone();
+										return new Function(info, _args);
+									}
 								}
+
+								throw new InvalidEquationException(ErrorCode.NonexistentFunction);
 							}
 						}
 					}

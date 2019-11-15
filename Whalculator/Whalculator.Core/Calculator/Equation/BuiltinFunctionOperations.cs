@@ -13,6 +13,8 @@ namespace Whalculator.Core.Calculator.Equation {
 		public static BuiltinFunctionOperation LogOperation = new BuiltinFunctionOperation("log", 2, LogExactValueOperation, LogDoubleValueOperation);
 		public static BuiltinFunctionOperation LnOperation = new BuiltinFunctionOperation("ln", 1, LnExactValueOperation, LnDoubleValueOperation);
 
+		public static BuiltinFunctionOperation DifferentiateOperation = new BuiltinFunctionOperation("d", 2, DifferentiateExactValueOperation, DifferentiateDoubleValueOperation);
+
 		public static BuiltinFunctionOperation SineOperation = new BuiltinFunctionOperation("sin", 1, SineExactValueOperation, SineDoubleValueOperation);
 		public static BuiltinFunctionOperation CosineOperation = new BuiltinFunctionOperation("cos", 1, CosineExactValueOperation, CosineDoubleValueOperation);
 		public static BuiltinFunctionOperation TangentOperation = new BuiltinFunctionOperation("tan", 1, TangentExactValueOperation, TangentDoubleValueOperation);
@@ -25,6 +27,8 @@ namespace Whalculator.Core.Calculator.Equation {
 		public static BuiltinFunctionOperation ArcsecantOperation = new BuiltinFunctionOperation("arcsec", 1, ArcsecantExactValueOperation, ArcsecantDoubleValueOperation);
 		public static BuiltinFunctionOperation ArccosecantOperation = new BuiltinFunctionOperation("arccsc", 1, ArccosecantExactValueOperation, ArccosecantDoubleValueOperation);
 		public static BuiltinFunctionOperation ArccotangentOperation = new BuiltinFunctionOperation("arccot", 1, ArccotangentExactValueOperation, ArccotangentDoubleValueOperation);
+
+		// Regular functions
 
 		public static ISolvable AbsExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
 			return new Literal(Math.Abs(operands[0].GetDoubleValue(args)));
@@ -81,6 +85,18 @@ namespace Whalculator.Core.Calculator.Equation {
 		public static double LnDoubleValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
 			return Math.Log(operands[0].GetDoubleValue(args));
 		}
+
+		//Special functions
+
+		public static ISolvable DifferentiateExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			throw new NotImplementedException();
+		}
+
+		public static double DifferentiateDoubleValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			throw new NotImplementedException();
+		}
+
+		// Trig functions
 
 		public static ISolvable SineExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
 			return new Literal(Math.Sin(operands[0].GetDoubleValue(args)));
