@@ -40,8 +40,7 @@ namespace Whalculator.Core.Calculator.Equation {
 				Args = _args
 			};
 
-			//return this.GetExactValue(args).GetDoubleValue(args);
-			return this.info.Function.GetDoubleValue(args);
+			return this.GetExactValue(args).GetDoubleValue(args);
 		}
 
 		public override string GetEquationString() {

@@ -16,7 +16,13 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public double GetDoubleValue(ExpressionEvaluationArgs args) {
-			return args.VariableSet[VariableName].GetDoubleValue(args);
+			if (args.Args.ArgNames.ContainsKey(VariableName)) {
+				return args.Args.Args[args.Args.ArgNames[VariableName]].GetDoubleValue(args);
+			} else if (args.VariableSet.IsVariable(VariableName)) {
+				return args.VariableSet[VariableName].GetDoubleValue(args);
+			} else {
+				throw new InvalidEquationException(ErrorCode.NonexistentVariable);
+			}
 		}
 
 		public ISolvable GetExactValue(ExpressionEvaluationArgs args) {
