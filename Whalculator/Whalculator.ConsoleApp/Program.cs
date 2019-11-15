@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Whalculator.Core.Calculator;
 using Whalculator.Core.Calculator.Equation;
 
@@ -36,7 +37,21 @@ namespace Whalculator.ConsoleApp {
 							if (hi == -1) {
 								calc.Variables.SetVariable(head, new Literal(calc.GetDoubleValue(body)));
 							} else {
-								throw new NotImplementedException();
+								var argnames = new Dictionary<string, int>();
+								string[] fnArgs = head.Substring(hi + 1, head.Length - hi - 2).Split(',');
+
+								for (int k = 0; k < fnArgs.Length; k++) {
+									argnames[fnArgs[k]] = k;
+								}
+
+								FunctionInfo info = new FunctionInfo() {
+									Name = head.Substring(0, hi),
+									Head = head,
+									ArgNames = argnames,
+									Function = calc.GetSolvableFromText(body)
+								};
+
+								calc.Functions.SetFunction(info.Name, info);
 							}
 						}
 					}

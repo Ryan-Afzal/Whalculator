@@ -33,7 +33,15 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public override double GetDoubleValue(ExpressionEvaluationArgs args) {
-			return this.GetExactValue(args).GetDoubleValue(args);
+			ISolvable[] _args = this.CloneOperands();
+
+			args.Args = new FunctionArgumentArgs() {
+				ArgNames = this.info.ArgNames,
+				Args = _args
+			};
+
+			//return this.GetExactValue(args).GetDoubleValue(args);
+			return this.info.Function.GetDoubleValue(args);
 		}
 
 		public override string GetEquationString() {

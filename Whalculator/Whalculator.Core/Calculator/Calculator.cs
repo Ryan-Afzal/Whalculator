@@ -42,13 +42,24 @@ namespace Whalculator.Core.Calculator {
 
 		public double GetDoubleValue(string input) {
 			return this.GetSolvableFromText(input)
-				.GetDoubleValue(new ExpressionEvaluationArgs() { VariableSet = Variables });
+				.GetDoubleValue(this.GetArgs());
 		}
 
 		public string GetExactValue(string input) {
 			return this.GetSolvableFromText(input)
-				.GetExactValue(new ExpressionEvaluationArgs() { VariableSet = Variables })
+				.GetExactValue(this.GetArgs())
 				.GetEquationString();
+		}
+
+		private ExpressionEvaluationArgs GetArgs() {
+			return new ExpressionEvaluationArgs() {
+				VariableSet = Variables,
+				Args = new FunctionArgumentArgs() {
+					ArgNames = new Dictionary<string, int>(),
+					Args = new ISolvable[0]
+
+				}
+			};
 		}
 	}
 }
