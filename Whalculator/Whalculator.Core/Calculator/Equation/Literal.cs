@@ -24,7 +24,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public string GetEquationString() {
-			return $"{Value}";
+			return Value.ToString();
 		}
 
 		public override int GetHashCode() {
