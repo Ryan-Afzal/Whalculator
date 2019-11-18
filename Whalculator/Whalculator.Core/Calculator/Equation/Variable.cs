@@ -17,7 +17,9 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		public double GetDoubleValue(ExpressionEvaluationArgs args) {
 			if (args.Args.ArgNames.ContainsKey(VariableName)) {
-				return args.Args.Args[args.Args.ArgNames[VariableName]].GetDoubleValue(args);
+				var arg = args.Args.Args[args.Args.ArgNames[VariableName]];
+				args.Args = new FunctionArgumentArgs() { ArgNames = new Dictionary<string, int>() };
+				return arg.GetDoubleValue(args);
 			} else if (args.VariableSet.IsVariable(VariableName)) {
 				return args.VariableSet[VariableName].GetDoubleValue(args);
 			} else {

@@ -56,7 +56,7 @@ namespace Whalculator.ConsoleApp {
 						}
 					}
 				} catch (InvalidEquationException ie) {
-					Console.WriteLine("ERROR: " + nameof(ie.ErrorCode));
+					Console.WriteLine("ERROR: " + ie.ErrorCode.ToString());
 				} catch (Exception) {
 					Console.WriteLine("ERROR: An unknown error occured.");
 				} finally {
