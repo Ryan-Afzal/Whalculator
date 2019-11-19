@@ -98,7 +98,7 @@ namespace Whalculator.Core.Calculator.Equation {
 				return solvable1.GetEquationString().CompareTo(solvable2.GetEquationString());
 			}
 		}
-
+		
 	}
 
 }
