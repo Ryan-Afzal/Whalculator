@@ -28,7 +28,15 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public ISolvable GetExactValue(ExpressionEvaluationArgs args) {
-			return this.Clone();
+			if (args.Args.ArgNames.ContainsKey(VariableName)) {
+				var arg = args.Args.Args[args.Args.ArgNames[VariableName]];
+				args.Args = new FunctionArgumentArgs() { ArgNames = new Dictionary<string, int>() };
+				return arg.GetExactValue(args);
+			} else if (args.VariableSet.IsVariable(VariableName)) {
+				return args.VariableSet[VariableName].GetExactValue(args);
+			} else {
+				throw new InvalidEquationException(ErrorCode.NonexistentVariable);
+			}
 		}
 
 		public string GetEquationString() {

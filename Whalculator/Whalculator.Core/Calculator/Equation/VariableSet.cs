@@ -15,7 +15,7 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		public ISolvable this[string name] {
 			get {
-				return this.variables[name].Value;
+				return this.variables[name].Value.Clone();
 			}
 		}
 
