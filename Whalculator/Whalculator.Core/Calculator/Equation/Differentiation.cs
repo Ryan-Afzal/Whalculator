@@ -152,6 +152,11 @@ namespace Whalculator.Core.Calculator.Equation {
 
 				return new Operator(Operations.MultiplyOperation, output, GetDerivative(f.operands[0], args));
 			} else if (input is Function _f) {
+				FunctionInfo info = new FunctionInfo() {
+					Name = _f.Info.Name + "\'",
+					Head = _f.Info.Head.Insert(_f.Info.Head.IndexOf('('), "\'")
+				};
+
 				throw new NotImplementedException();
 			} else {
 				throw new NotImplementedException();

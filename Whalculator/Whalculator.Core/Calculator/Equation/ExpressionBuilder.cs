@@ -90,7 +90,7 @@ namespace Whalculator.Core.Calculator.Equation {
 								return new BuiltinFunction(args.BuiltinFunctionOperationSet[name], _args);
 							} else {//User-defined function
 								if (name[^1] == '\'') {//f' notation for derivatives
-									int fnIndex = 1;
+									int fnIndex = 2;
 									for (;fnIndex < name.Length; fnIndex++) {
 										if (name[^fnIndex] != '\'') {
 											break;

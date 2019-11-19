@@ -11,32 +11,32 @@ namespace Whalculator.Core.Calculator.Equation {
 
 	public sealed class Function : NestedSolvable {
 
-		private readonly FunctionInfo info;
-
 		public Function(FunctionInfo info, ISolvable[] args) : base(args) {
-			this.info = info;
+			Info = info;
 		}
 
+		public FunctionInfo Info { get; }
+
 		public override ISolvable Clone() {
-			return new Function(this.info, this.CloneOperands());
+			return new Function(Info, this.CloneOperands());
 		}
 
 		public override ISolvable GetExactValue(ExpressionEvaluationArgs args) {
 			ISolvable[] _args = this.CloneOperands();
 
 			args.Args = new FunctionArgumentArgs() {
-				ArgNames = this.info.ArgNames,
+				ArgNames = Info.ArgNames,
 				Args = _args
 			};
 
-			return this.info.Function.GetExactValue(args);
+			return Info.Function.GetExactValue(args);
 		}
 
 		public override double GetDoubleValue(ExpressionEvaluationArgs args) {
 			ISolvable[] _args = this.CloneOperands();
 
 			args.Args = new FunctionArgumentArgs() {
-				ArgNames = this.info.ArgNames,
+				ArgNames = Info.ArgNames,
 				Args = _args
 			};
 
@@ -45,7 +45,7 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		public override string GetEquationString() {
 			StringBuilder builder = new StringBuilder();
-			builder.Append(this.info.Name);
+			builder.Append(Info.Name);
 			builder.Append('(');
 
 			if (this.operands.Length > 0) {
