@@ -37,6 +37,14 @@ namespace Whalculator.ConsoleApp {
 							if (hi == -1) {
 								calc.Variables.SetVariable(head, new Literal(calc.GetDoubleValue(body)));
 							} else {
+								string name = head.Substring(0, hi);
+
+								if (name.Equals("\'")) {
+									throw new ArgumentException("Cannot use a keyword as a function name");
+								} else if (name.Equals("$")) {
+									throw new ArgumentException("Cannot use a keyword as a function name");
+								}
+
 								var argnames = new Dictionary<string, int>();
 								string[] fnArgs = head.Substring(hi + 1, head.Length - hi - 2).Split(',');
 
@@ -45,7 +53,7 @@ namespace Whalculator.ConsoleApp {
 								}
 
 								FunctionInfo info = new FunctionInfo() {
-									Name = head.Substring(0, hi),
+									Name = name,
 									Head = head,
 									ArgNames = argnames,
 									Function = calc.GetSolvableFromText(body)

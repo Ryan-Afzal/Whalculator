@@ -91,7 +91,7 @@ namespace Whalculator.Core.Calculator.Equation {
 							} else {//User-defined function
 								if (name[^1] == '\'') {//f' notation for derivatives
 									int fnIndex = 2;
-									for (;fnIndex < name.Length; fnIndex++) {
+									for (; fnIndex < name.Length; fnIndex++) {
 										if (name[^fnIndex] != '\'') {
 											break;
 										}

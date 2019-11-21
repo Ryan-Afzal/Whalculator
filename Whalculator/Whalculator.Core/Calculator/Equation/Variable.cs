@@ -18,7 +18,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		public double GetDoubleValue(ExpressionEvaluationArgs args) {
 			if (args.Args.ArgNames.ContainsKey(VariableName)) {
 				var arg = args.Args.Args[args.Args.ArgNames[VariableName]];
-				args.Args = new FunctionArgumentArgs() { ArgNames = new Dictionary<string, int>() };
+				//args.Args = new FunctionArgumentArgs() { ArgNames = new Dictionary<string, int>() };
 				return arg.GetDoubleValue(args);
 			} else if (args.VariableSet.IsVariable(VariableName)) {
 				return args.VariableSet[VariableName].GetDoubleValue(args);
@@ -30,7 +30,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		public ISolvable GetExactValue(ExpressionEvaluationArgs args) {
 			if (args.Args.ArgNames.ContainsKey(VariableName)) {
 				var arg = args.Args.Args[args.Args.ArgNames[VariableName]];
-				args.Args = new FunctionArgumentArgs() { ArgNames = new Dictionary<string, int>() };
+				//args.Args = new FunctionArgumentArgs() { ArgNames = new Dictionary<string, int>() };
 				return arg.GetExactValue(args);
 			} else if (args.VariableSet.IsVariable(VariableName)) {
 				return args.VariableSet[VariableName].GetExactValue(args);

@@ -22,7 +22,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public override ISolvable GetExactValue(ExpressionEvaluationArgs args) {
-			ISolvable[] _args = this.CloneOperands();
+			ISolvable[] _args = this.EvaluateOperands(args);
 
 			args.Args = new FunctionArgumentArgs() {
 				ArgNames = Info.ArgNames,
@@ -33,14 +33,14 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public override double GetDoubleValue(ExpressionEvaluationArgs args) {
-			ISolvable[] _args = this.CloneOperands();
+			ISolvable[] _args = this.EvaluateOperands(args);
 
 			args.Args = new FunctionArgumentArgs() {
 				ArgNames = Info.ArgNames,
 				Args = _args
 			};
 
-			return this.GetExactValue(args).GetDoubleValue(args);
+			return Info.Function.GetExactValue(args).GetDoubleValue(args);
 		}
 
 		public override string GetEquationString() {
@@ -59,6 +59,16 @@ namespace Whalculator.Core.Calculator.Equation {
 
 			builder.Append(')');
 			return builder.ToString();
+		}
+
+		private ISolvable[] EvaluateOperands(ExpressionEvaluationArgs args) {
+			ISolvable[] output = new ISolvable[this.operands.Length];
+
+			for (int i = 0; i < output.Length; i++) {
+				output[i] = this.operands[i].GetExactValue(args);
+			}
+
+			return output;
 		}
 	}
 

@@ -24,10 +24,32 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public bool SetFunction(string name, FunctionInfo value) {
-			if (ContainsFunction(name)) {
-				this.functions[name] = value;
-			} else {
-				this.functions.Add(name, value);
+			switch (name) {
+				case "\'":
+					throw new ArgumentException(name);
+				case "$":
+					throw new ArgumentException(name);
+				case "!":
+					throw new ArgumentException(name);
+				case "@":
+					throw new ArgumentException(name);
+				case "#":
+					throw new ArgumentException(name);
+				case "&":
+					throw new ArgumentException(name);
+				case "=":
+					throw new ArgumentException(name);
+				case "~":
+					throw new ArgumentException(name);
+				case "`":
+					throw new ArgumentException(name);
+				default:
+					if (ContainsFunction(name)) {
+						this.functions[name] = value;
+					} else {
+						this.functions.Add(name, value);
+					}
+					break;
 			}
 
 			return true;
