@@ -16,6 +16,9 @@ namespace Whalculator.Core.Calculator.Equation {
 		/// <summary>
 		/// Gets the decimal value of this ISolvable.
 		/// Note that this function assumes that the ISolvable cannot be simplified further.
+		/// <remarks>
+		/// As such, it should not call GetExactValue
+		/// </remarks>
 		/// </summary>
 		/// <param name="args"></param>
 		/// <returns></returns>
