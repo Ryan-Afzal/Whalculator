@@ -56,7 +56,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public FunctionInfo GetFunction(string name) {
-			return functions[name];
+			return this.functions[name];
 		}
 
 	}
