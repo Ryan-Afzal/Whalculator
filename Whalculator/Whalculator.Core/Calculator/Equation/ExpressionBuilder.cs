@@ -27,7 +27,7 @@ namespace Whalculator.Core.Calculator.Equation {
 				return new Literal(0.0);
 			}
 
-			char op = (char)0;//Last operation
+			char op = '\0';//Last operation
 			int index = -1;//Index of last operator
 
 			int pDepth = 0;//The depth of parenthetical nesting that the function is going into
@@ -37,7 +37,7 @@ namespace Whalculator.Core.Calculator.Equation {
 			for (int i = 0; i < text.Length; i++) {
 				char c = text[i];//Get the current character
 
-				if (c == '(') {//Open Parentheses
+				if (c == '(' || c == '{' || c == '<') {//Open Parentheses
 					if (fDepth >= pDepth && (i <= 0 
 						|| args.OperatorSet.IsOperator(text[i - 1]) 
 						|| text[i - 1] == '(' 
@@ -46,7 +46,7 @@ namespace Whalculator.Core.Calculator.Equation {
 					}
 
 					pDepth++;
-				} else if (c == ')') {//Close Parentheses
+				} else if (c == ')' || c == '}' || c == '>') {//Close Parentheses
 					pDepth--;
 
 					if (fDepth > pDepth) {//In function
@@ -67,13 +67,17 @@ namespace Whalculator.Core.Calculator.Equation {
 				}
 			}
 
-			if (pDepth != 0) {//Mismatched parentheses - Too many parentheses
+			if (pDepth != 0) {//Mismatched parentheses - Too many open-parens
 				throw new MalformedEquationException(ErrorCode.MismatchedParentheses);
 			}
 
 			if (index == -1) {
 				if (text[0] == '(') {
 					return GetSolvableFromText(text[1..^1], args);
+				} else if (text[0] == '{') {
+					return new Set(SeparateFunctionArguments(text[1..^1], args));
+				} else if (text[0] == '<') {
+					return new Vector(SeparateFunctionArguments(text[1..^1], args));
 				} else {
 					bool isVar = false;
 					for (int i = 0; i < text.Length; i++) {
@@ -149,17 +153,16 @@ namespace Whalculator.Core.Calculator.Equation {
 			}
 
 			LinkedList<string> list = new LinkedList<string>();
-			char[] arr = input.ToCharArray();
 
 			int pDepth = 0;
 			int last = 0;
-			for (int k = 0; k < arr.Length; k++) {
-				if (arr[k] == '(') {
+			for (int k = 0; k < input.Length; k++) {
+				if (input[k] == '(') {
 					pDepth++;
-				} else if (arr[k] == ')') {
+				} else if (input[k] == ')') {
 					pDepth--;
 				} else {
-					if (arr[k] == ',' && pDepth == 0) {
+					if (input[k] == ',' && pDepth == 0) {
 						list.AddLast(input[last..k]);
 						last = k + 1;
 					}

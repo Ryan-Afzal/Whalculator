@@ -10,6 +10,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		RecursiveFunction,
 		InvalidNumArguments,
 		InvalidArguments,
-		MultivariableDifferentiation
+		MultivariableDifferentiation,
+		MismatchedArgumentType
 	}
 }
