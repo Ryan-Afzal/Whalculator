@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Whalculator.Core.Calculator.Equation {
-	public class Set : ISolvable {
+	public class List : ISolvable {
 
-		public Set(params ISolvable[] elements) {
+		public List(params ISolvable[] elements) {
 			Elements = elements;
 		}
 
@@ -26,7 +26,7 @@ namespace Whalculator.Core.Calculator.Equation {
 				elements[i] = Elements[i];
 			}
 
-			return new Set(elements);
+			return new List(elements);
 		}
 
 		public string GetEquationString() {

@@ -11,7 +11,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		/// </summary>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		ISolvable GetExactValue(ExpressionEvaluationArgs args);
+		public ISolvable GetExactValue(ExpressionEvaluationArgs args);
 
 		/// <summary>
 		/// Gets the decimal value of this ISolvable.
@@ -22,19 +22,19 @@ namespace Whalculator.Core.Calculator.Equation {
 		/// </summary>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		double GetDoubleValue(ExpressionEvaluationArgs args);
+		public double GetDoubleValue(ExpressionEvaluationArgs args);
 
 		/// <summary>
 		/// Gets a functional, recursive clone of this <code>ISolvable</code> 
 		/// </summary>
 		/// <returns>Returns a functional copy of this ISolvable</returns>
-		ISolvable Clone();
+		public ISolvable Clone();
 
 		/// <summary>
 		/// Gets a string such that if put back into the EquationBuilder, it would reproduce this ISolvable.
 		/// </summary>
 		/// <returns></returns>
-		string GetEquationString();
+		public string GetEquationString();
 
 		bool IEquatable<ISolvable>.Equals(ISolvable other) {
 			return this.GetEquationString().Equals(other.GetEquationString());
@@ -101,7 +101,8 @@ namespace Whalculator.Core.Calculator.Equation {
 				return solvable1.GetEquationString().CompareTo(solvable2.GetEquationString());
 			}
 		}
-		
+
+
 	}
 
 }

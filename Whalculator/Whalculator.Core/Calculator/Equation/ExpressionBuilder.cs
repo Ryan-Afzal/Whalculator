@@ -75,7 +75,7 @@ namespace Whalculator.Core.Calculator.Equation {
 				if (text[0] == '(') {
 					return GetSolvableFromText(text[1..^1], args);
 				} else if (text[0] == '{') {
-					return new Set(SeparateFunctionArguments(text[1..^1], args));
+					return new List(SeparateFunctionArguments(text[1..^1], args));
 				} else if (text[0] == '<') {
 					return new Vector(SeparateFunctionArguments(text[1..^1], args));
 				} else {

@@ -26,7 +26,7 @@ namespace Whalculator.Core.Calculator.Equation {
 				components[i] = Components[i];
 			}
 
-			return new Set(components);
+			return new Vector(components);
 		}
 
 		public string GetEquationString() {
