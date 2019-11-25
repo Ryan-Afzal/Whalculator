@@ -12,7 +12,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		public ISolvable[] Components { get; }
 
 		public ISolvable GetExactValue(ExpressionEvaluationArgs args) {
-			throw new InvalidEquationException(ErrorCode.MismatchedArgumentType);
+			return this.Clone();
 		}
 
 		public double GetDoubleValue(ExpressionEvaluationArgs args) {

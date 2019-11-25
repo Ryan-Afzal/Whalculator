@@ -28,7 +28,7 @@ namespace Whalculator.ConsoleApp {
 					} else {
 						int i = input.IndexOf('=');
 						if (i == -1) {
-							Console.WriteLine(calc.GetDoubleValue(input));
+							Console.WriteLine(calc.GetExactValue(input));
 						} else {
 							string head = input.Substring(0, i);
 							string body = input.Substring(i + 1);
