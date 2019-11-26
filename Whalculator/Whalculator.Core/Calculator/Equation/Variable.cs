@@ -15,13 +15,13 @@ namespace Whalculator.Core.Calculator.Equation {
 			return new Variable(VariableName);
 		}
 
-		public double GetDoubleValue(ExpressionEvaluationArgs args) {
+		public IResult GetResultValue(ExpressionEvaluationArgs args) {
 			if (args.Args.ArgNames.ContainsKey(VariableName)) {
 				var arg = args.Args.Args[args.Args.ArgNames[VariableName]];
 				//args.Args = new FunctionArgumentArgs() { ArgNames = new Dictionary<string, int>() };
-				return arg.GetDoubleValue(args);
+				return arg.GetResultValue(args);
 			} else if (args.VariableSet.IsVariable(VariableName)) {
-				return args.VariableSet[VariableName].GetDoubleValue(args);
+				return args.VariableSet[VariableName].GetResultValue(args);
 			} else {
 				throw new InvalidEquationException(ErrorCode.NonexistentVariable);
 			}

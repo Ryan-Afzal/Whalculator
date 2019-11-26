@@ -5,94 +5,94 @@ using System.Text;
 namespace Whalculator.Core.Calculator.Equation {
 	public static class Operations {
 
-		public static readonly Operation AddOperation = new Operation(AddExactValueOperation, AddDoubleValueOperation, 0, '+', true);
-		public static readonly Operation SubtractOperation = new Operation(SubtractExactValueOperation, SubtractDoubleValueOperation, 0, '-', false);
-		public static readonly Operation DivideOperation = new Operation(DivideExactValueOperation, DivideDoubleValueOperation, 1, '/', false);
-		public static readonly Operation ModuloOperation = new Operation(ModuloExactValueOperation, ModuloDoubleValueOperation, 1, '%', false);
-		public static readonly Operation MultiplyOperation = new Operation(MultiplyExactValueOperation, MultiplyDoubleValueOperation, 2, '*', true);
-		public static readonly Operation ExponateOperation = new Operation(ExponateExactValueOperation, ExponateDoubleValueOperation, 3, '^', false);
+		public static readonly Operation AddOperation = new Operation(AddExactValueOperation, AddResultValueOperation, 0, '+', true);
+		public static readonly Operation SubtractOperation = new Operation(SubtractExactValueOperation, SubtractResultValueOperation, 0, '-', false);
+		public static readonly Operation DivideOperation = new Operation(DivideExactValueOperation, DivideResultValueOperation, 1, '/', false);
+		public static readonly Operation ModuloOperation = new Operation(ModuloExactValueOperation, ModuloResultValueOperation, 1, '%', false);
+		public static readonly Operation MultiplyOperation = new Operation(MultiplyExactValueOperation, MultiplyResultValueOperation, 2, '*', true);
+		public static readonly Operation ExponateOperation = new Operation(ExponateExactValueOperation, ExponateResultValueOperation, 3, '^', false);
 		public static ISolvable AddExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			double sum = 0.0;
+			double output = 0.0;
 
 			foreach (var o in operands) {
-				sum += o.GetDoubleValue(args);
+				output += ((Literal)o.GetResultValue(args)).Value;
 			}
 
-			return new Literal(sum);
+			return new Literal(output);
 		}
 
-		public static double AddDoubleValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			double sum = 0.0;
+		public static IResult AddResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			double output = 0.0;
 
 			foreach (var o in operands) {
-				sum += o.GetDoubleValue(args);
+				output += ((Literal)o.GetResultValue(args)).Value;
 			}
 
-			return sum;
+			return new Literal(output);
 		}
 
 		public static ISolvable SubtractExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			double sum = 0.0;
+			double output = 0.0;
 
 			foreach (var o in operands) {
-				sum -= o.GetDoubleValue(args);
+				output -= ((Literal)o.GetResultValue(args)).Value;
 			}
 
-			return new Literal(sum);
+			return new Literal(output);
 		}
 
-		public static double SubtractDoubleValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			double sum = 0.0;
+		public static IResult SubtractResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			double output = 0.0;
 
 			foreach (var o in operands) {
-				sum -= o.GetDoubleValue(args);
+				output -= ((Literal)o.GetResultValue(args)).Value;
 			}
 
-			return sum;
+			return new Literal(output);
 		}
 
 		public static ISolvable MultiplyExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			double sum = 1.0;
+			double output = 1.0;
 
 			foreach (var o in operands) {
-				sum *= o.GetDoubleValue(args);
+				output *= ((Literal)o.GetResultValue(args)).Value;
 			}
 
-			return new Literal(sum);
+			return new Literal(output);
 		}
 
-		public static double MultiplyDoubleValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			double sum = 1.0;
+		public static IResult MultiplyResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			double output = 1.0;
 
 			foreach (var o in operands) {
-				sum *= o.GetDoubleValue(args);
+				output *= ((Literal)o.GetResultValue(args)).Value;
 			}
 
-			return sum;
+			return new Literal(output);
 		}
 
 		public static ISolvable DivideExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(operands[0].GetDoubleValue(args) / operands[1].GetDoubleValue(args));
+			return new Literal(((Literal)operands[0].GetResultValue(args)).Value / ((Literal)operands[1].GetResultValue(args)).Value);
 		}
 
-		public static double DivideDoubleValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return operands[0].GetDoubleValue(args) / operands[1].GetDoubleValue(args);
+		public static IResult DivideResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(((Literal)operands[0].GetResultValue(args)).Value / ((Literal)operands[1].GetResultValue(args)).Value);
 		}
 
 		public static ISolvable ExponateExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Pow(operands[0].GetDoubleValue(args), operands[1].GetDoubleValue(args)));
+			return new Literal(Math.Pow(((Literal)operands[0].GetResultValue(args)).Value, ((Literal)operands[1].GetResultValue(args)).Value));
 		}
 
-		public static double ExponateDoubleValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return Math.Pow(operands[0].GetDoubleValue(args), operands[1].GetDoubleValue(args));
+		public static IResult ExponateResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Pow(((Literal)operands[0].GetResultValue(args)).Value, ((Literal)operands[1].GetResultValue(args)).Value));
 		}
 
 		public static ISolvable ModuloExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(operands[0].GetDoubleValue(args) % operands[1].GetDoubleValue(args));
+			return new Literal(((Literal)operands[0].GetResultValue(args)).Value % ((Literal)operands[1].GetResultValue(args)).Value);
 		}
 
-		public static double ModuloDoubleValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return operands[0].GetDoubleValue(args) % operands[1].GetDoubleValue(args);
+		public static IResult ModuloResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(((Literal)operands[0].GetResultValue(args)).Value % ((Literal)operands[1].GetResultValue(args)).Value);
 		}
 	}
 }

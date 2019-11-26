@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Whalculator.Core.Calculator.Equation {
-	public class Literal : ISolvable {
+	public class Literal : ISolvable, IResult {
 
 		public Literal(double value) {
 			Value = value;
@@ -15,8 +15,8 @@ namespace Whalculator.Core.Calculator.Equation {
 			return new Literal(Value);
 		}
 
-		public double GetDoubleValue(ExpressionEvaluationArgs args) {
-			return Value;
+		public IResult GetResultValue(ExpressionEvaluationArgs args) {
+			return this.Clone() as IResult;
 		}
 
 		public ISolvable GetExactValue(ExpressionEvaluationArgs args) {

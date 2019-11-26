@@ -15,8 +15,8 @@ namespace Whalculator.Core.Calculator.Equation {
 			return Operation.ExactValueOperation.Invoke(this.operands, args);
 		}
 
-		public override double GetDoubleValue(ExpressionEvaluationArgs args) {
-			return Operation.DoubleValueOperation.Invoke(this.operands, args);
+		public override IResult GetResultValue(ExpressionEvaluationArgs args) {
+			return Operation.ResultValueOperation.Invoke(this.operands, args);
 		}
 
 		public override ISolvable Clone() {

@@ -6,20 +6,20 @@ namespace Whalculator.Core.Calculator.Equation {
 
 	public delegate ISolvable ExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args);
 
-	public delegate double DoubleValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args);
+	public delegate IResult ResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args);
 
 	public struct Operation {
 
-		internal Operation(ExactValueOperation exactValueOperation, DoubleValueOperation doubleValueOperation, int order, char name, bool sortedOperands) {
+		internal Operation(ExactValueOperation exactValueOperation, ResultValueOperation resultValueOperation, int order, char name, bool sortedOperands) {
 			ExactValueOperation = exactValueOperation;
-			DoubleValueOperation = doubleValueOperation;
+			ResultValueOperation = resultValueOperation;
 			Order = order;
 			Name = name;
 			SortedOperands = sortedOperands;
 		}
 
 		public ExactValueOperation ExactValueOperation { get; }
-		public DoubleValueOperation DoubleValueOperation { get; }
+		public ResultValueOperation ResultValueOperation { get; }
 
 		public int Order { get; }
 

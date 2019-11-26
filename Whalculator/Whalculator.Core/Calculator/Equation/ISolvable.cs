@@ -22,7 +22,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		/// </summary>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		public double GetDoubleValue(ExpressionEvaluationArgs args);
+		public IResult GetResultValue(ExpressionEvaluationArgs args);
 
 		/// <summary>
 		/// Gets a functional, recursive clone of this <code>ISolvable</code> 

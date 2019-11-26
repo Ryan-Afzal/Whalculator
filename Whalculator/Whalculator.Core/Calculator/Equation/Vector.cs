@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Whalculator.Core.Calculator.Equation {
-	public class Vector : ISolvable {
+	public class Vector : ISolvable, IResult {
 
 		public Vector(params ISolvable[] components) {
 			Components = components;
@@ -21,8 +21,8 @@ namespace Whalculator.Core.Calculator.Equation {
 			return this.Clone();
 		}
 
-		public double GetDoubleValue(ExpressionEvaluationArgs args) {
-			throw new InvalidEquationException(ErrorCode.MismatchedArgumentType);
+		public IResult GetResultValue(ExpressionEvaluationArgs args) {
+			return this.Clone() as IResult;
 		}
 
 		public ISolvable Clone() {

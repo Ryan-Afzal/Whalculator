@@ -42,7 +42,7 @@ namespace Whalculator.Core.Calculator {
 
 		public double GetDoubleValue(string input) {
 			return this.GetSolvableFromText(input)
-				.GetDoubleValue(this.GetArgs());
+				.GetResultValue(this.GetArgs());
 		}
 
 		public string GetExactValue(string input) {

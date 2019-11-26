@@ -13,7 +13,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public abstract ISolvable Clone();
-		public abstract double GetDoubleValue(ExpressionEvaluationArgs args);
+		public abstract IResult GetResultValue(ExpressionEvaluationArgs args);
 		public abstract ISolvable GetExactValue(ExpressionEvaluationArgs args);
 		public abstract string GetEquationString();
 

@@ -32,7 +32,7 @@ namespace Whalculator.Core.Calculator.Equation {
 			return Info.Function.GetExactValue(args);
 		}
 
-		public override double GetDoubleValue(ExpressionEvaluationArgs args) {
+		public override IResult GetResultValue(ExpressionEvaluationArgs args) {
 			ISolvable[] _args = this.EvaluateOperands(args);
 
 			args.Args = new FunctionArgumentArgs() {
@@ -40,7 +40,7 @@ namespace Whalculator.Core.Calculator.Equation {
 				Args = _args
 			};
 
-			return Info.Function.GetExactValue(args).GetDoubleValue(args);
+			return Info.Function.GetResultValue(args);
 		}
 
 		public override string GetEquationString() {

@@ -17,7 +17,7 @@ namespace Whalculator.Core.Calculator.Equation {
 			if (solvable is Operator o) {
 				if (o.Operation.Name == '-') {
 					if (o.operands[0] is Literal l) {
-						if (l.GetDoubleValue(new ExpressionEvaluationArgs()) == 0) {
+						if (l.GetResultValue(new ExpressionEvaluationArgs()) == 0) {
 							return new Operator(Operations.MultiplyOperation, new Literal(-1), o.operands[1]);
 						}
 					}
