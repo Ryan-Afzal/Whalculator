@@ -19,8 +19,23 @@ namespace Whalculator.Core.Misc {
 				return this.elements[i];
 			}
 
-			set {//Set BUT maintain sorted order, that is the index will be set but then it will be sorted into place.
-				throw new NotImplementedException();
+			set {
+				this.elements[i] = value;
+				int k = i;
+
+				while (k < Length - 1 && this.elements[k].CompareTo(this.elements[k + 1]) > 0) {
+					T temp = this.elements[k + 1];
+					this.elements[k + 1] = this.elements[k];
+					this.elements[k] = temp;
+					k++;
+				}
+
+				while (k > 0 && this.elements[k].CompareTo(this.elements[k - 1]) < 0) {
+					T temp = this.elements[k - 1];
+					this.elements[k - 1] = this.elements[k];
+					this.elements[k] = temp;
+					k--;
+				}
 			}
 		}
 

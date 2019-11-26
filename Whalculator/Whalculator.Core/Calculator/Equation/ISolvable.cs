@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Whalculator.Core.Calculator.Equation {
 
-	public interface ISolvable : IEquatable<ISolvable> {
+	public interface ISolvable : IComparable<ISolvable>, IEquatable<ISolvable> {
 
 		/// <summary>
 		/// Gets the exact simplified value of the ISolvable
@@ -38,6 +38,10 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		bool IEquatable<ISolvable>.Equals(ISolvable other) {
 			return this.GetEquationString().Equals(other.GetEquationString());
+		}
+
+		int IComparable<ISolvable>.CompareTo(ISolvable other) {
+			return Compare(this, other);
 		}
 
 		public static int Compare(ISolvable solvable1, ISolvable solvable2) {

@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Whalculator.Core.Misc;
 
 namespace Whalculator.Core.Calculator.Equation {
 	public abstract class NestedSolvable : ISolvable {
 
-		public readonly ISolvable[] operands;
+		public readonly SortedArray<ISolvable> operands;
 
 		protected NestedSolvable(ISolvable[] operands) {
-			this.operands = operands;
+			this.operands = new SortedArray<ISolvable>(operands);
 		}
 
 		public abstract ISolvable Clone();
