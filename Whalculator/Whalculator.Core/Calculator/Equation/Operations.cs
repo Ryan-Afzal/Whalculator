@@ -5,12 +5,12 @@ using System.Text;
 namespace Whalculator.Core.Calculator.Equation {
 	public static class Operations {
 
-		public static readonly Operation AddOperation = new Operation(AddExactValueOperation, AddDoubleValueOperation, 0, '+');
-		public static readonly Operation SubtractOperation = new Operation(SubtractExactValueOperation, SubtractDoubleValueOperation, 0, '-');
-		public static readonly Operation DivideOperation = new Operation(DivideExactValueOperation, DivideDoubleValueOperation, 1, '/');
-		public static readonly Operation ModuloOperation = new Operation(ModuloExactValueOperation, ModuloDoubleValueOperation, 1, '%');
-		public static readonly Operation MultiplyOperation = new Operation(MultiplyExactValueOperation, MultiplyDoubleValueOperation, 2, '*');
-		public static readonly Operation ExponateOperation = new Operation(ExponateExactValueOperation, ExponateDoubleValueOperation, 3, '^');
+		public static readonly Operation AddOperation = new Operation(AddExactValueOperation, AddDoubleValueOperation, 0, '+', true);
+		public static readonly Operation SubtractOperation = new Operation(SubtractExactValueOperation, SubtractDoubleValueOperation, 0, '-', false);
+		public static readonly Operation DivideOperation = new Operation(DivideExactValueOperation, DivideDoubleValueOperation, 1, '/', false);
+		public static readonly Operation ModuloOperation = new Operation(ModuloExactValueOperation, ModuloDoubleValueOperation, 1, '%', false);
+		public static readonly Operation MultiplyOperation = new Operation(MultiplyExactValueOperation, MultiplyDoubleValueOperation, 2, '*', true);
+		public static readonly Operation ExponateOperation = new Operation(ExponateExactValueOperation, ExponateDoubleValueOperation, 3, '^', false);
 		public static ISolvable AddExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
 			double sum = 0.0;
 

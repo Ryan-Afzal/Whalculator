@@ -162,7 +162,6 @@ namespace Whalculator.Core.Calculator.Equation {
 			return input.Simplify(new Simplifier[] {
 				Simplifiers.SimplifyLevelOperators,
 				Simplifiers.SimplifyRemoveZerosOnes,
-				Simplifiers.SimplifySortTerms,
 				Simplifiers.SimplifyRationalExpressions
 			});
 		}
@@ -172,7 +171,6 @@ namespace Whalculator.Core.Calculator.Equation {
 				Simplifiers.SimplifyRemoveZerosOnes,
 				Simplifiers.SimplifyLevelOperators,
 				Simplifiers.SimplifyRationalExpressions,
-				Simplifiers.SimplifySortTerms,
 				Simplifiers.SimplifyCollectLikeTerms
 			});
 		}
@@ -180,7 +178,6 @@ namespace Whalculator.Core.Calculator.Equation {
 		private static ISolvable SimplifyDerivative3(this ISolvable input) {
 			return input.Simplify(new Simplifier[] {
 				Simplifiers.SimplifyRemoveZerosOnes,
-				Simplifiers.SimplifySortTerms,
 				Simplifiers.SimplifyLevelOperators
 			});
 		}

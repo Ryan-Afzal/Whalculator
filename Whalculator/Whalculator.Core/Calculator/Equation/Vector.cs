@@ -11,6 +11,12 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		public ISolvable[] Components { get; }
 
+		public int Dimensions {
+			get {
+				return Components.Length;
+			}
+		}
+
 		public ISolvable GetExactValue(ExpressionEvaluationArgs args) {
 			return this.Clone();
 		}

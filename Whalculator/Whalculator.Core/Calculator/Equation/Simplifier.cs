@@ -210,27 +210,6 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		/// <summary>
-		/// Sorts operands of addition and multiplication
-		/// </summary>
-		/// <param name="solvable"></param>
-		/// <returns></returns>
-		public static ISolvable SimplifySortTerms(ISolvable solvable) {
-			if (solvable is Operator o) {
-				if (o.Operation.Name == '+') {
-					Array.Sort(o.operands, ISolvable.Compare);
-
-					return solvable;
-				} else if (o.Operation.Name == '*') {
-					Array.Sort(o.operands, ISolvable.Compare);
-
-					return solvable;
-				}
-			}
-
-			return solvable;
-		}
-
-		/// <summary>
 		/// Collects like terms in addition and multiplication
 		/// </summary>
 		/// <param name="solvable"></param>

@@ -5,7 +5,7 @@ using System.Text;
 namespace Whalculator.Core.Calculator.Equation {
 	public sealed class Operator : NestedSolvable {
 
-		public Operator(Operation operation, params ISolvable[] operands) : base(operands) {
+		public Operator(Operation operation, params ISolvable[] operands) : base(SortOperands(operation.SortedOperands, operands)) {
 			Operation = operation;
 		}
 
@@ -48,5 +48,14 @@ namespace Whalculator.Core.Calculator.Equation {
 
 			return x.GetEquationString();
 		}
+
+		private static ISolvable[] SortOperands(bool sort, ISolvable[] operands) {
+			if (sort) {
+				Array.Sort(operands);
+			}
+
+			return operands;
+		}
+
 	}
 }

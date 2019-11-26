@@ -6,10 +6,10 @@ using Whalculator.Core.Misc;
 namespace Whalculator.Core.Calculator.Equation {
 	public abstract class NestedSolvable : ISolvable {
 
-		public readonly SortedArray<ISolvable> operands;
+		public readonly ISolvable[] operands;
 
 		protected NestedSolvable(ISolvable[] operands) {
-			this.operands = new SortedArray<ISolvable>(operands);
+			this.operands = operands;
 		}
 
 		public abstract ISolvable Clone();

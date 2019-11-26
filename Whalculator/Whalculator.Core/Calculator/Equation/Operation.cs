@@ -10,11 +10,12 @@ namespace Whalculator.Core.Calculator.Equation {
 
 	public struct Operation {
 
-		internal Operation(ExactValueOperation exactValueOperation, DoubleValueOperation doubleValueOperation, int order, char name) {
+		internal Operation(ExactValueOperation exactValueOperation, DoubleValueOperation doubleValueOperation, int order, char name, bool sortedOperands) {
 			ExactValueOperation = exactValueOperation;
 			DoubleValueOperation = doubleValueOperation;
 			Order = order;
 			Name = name;
+			SortedOperands = sortedOperands;
 		}
 
 		public ExactValueOperation ExactValueOperation { get; }
@@ -23,6 +24,8 @@ namespace Whalculator.Core.Calculator.Equation {
 		public int Order { get; }
 
 		public char Name { get; }
+
+		public bool SortedOperands { get; }
 
 	}
 
