@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Whalculator.Core.Calculator;
 using Whalculator.Core.Calculator.Equation;
+using Whalculator.Core.Misc;
 
 namespace Whalculator.ConsoleApp {
 	public class Program {

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Whalculator.Core.Misc {
+
 	public class SortedArray<T> : IEnumerable<T> where T : IComparable<T> {
 
 		private readonly T[] elements;
@@ -43,6 +44,12 @@ namespace Whalculator.Core.Misc {
 			get {
 				return this.elements.Length;
 			}
+		}
+
+		public T[] ToArray() {
+			T[] output = new T[elements.Length];
+			this.elements.CopyTo(output, 0);
+			return output;
 		}
 
 		IEnumerator<T> IEnumerable<T>.GetEnumerator() {
