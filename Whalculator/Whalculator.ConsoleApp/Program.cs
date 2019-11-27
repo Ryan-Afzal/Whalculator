@@ -36,7 +36,7 @@ namespace Whalculator.ConsoleApp {
 
 							int hi = head.IndexOf('(');
 							if (hi == -1) {
-								calc.Variables.SetVariable(head, (ISolvable)calc.GetResultValue(body));
+								calc.Variables.SetVariable(head, calc.GetResultValue(body));
 							} else {
 								string name = head.Substring(0, hi);
 
