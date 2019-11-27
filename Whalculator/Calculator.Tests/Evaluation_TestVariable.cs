@@ -12,7 +12,7 @@ namespace Whalculator.Tests {
 			var set = new VariableSet();
 			set.SetVariable("x", new Literal(25));
 			Assert.AreEqual(
-				25,
+				new Literal(25),
 				output.GetResultValue(
 					new ExpressionEvaluationArgs() {
 						VariableSet = set
@@ -27,7 +27,7 @@ namespace Whalculator.Tests {
 			var set = new VariableSet();
 			set.SetVariable("x", new Literal(25.00001));
 			Assert.AreEqual(
-				25.00001,
+				new Literal(25.00001),
 				output.GetResultValue(
 					new ExpressionEvaluationArgs() {
 						VariableSet = set

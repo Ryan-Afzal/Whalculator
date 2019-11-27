@@ -40,7 +40,7 @@ namespace Whalculator.Core.Calculator {
 			});
 		}
 
-		public double GetDoubleValue(string input) {
+		public IResult GetResultValue(string input) {
 			return this.GetSolvableFromText(input)
 				.GetResultValue(this.GetArgs());
 		}

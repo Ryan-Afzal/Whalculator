@@ -7,6 +7,6 @@ namespace Whalculator.Core.Calculator {
     public interface ICalculator {
 		ISolvable GetSolvableFromText(string input);
 		string GetExactValue(string input);
-		double GetDoubleValue(string input);
+		IResult GetResultValue(string input);
     }
 }

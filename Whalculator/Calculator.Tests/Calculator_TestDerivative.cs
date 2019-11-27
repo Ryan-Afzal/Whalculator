@@ -31,11 +31,11 @@ namespace Whalculator.Tests {
 				VariableSet = calc.Variables
 			};
 			calc.Variables.SetVariable("x", new Literal(0));
-			Assert.AreEqual(0, derivative.GetResultValue(args));
+			Assert.AreEqual(new Literal(0), derivative.GetResultValue(args));
 			calc.Variables.SetVariable("x", new Literal(1));
-			Assert.AreEqual(2, derivative.GetResultValue(args));
+			Assert.AreEqual(new Literal(2), derivative.GetResultValue(args));
 			calc.Variables.SetVariable("x", new Literal(2));
-			Assert.AreEqual(4, derivative.GetResultValue(args));
+			Assert.AreEqual(new Literal(4), derivative.GetResultValue(args));
 		}
 
 		[TestMethod]
