@@ -28,6 +28,10 @@ namespace Whalculator.Core.Calculator.Equation {
 		public static BuiltinFunctionOperation ArccosecantOperation = new BuiltinFunctionOperation("arccsc", 1, ArccosecantExactValueOperation, ArccosecantResultValueOperation);
 		public static BuiltinFunctionOperation ArccotangentOperation = new BuiltinFunctionOperation("arccot", 1, ArccotangentExactValueOperation, ArccotangentResultValueOperation);
 
+		public static BuiltinFunctionOperation VectorFromMagnitudeAndDirectionOperation = new BuiltinFunctionOperation("vector", 2, VectorFromMagnitudeAndDirectionExactValueOperation, VectorFromMagnitudeAndDirectionResultValueOperation);
+		public static BuiltinFunctionOperation MagnitudeFromVectorOperation = new BuiltinFunctionOperation("mag", 1, MagnitudeFromVectorExactValueOperation, MagnitudeFromVectorResultValueOperation);
+		public static BuiltinFunctionOperation AngleFromVectorOperation = new BuiltinFunctionOperation("angle", 1, AngleFromVectorExactValueOperation, AngleFromVectorResultValueOperation);
+
 		// Regular functions
 
 		public static ISolvable AbsExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
@@ -192,6 +196,36 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		public static IResult ArccotangentResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
 			return new Literal(Math.Atan(1 / ((Literal)operands[0].GetResultValue(args)).Value));
+		}
+
+		//List Functions
+
+
+
+		//Vector Functions
+
+		public static ISolvable VectorFromMagnitudeAndDirectionExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			throw new NotImplementedException();
+		}
+
+		public static IResult VectorFromMagnitudeAndDirectionResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			throw new NotImplementedException();
+		}
+
+		public static ISolvable MagnitudeFromVectorExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			throw new NotImplementedException();
+		}
+
+		public static IResult MagnitudeFromVectorResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			throw new NotImplementedException();
+		}
+
+		public static ISolvable AngleFromVectorExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			throw new NotImplementedException();
+		}
+
+		public static IResult AngleFromVectorResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			throw new NotImplementedException();
 		}
 
 	}
