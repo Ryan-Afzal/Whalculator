@@ -37,6 +37,10 @@ namespace Whalculator.Core.Calculator.Equation {
 			this.AddOperation(BuiltinFunctionOperations.ArcsecantOperation);
 			this.AddOperation(BuiltinFunctionOperations.ArccosecantOperation);
 			this.AddOperation(BuiltinFunctionOperations.ArccotangentOperation);
+
+			this.AddOperation(BuiltinFunctionOperations.VectorFromMagnitudeAndDirectionOperation);
+			this.AddOperation(BuiltinFunctionOperations.MagnitudeFromVectorOperation);
+			this.AddOperation(BuiltinFunctionOperations.AngleFromVectorOperation);
 		}
 
 		private void AddOperation(BuiltinFunctionOperation value) {

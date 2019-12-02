@@ -13,6 +13,56 @@ namespace Whalculator.Core.Calculator.Equation {
 
 	public static class ExpressionBuilder {
 
+		private class ExpressionBuilderStack {
+
+			private class ExpressionBuilderStackNode {
+
+				public ExpressionBuilderStackNode(char c) {
+					Value = c;
+				}
+
+				public char Value { get; }
+				public ExpressionBuilderStackNode Prev { get; set; }
+			}
+
+			private ExpressionBuilderStackNode top;
+
+			public ExpressionBuilderStack() {
+				Count = 0;
+				top = null;
+			}
+
+			public void Push(char c) {
+				var node = new ExpressionBuilderStackNode(c) { Prev = this.top };
+				this.top = node;
+				Count++;
+			}
+
+			public char Pop() {
+				char value = this.top.Value;
+				this.top = this.top.Prev;
+				Count--;
+				return value;
+			}
+
+			public char Peek() {
+				return this.top.Value;
+			}
+
+			public char PeekPrev() {
+				return this.top.Prev.Value;
+			}
+			
+			public int Count { get; private set; }
+
+			public bool IsEmpty {
+				get {
+					return Count == 0;
+				}
+			}
+
+		}
+
 		public static ISolvable GetSolvable(string text, GenerationArgs args) {
 			text = text.Replace(" ", "");
 			
@@ -24,10 +74,10 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		private static ISolvable GetSolvableFromText(string text, GenerationArgs args) {
 			if (text.Length == 0) {
-				return new Literal(0.0);
+				return new Literal(0);
 			}
 
-			char op = '\0';//Last operation
+			char op = default;//Last operation
 			int index = -1;//Index of last operator
 
 			int pDepth = 0;//The depth of parenthetical nesting that the function is going into
@@ -147,6 +197,49 @@ namespace Whalculator.Core.Calculator.Equation {
 			}
 		}
 
+		private static ISolvable ParseText(string text, GenerationArgs args) {
+			if (text.Length == 0) {
+				return new Literal(0);
+			}
+
+			char op = default;//Last operation
+			int index = -1;//Index of last operator
+
+			ExpressionBuilderStack stack = new ExpressionBuilderStack();//Bracket stack
+
+			for (int i = 0; i < text.Length; i++) {
+				char c = text[i];
+
+				if (c.IsOpenBracket()) {
+					stack.Push(c);
+				} else if (c.IsCloseBracket()) {
+					if (IsBracketPair(c, stack.Peek())) {
+						stack.Pop();
+					} else {
+						throw new MalformedEquationException(ErrorCode.MismatchedParentheses);
+					}
+				} else if (stack.IsEmpty) {
+					if (args.OperatorSet.IsOperator(c) && args.OperatorSet.GetOperation(op).Order >=
+						args.OperatorSet.GetOperation(c).Order) {
+						op = c;
+						index = i;
+					}
+				}
+			}
+
+			if (!stack.IsEmpty) {
+				throw new MalformedEquationException(ErrorCode.MismatchedParentheses);
+			}
+
+			if (index == -1) {
+				throw new NotImplementedException();
+			} else {
+				return new Operator(args.OperatorSet.GetOperation(op),
+					GetSolvableFromText(text[0..index], args),
+					GetSolvableFromText(text[(index + 1)..^1], args));
+			}
+		}
+
 		private static ISolvable[] SeparateFunctionArguments(string input, GenerationArgs args) {
 			if (input.Equals("")) {
 				return new ISolvable[] { };
@@ -157,9 +250,9 @@ namespace Whalculator.Core.Calculator.Equation {
 			int pDepth = 0;
 			int last = 0;
 			for (int k = 0; k < input.Length; k++) {
-				if (input[k] == '(') {
+				if (input[k] == '(' || input[k] == '<' || input[k] == '{') {
 					pDepth++;
-				} else if (input[k] == ')') {
+				} else if (input[k] == ')' || input[k] == '>' || input[k] == '}') {
 					pDepth--;
 				} else {
 					if (input[k] == ',' && pDepth == 0) {
@@ -206,6 +299,24 @@ namespace Whalculator.Core.Calculator.Equation {
 			}
 
 			return s;
+		}
+
+		private static bool IsOpenBracket(this char c) {
+			return c == '('
+				|| c == '{'
+				|| c == '<'
+				|| c == '[';
+		}
+
+		private static bool IsCloseBracket(this char c) {
+			return c == ')'
+				|| c == '}'
+				|| c == '>'
+				|| c == ']';
+		}
+
+		private static bool IsBracketPair(char c1, char c2) {
+			throw new NotImplementedException();
 		}
 	}
 }

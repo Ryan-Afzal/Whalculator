@@ -209,15 +209,24 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public static IResult VectorFromMagnitudeAndDirectionResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			throw new NotImplementedException();
+			return VectorFromMagnitudeAndDirectionExactValueOperation(operands, args).GetResultValue(args);
 		}
 
 		public static ISolvable MagnitudeFromVectorExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			throw new NotImplementedException();
+			Vector v = (operands[0].GetResultValue(args)) as Vector;
+
+			ISolvable[] terms = new ISolvable[v.Dimensions];
+
+			for (int i = 0; i < terms.Length; i++) {
+				terms[i] = new Operator(Operations.ExponateOperation, v.Components[i].Clone(), new Literal(2));
+			}
+
+			var output = new BuiltinFunction(SqrtOperation,	new Operator(Operations.AddOperation, terms));
+			return output.GetExactValue(args);
 		}
 
 		public static IResult MagnitudeFromVectorResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			throw new NotImplementedException();
+			return MagnitudeFromVectorExactValueOperation(operands, args).GetResultValue(args);
 		}
 
 		public static ISolvable AngleFromVectorExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
@@ -225,7 +234,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public static IResult AngleFromVectorResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			throw new NotImplementedException();
+			return AngleFromVectorExactValueOperation(operands, args).GetResultValue(args);
 		}
 
 	}
