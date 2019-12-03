@@ -12,7 +12,7 @@ namespace Whalculator.Core.Calculator.Equation {
 	}
 
 	public static class ExpressionBuilder {
-
+		
 		private class ExpressionBuilderStack {
 
 			private class ExpressionBuilderStackNode {
@@ -62,16 +62,17 @@ namespace Whalculator.Core.Calculator.Equation {
 			}
 
 		}
-
+		
 		public static ISolvable GetSolvable(string text, GenerationArgs args) {
 			text = text.Replace(" ", "");
 
-			return GetSolvableFromText(text, args).Simplify(new Simplifier[] {
+			return ParseText(text, args).Simplify(new Simplifier[] {
 				Simplifiers.SimplifyLevelOperators,
 				Simplifiers.SimplifyTransformNegatives
 			});
 		}
 
+		[Obsolete]
 		private static ISolvable GetSolvableFromText(string text, GenerationArgs args) {
 			if (text.Length == 0) {
 				return new Literal(0);
@@ -125,9 +126,9 @@ namespace Whalculator.Core.Calculator.Equation {
 				if (text[0] == '(') {
 					return GetSolvableFromText(text[1..^1], args);
 				} else if (text[0] == '{') {
-					return new List(SeparateFunctionArguments(text[1..^1], args));
+					return new List(SeparateArgumentsBySeparator(text[1..^1], ',', args));
 				} else if (text[0] == '<') {
-					return new Vector(SeparateFunctionArguments(text[1..^1], args));
+					return new Vector(SeparateArgumentsBySeparator(text[1..^1], ',', args));
 				} else {
 					bool isVar = false;
 					for (int i = 0; i < text.Length; i++) {
@@ -138,7 +139,7 @@ namespace Whalculator.Core.Calculator.Equation {
 						if (text[i] == '(') {
 							//Function
 							string name = text.Substring(0, i);
-							ISolvable[] _args = SeparateFunctionArguments(text[(i + 1)..(text.LastIndexOf(')'))], args);
+							ISolvable[] _args = SeparateArgumentsBySeparator(text[(i + 1)..(text.LastIndexOf(')'))], ',', args);
 
 							if (args.BuiltinFunctionOperationSet.IsBuiltinFunctionOperation(name)) {//Built-in 'special' function
 								return new BuiltinFunction(args.BuiltinFunctionOperationSet[name], _args);
@@ -173,7 +174,7 @@ namespace Whalculator.Core.Calculator.Equation {
 									if (args.Functions.ContainsFunction(name)) {
 										FunctionInfo info = args.Functions.GetFunction(name);
 										info.Function = info.Function.Clone();
-										return new Function(info, _args);
+										return new Function(info.Name, _args);
 									}
 								}
 
@@ -215,8 +216,12 @@ namespace Whalculator.Core.Calculator.Equation {
 
 				if (c.IsOpenBracket()) {
 					stack.Push(c);
+					isNumeric = false;
+					isAlphanumeric = false;
 				} else if (c.IsCloseBracket()) {
-					if (IsBracketPair(c, stack.Peek())) {
+					isNumeric = false;
+					isAlphanumeric = false;
+					if (IsBracketPair(stack.Peek(), c)) {
 						stack.Pop();
 					} else {
 						throw new MalformedEquationException(ErrorCode.MismatchedParentheses);
@@ -229,10 +234,13 @@ namespace Whalculator.Core.Calculator.Equation {
 						}
 					}
 					
-					if (args.OperatorSet.IsOperator(c) && args.OperatorSet.GetOperation(op).Order >=
-						args.OperatorSet.GetOperation(c).Order) {
-						op = c;
-						index = i;
+					if (args.OperatorSet.IsOperator(c)) {
+						isNumeric = false;
+						isAlphanumeric = false;
+						if (index == -1 || args.OperatorSet.GetOperation(op).Order >= args.OperatorSet.GetOperation(c).Order) {
+							op = c;
+							index = i;
+						}
 					}
 				}
 			}
@@ -249,11 +257,11 @@ namespace Whalculator.Core.Calculator.Equation {
 						return new Variable(text);
 					}
 				} else if (text[0] == '(') {// Entire expression is enclosed in parentheses
-					return GetSolvableFromText(text[1..^1], args);
+					return ParseText(text[1..^1], args);
 				} else if (text[0] == '{') {// List
-					return new List(SeparateFunctionArguments(text[1..^1], args));
+					return new List(SeparateArgumentsBySeparator(text[1..^1], ',', args));
 				} else if (text[0] == '<') {// Vector
-					return new Vector(SeparateFunctionArguments(text[1..^1], args));
+					return new Vector(SeparateArgumentsBySeparator(text[1..^1], ',', args));
 				} else if (text[0] == '[') {// Matrix (Unimplemented)
 					throw new NotImplementedException();
 				} else {// Function
@@ -262,14 +270,14 @@ namespace Whalculator.Core.Calculator.Equation {
 						char c = text[i];
 
 						if (c == '(') {
-							string name = text[0..i];
-							ISolvable[] _args = SeparateFunctionArguments(text[(i + 1)..^1], args);
+							string name = text[0..(i - d)];
+							ISolvable[] _args = SeparateArgumentsBySeparator(text[(i + 1)..^1], ',', args);
 							ISolvable output;
 
 							if (args.BuiltinFunctionOperationSet.IsBuiltinFunctionOperation(name)) {// Builtin Function
 								output = new BuiltinFunction(args.BuiltinFunctionOperationSet[name], _args);
 							} else {// Function
-								throw new NotImplementedException();
+								return new Function(name, _args);
 							}
 
 							for (int k = 0; k < d; k++) {
@@ -287,38 +295,44 @@ namespace Whalculator.Core.Calculator.Equation {
 			} else {
 				return new Operator(args.OperatorSet.GetOperation(op),
 					ParseText(text[0..index], args),
-					ParseText(text[(index + 1)..^1], args));
+					ParseText(text[(index + 1)..^0], args));
 			}
 		}
 
-		private static ISolvable[] SeparateFunctionArguments(string input, GenerationArgs args) {
+		private static ISolvable[] SeparateArgumentsBySeparator(string input, char separator, GenerationArgs args) {
 			if (input.Equals("")) {
 				return new ISolvable[] { };
 			}
 
 			LinkedList<string> list = new LinkedList<string>();
-
-			int pDepth = 0;
+			ExpressionBuilderStack stack = new ExpressionBuilderStack();
+			
 			int last = 0;
 			for (int k = 0; k < input.Length; k++) {
-				if (input[k] == '(' || input[k] == '<' || input[k] == '{') {
-					pDepth++;
-				} else if (input[k] == ')' || input[k] == '>' || input[k] == '}') {
-					pDepth--;
-				} else {
-					if (input[k] == ',' && pDepth == 0) {
+				char c = input[k];
+
+				if (c.IsOpenBracket()) {
+					stack.Push(c);
+				} else if (c.IsCloseBracket()) {
+					if (IsBracketPair(stack.Peek(), c)) {
+						stack.Pop();
+					} else {
+						throw new MalformedEquationException(ErrorCode.MismatchedParentheses);
+					}
+				} else if (stack.IsEmpty) {
+					if (c == separator) {
 						list.AddLast(input[last..k]);
 						last = k + 1;
 					}
 				}
 			}
 
-			list.AddLast(input.Substring(last));
+			list.AddLast(input[last..^0]);
 
 			ISolvable[] parts = new ISolvable[list.Count];
 			int i = 0;
 			foreach (string s in list) {
-				parts[i] = GetSolvableFromText(s, args);
+				parts[i] = ParseText(s, args);
 				i++;
 			}
 

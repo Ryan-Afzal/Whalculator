@@ -54,10 +54,10 @@ namespace Whalculator.Core.Calculator {
 		private ExpressionEvaluationArgs GetArgs() {
 			return new ExpressionEvaluationArgs() {
 				VariableSet = Variables,
+				FunctionSet = Functions,
 				Args = new FunctionArgumentArgs() {
 					ArgNames = new Dictionary<string, int>(),
 					Args = new ISolvable[0]
-
 				}
 			};
 		}

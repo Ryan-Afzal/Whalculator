@@ -11,41 +11,43 @@ namespace Whalculator.Core.Calculator.Equation {
 
 	public sealed class Function : NestedSolvable {
 
-		public Function(FunctionInfo info, ISolvable[] args) : base(args) {
-			Info = info;
+		public Function(string name, ISolvable[] args) : base(args) {
+			Name = name;
 		}
 
-		public FunctionInfo Info { get; }
+		public string Name { get; }
 
 		public override ISolvable Clone() {
-			return new Function(Info, this.CloneOperands());
+			return new Function(Name, this.CloneOperands());
 		}
 
 		public override ISolvable GetExactValue(ExpressionEvaluationArgs args) {
 			ISolvable[] _args = this.EvaluateOperands(args);
-
+			var info = args.FunctionSet.GetFunction(Name);
+			
 			args.Args = new FunctionArgumentArgs() {
-				ArgNames = Info.ArgNames,
+				ArgNames = info.ArgNames,
 				Args = _args
 			};
 
-			return Info.Function.GetExactValue(args);
+			return info.Function.GetExactValue(args);
 		}
 
 		public override IResult GetResultValue(ExpressionEvaluationArgs args) {
 			ISolvable[] _args = this.EvaluateOperands(args);
+			var info = args.FunctionSet.GetFunction(Name);
 
 			args.Args = new FunctionArgumentArgs() {
-				ArgNames = Info.ArgNames,
+				ArgNames = info.ArgNames,
 				Args = _args
 			};
 
-			return Info.Function.GetResultValue(args);
+			return info.Function.GetResultValue(args);
 		}
 
 		public override string GetEquationString() {
 			StringBuilder builder = new StringBuilder();
-			builder.Append(Info.Name);
+			builder.Append(Name);
 			builder.Append('(');
 
 			if (this.operands.Length > 0) {
