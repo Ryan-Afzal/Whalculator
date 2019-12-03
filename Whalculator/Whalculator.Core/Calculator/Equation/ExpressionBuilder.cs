@@ -52,7 +52,7 @@ namespace Whalculator.Core.Calculator.Equation {
 			public char PeekPrev() {
 				return this.top.Prev.Value;
 			}
-			
+
 			public int Count { get; private set; }
 
 			public bool IsEmpty {
@@ -65,9 +65,9 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		public static ISolvable GetSolvable(string text, GenerationArgs args) {
 			text = text.Replace(" ", "");
-			
+
 			return GetSolvableFromText(text, args).Simplify(new Simplifier[] {
-				Simplifiers.SimplifyLevelOperators, 
+				Simplifiers.SimplifyLevelOperators,
 				Simplifiers.SimplifyTransformNegatives
 			});
 		}
@@ -88,9 +88,9 @@ namespace Whalculator.Core.Calculator.Equation {
 				char c = text[i];//Get the current character
 
 				if (c == '(' || c == '{' || c == '<') {//Open Parentheses
-					if (fDepth >= pDepth && (i <= 0 
-						|| args.OperatorSet.IsOperator(text[i - 1]) 
-						|| text[i - 1] == '(' 
+					if (fDepth >= pDepth && (i <= 0
+						|| args.OperatorSet.IsOperator(text[i - 1])
+						|| text[i - 1] == '('
 						|| text[i - 1] == ')')) {//In function
 						fDepth++;
 					}
@@ -205,6 +205,9 @@ namespace Whalculator.Core.Calculator.Equation {
 			char op = default;//Last operation
 			int index = -1;//Index of last operator
 
+			bool isNumeric = true;
+			bool isAlphanumeric = true;
+
 			ExpressionBuilderStack stack = new ExpressionBuilderStack();//Bracket stack
 
 			for (int i = 0; i < text.Length; i++) {
@@ -219,6 +222,13 @@ namespace Whalculator.Core.Calculator.Equation {
 						throw new MalformedEquationException(ErrorCode.MismatchedParentheses);
 					}
 				} else if (stack.IsEmpty) {
+					if (isAlphanumeric && !char.IsDigit(c)) {
+						isNumeric = false;
+						if (!char.IsLetter(c)) {
+							isAlphanumeric = false;
+						}
+					}
+					
 					if (args.OperatorSet.IsOperator(c) && args.OperatorSet.GetOperation(op).Order >=
 						args.OperatorSet.GetOperation(c).Order) {
 						op = c;
@@ -232,11 +242,52 @@ namespace Whalculator.Core.Calculator.Equation {
 			}
 
 			if (index == -1) {
-				throw new NotImplementedException();
+				if (isAlphanumeric) {// Variable/Literal
+					if (isNumeric) {// Literal
+						return new Literal(double.Parse(text));
+					} else {// Variable
+						return new Variable(text);
+					}
+				} else if (text[0] == '(') {// Entire expression is enclosed in parentheses
+					return GetSolvableFromText(text[1..^1], args);
+				} else if (text[0] == '{') {// List
+					return new List(SeparateFunctionArguments(text[1..^1], args));
+				} else if (text[0] == '<') {// Vector
+					return new Vector(SeparateFunctionArguments(text[1..^1], args));
+				} else if (text[0] == '[') {// Matrix (Unimplemented)
+					throw new NotImplementedException();
+				} else {// Function
+					int d = 0;
+					for (int i = 0; i < text.Length; i++) {
+						char c = text[i];
+
+						if (c == '(') {
+							string name = text[0..i];
+							ISolvable[] _args = SeparateFunctionArguments(text[(i + 1)..^1], args);
+							ISolvable output;
+
+							if (args.BuiltinFunctionOperationSet.IsBuiltinFunctionOperation(name)) {// Builtin Function
+								output = new BuiltinFunction(args.BuiltinFunctionOperationSet[name], _args);
+							} else {// Function
+								throw new NotImplementedException();
+							}
+
+							for (int k = 0; k < d; k++) {
+								throw new NotImplementedException();
+							}
+
+							return output;
+						} else if (c == '\'') {
+							d++;
+						}
+					}
+
+					throw new MalformedEquationException(ErrorCode.MismatchedParentheses);
+				}
 			} else {
 				return new Operator(args.OperatorSet.GetOperation(op),
-					GetSolvableFromText(text[0..index], args),
-					GetSolvableFromText(text[(index + 1)..^1], args));
+					ParseText(text[0..index], args),
+					ParseText(text[(index + 1)..^1], args));
 			}
 		}
 
@@ -316,7 +367,14 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		private static bool IsBracketPair(char c1, char c2) {
-			throw new NotImplementedException();
+			return c1 switch
+			{
+				'(' => c2 == ')',
+				'{' => c2 == '}',
+				'<' => c2 == '>',
+				'[' => c2 == ']',
+				_ => false,
+			};
 		}
 	}
 }
