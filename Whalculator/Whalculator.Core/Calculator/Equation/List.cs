@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Whalculator.Core.Calculator.Equation {
-	public class List : ISolvable, IResult {
+	public class List : IResult {
 
 		public List(params ISolvable[] elements) {
 			Elements = elements;

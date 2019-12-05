@@ -271,20 +271,13 @@ namespace Whalculator.Core.Calculator.Equation {
 
 						if (c == '(') {
 							string name = text[0..(i - d)];
-							ISolvable[] _args = SeparateArgumentsBySeparator(text[(i + 1)..^1], ',', args);
-							ISolvable output;
+							ISolvable[] _args = SeparateArgumentsBySeparator(text[i..^0], ',', args);
 
 							if (args.BuiltinFunctionOperationSet.IsBuiltinFunctionOperation(name)) {// Builtin Function
-								output = new BuiltinFunction(args.BuiltinFunctionOperationSet[name], _args);
+								return new BuiltinFunction(args.BuiltinFunctionOperationSet[name], _args);
 							} else {// Function
-								return new Function(name, _args);
+								return new Function(name, d, _args);
 							}
-
-							for (int k = 0; k < d; k++) {
-								throw new NotImplementedException();
-							}
-
-							return output;
 						} else if (c == '\'') {
 							d++;
 						}

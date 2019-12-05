@@ -11,43 +11,76 @@ namespace Whalculator.Core.Calculator.Equation {
 
 	public sealed class Function : NestedSolvable {
 
-		public Function(string name, ISolvable[] args) : base(args) {
+		public Function(string name, ISolvable[] args) : this(name, 0, args) {
+			
+		}
+
+		public Function(string name, int deg, ISolvable[] args) : base(args) {
 			Name = name;
+			DifferentiationDegree = deg;
 		}
 
 		public string Name { get; }
+		public int DifferentiationDegree { get; }
 
 		public override ISolvable Clone() {
-			return new Function(Name, this.CloneOperands());
+			return new Function(Name, DifferentiationDegree, this.CloneOperands());
 		}
 
 		public override ISolvable GetExactValue(ExpressionEvaluationArgs args) {
 			ISolvable[] _args = this.EvaluateOperands(args);
 			var info = args.FunctionSet.GetFunction(Name);
+			ISolvable solvable = info.Function.Clone();
 			
+			if (DifferentiationDegree > 0) {
+				var x = info.ArgNames.Keys.GetEnumerator();
+				x.MoveNext();
+				string argName = x.Current;
+
+				for (int i = 0; i < DifferentiationDegree; i++) {
+					solvable = solvable.GetDerivative(argName);
+				}
+			}
+
 			args.Args = new FunctionArgumentArgs() {
 				ArgNames = info.ArgNames,
 				Args = _args
 			};
 
-			return info.Function.GetExactValue(args);
+			return solvable.GetExactValue(args);
 		}
 
 		public override IResult GetResultValue(ExpressionEvaluationArgs args) {
 			ISolvable[] _args = this.EvaluateOperands(args);
 			var info = args.FunctionSet.GetFunction(Name);
+			ISolvable solvable = info.Function.Clone();
+
+			if (DifferentiationDegree > 0) {
+				var x = info.ArgNames.Keys.GetEnumerator();
+				x.MoveNext();
+				string argName = x.Current;
+
+				for (int i = 0; i < DifferentiationDegree; i++) {
+					solvable = solvable.GetDerivative(argName);
+				}
+			}
 
 			args.Args = new FunctionArgumentArgs() {
 				ArgNames = info.ArgNames,
 				Args = _args
 			};
 
-			return info.Function.GetResultValue(args);
+			return solvable.GetResultValue(args);
 		}
 
 		public override string GetEquationString() {
 			StringBuilder builder = new StringBuilder();
 			builder.Append(Name);
+
+			for (int i = 0; i < DifferentiationDegree; i++) {
+				builder.Append('\'');
+			}
+
 			builder.Append('(');
 
 			if (this.operands.Length > 0) {
