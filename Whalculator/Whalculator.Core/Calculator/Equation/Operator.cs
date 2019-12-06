@@ -50,6 +50,10 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		private static ISolvable[] SortOperands(bool sort, ISolvable[] operands) {
+			if (operands.Length is 0) {
+				throw new ArgumentException("Cannot make an operator with zero operands.", nameof(operands));
+			}
+
 			if (sort) {
 				Array.Sort(operands);
 			}

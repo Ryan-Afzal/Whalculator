@@ -30,8 +30,7 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		public static BuiltinFunctionOperation VectorFromMagnitudeAndDirectionOperation = new BuiltinFunctionOperation("vector", 2, VectorFromMagnitudeAndDirectionExactValueOperation, VectorFromMagnitudeAndDirectionResultValueOperation);
 		public static BuiltinFunctionOperation MagnitudeFromVectorOperation = new BuiltinFunctionOperation("mag", 1, MagnitudeFromVectorExactValueOperation, MagnitudeFromVectorResultValueOperation);
-		public static BuiltinFunctionOperation AngleFromVectorOperation = new BuiltinFunctionOperation("angle", 1, AngleFromVectorExactValueOperation, AngleFromVectorResultValueOperation);
-
+		
 		// Regular functions
 
 		public static ISolvable AbsExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
@@ -205,7 +204,19 @@ namespace Whalculator.Core.Calculator.Equation {
 		//Vector Functions
 
 		public static ISolvable VectorFromMagnitudeAndDirectionExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			throw new NotImplementedException();
+			var mag = operands[0];
+			var dir = operands[1];
+
+			return new Vector(
+				new Operator(Operations.MultiplyOperation,
+					mag,
+					new BuiltinFunction(CosineOperation, dir)
+				),
+				new Operator(Operations.MultiplyOperation,
+					mag,
+					new BuiltinFunction(SineOperation, dir)
+				)
+			);
 		}
 
 		public static IResult VectorFromMagnitudeAndDirectionResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
@@ -227,14 +238,6 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		public static IResult MagnitudeFromVectorResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
 			return MagnitudeFromVectorExactValueOperation(operands, args).GetResultValue(args);
-		}
-
-		public static ISolvable AngleFromVectorExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			throw new NotImplementedException();
-		}
-
-		public static IResult AngleFromVectorResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return AngleFromVectorExactValueOperation(operands, args).GetResultValue(args);
 		}
 
 	}

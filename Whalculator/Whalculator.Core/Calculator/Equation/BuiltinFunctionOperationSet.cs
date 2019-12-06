@@ -40,7 +40,6 @@ namespace Whalculator.Core.Calculator.Equation {
 
 			this.AddOperation(BuiltinFunctionOperations.VectorFromMagnitudeAndDirectionOperation);
 			this.AddOperation(BuiltinFunctionOperations.MagnitudeFromVectorOperation);
-			this.AddOperation(BuiltinFunctionOperations.AngleFromVectorOperation);
 		}
 
 		private void AddOperation(BuiltinFunctionOperation value) {
