@@ -271,7 +271,7 @@ namespace Whalculator.Core.Calculator.Equation {
 
 						if (c == '(') {
 							string name = text[0..(i - d)];
-							ISolvable[] _args = SeparateArgumentsBySeparator(text[i..^0], ',', args);
+							ISolvable[] _args = SeparateArgumentsBySeparator(text[(i + 1)..^1], ',', args);
 
 							if (args.BuiltinFunctionOperationSet.IsBuiltinFunctionOperation(name)) {// Builtin Function
 								return new BuiltinFunction(args.BuiltinFunctionOperationSet[name], _args);
