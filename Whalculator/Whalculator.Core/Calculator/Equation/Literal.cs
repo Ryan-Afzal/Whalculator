@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Whalculator.Core.Calculator.Equation {
+	/// <summary>
+	/// Represents a literal value, such as <c>1</c> or <c>23.225</c>
+	/// </summary>
 	public class Literal : IResult {
 
 		public Literal(double value) {

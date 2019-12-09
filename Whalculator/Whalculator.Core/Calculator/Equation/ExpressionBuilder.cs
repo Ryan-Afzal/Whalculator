@@ -5,14 +5,22 @@ using System.Text;
 
 namespace Whalculator.Core.Calculator.Equation {
 
+	/// <summary>
+	/// Represents arguments passed during the generation of an <c>ISolvable</c>-based node graph
+	/// </summary>
 	public struct GenerationArgs {
 		public IOperatorSet OperatorSet { get; set; }
 		public IBuiltinFunctionOperationSet BuiltinFunctionOperationSet { get; set; }
-		public IFunctionSet Functions { get; set; }
 	}
 
+	/// <summary>
+	/// Contains methods to generate and simplify node graph expressions.
+	/// </summary>
 	public static class ExpressionBuilder {
-		
+
+		/// <summary>
+		/// A simplified stack used by the generator methods
+		/// </summary>
 		private class ExpressionBuilderStack {
 
 			private class ExpressionBuilderStackNode {
@@ -63,6 +71,12 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		}
 		
+		/// <summary>
+		/// Gets the <c>ISolvable</c>-based node graph for the specified input text
+		/// </summary>
+		/// <param name="text"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		public static ISolvable GetSolvable(string text, GenerationArgs args) {
 			text = text.Replace(" ", "");
 
@@ -71,133 +85,13 @@ namespace Whalculator.Core.Calculator.Equation {
 				Simplifiers.SimplifyTransformNegatives
 			});
 		}
-
-		[Obsolete]
-		private static ISolvable GetSolvableFromText(string text, GenerationArgs args) {
-			if (text.Length == 0) {
-				return new Literal(0);
-			}
-
-			char op = default;//Last operation
-			int index = -1;//Index of last operator
-
-			int pDepth = 0;//The depth of parenthetical nesting that the function is going into
-			int oDepth = 0;//The depth of operator nesting that the function is going into
-			int fDepth = 0;//The depth of functional nesting that the function is going into
-
-			for (int i = 0; i < text.Length; i++) {
-				char c = text[i];//Get the current character
-
-				if (c == '(' || c == '{' || c == '<') {//Open Parentheses
-					if (fDepth >= pDepth && (i <= 0
-						|| args.OperatorSet.IsOperator(text[i - 1])
-						|| text[i - 1] == '('
-						|| text[i - 1] == ')')) {//In function
-						fDepth++;
-					}
-
-					pDepth++;
-				} else if (c == ')' || c == '}' || c == '>') {//Close Parentheses
-					pDepth--;
-
-					if (fDepth > pDepth) {//In function
-						fDepth--;
-					}
-				} else if (fDepth >= pDepth && args.OperatorSet.IsOperator(c)) {//Operator
-					if (index == -1 || (pDepth < oDepth || (pDepth == oDepth && args.OperatorSet.GetOperation(op).Order >=
-						args.OperatorSet.GetOperation(c).Order))) {//Get the operator
-
-						oDepth = pDepth;
-						op = c;
-						index = i;
-					}
-				}
-
-				if (pDepth < 0) {//Mismatched Parentheses - Too many close-parens
-					throw new MalformedEquationException(ErrorCode.MismatchedParentheses);
-				}
-			}
-
-			if (pDepth != 0) {//Mismatched parentheses - Too many open-parens
-				throw new MalformedEquationException(ErrorCode.MismatchedParentheses);
-			}
-
-			if (index == -1) {
-				if (text[0] == '(') {
-					return GetSolvableFromText(text[1..^1], args);
-				} else if (text[0] == '{') {
-					return new List(SeparateArgumentsBySeparator(text[1..^1], ',', args));
-				} else if (text[0] == '<') {
-					return new Vector(SeparateArgumentsBySeparator(text[1..^1], ',', args));
-				} else {
-					bool isVar = false;
-					for (int i = 0; i < text.Length; i++) {
-						if (!(char.IsDigit(text[i]) || text[i] == '.')) {
-							isVar = true;
-						}
-
-						if (text[i] == '(') {
-							//Function
-							string name = text.Substring(0, i);
-							ISolvable[] _args = SeparateArgumentsBySeparator(text[(i + 1)..(text.LastIndexOf(')'))], ',', args);
-
-							if (args.BuiltinFunctionOperationSet.IsBuiltinFunctionOperation(name)) {//Built-in 'special' function
-								return new BuiltinFunction(args.BuiltinFunctionOperationSet[name], _args);
-							} else {//User-defined function
-								if (name[^1] == '\'') {//f' notation for derivatives
-									int fnIndex = 2;
-									for (; fnIndex < name.Length; fnIndex++) {
-										if (name[^fnIndex] != '\'') {
-											break;
-										}
-									}
-
-									string fnName = name[0..^fnIndex];
-
-									if (args.Functions.ContainsFunction(fnName)) {
-										FunctionInfo info = args.Functions.GetFunction(name);
-
-										if (info.ArgNames.Count > 1) {
-											throw new InvalidEquationException(ErrorCode.MultivariableDifferentiation);
-										}
-
-										info.Function = info.Function.Clone();
-
-										string ind = info.ArgNames.Keys.GetEnumerator().Current;
-										for (int d = 0; d < fnIndex; d++) {
-											info.Function = info.Function.GetDerivative(ind);
-										}
-
-										throw new NotImplementedException();
-									}
-								} else {
-									if (args.Functions.ContainsFunction(name)) {
-										FunctionInfo info = args.Functions.GetFunction(name);
-										info.Function = info.Function.Clone();
-										return new Function(info.Name, _args);
-									}
-								}
-
-								throw new InvalidEquationException(ErrorCode.NonexistentFunction);
-							}
-						}
-					}
-
-					if (isVar) {//Variable
-						return new Variable(text);
-					} else {//Literal value
-						return new Literal(double.Parse(text));
-					}
-				}
-			} else if (oDepth != 0) {
-				return GetSolvableFromText(text[1..^1], args);
-			} else {
-				return new Operator(args.OperatorSet.GetOperation(op),
-					GetSolvableFromText(text.Substring(0, index), args),
-					GetSolvableFromText(text.Substring(index + 1), args));
-			}
-		}
-
+		
+		/// <summary>
+		/// General-case recursive parse function for generating <c>ISolvable</c>-based nodes from text
+		/// </summary>
+		/// <param name="text"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private static ISolvable ParseText(string text, GenerationArgs args) {
 			if (text.Length == 0) {
 				return new Literal(0);
@@ -214,20 +108,20 @@ namespace Whalculator.Core.Calculator.Equation {
 			for (int i = 0; i < text.Length; i++) {
 				char c = text[i];
 
-				if (c.IsOpenBracket()) {
+				if (IsOpenBracket(c)) {
 					stack.Push(c);
 					isNumeric = false;
 					isAlphanumeric = false;
-				} else if (c.IsCloseBracket()) {
+				} else if (IsCloseBracket(c)) {
 					isNumeric = false;
 					isAlphanumeric = false;
-					if (IsBracketPair(stack.Peek(), c)) {
+					if (!stack.IsEmpty && IsBracketPair(stack.Peek(), c)) {
 						stack.Pop();
 					} else {
 						throw new MalformedEquationException(ErrorCode.MismatchedParentheses);
 					}
 				} else if (stack.IsEmpty) {
-					if (isAlphanumeric && !char.IsDigit(c)) {
+					if (isAlphanumeric && !(char.IsDigit(c) || c == '.')) {
 						isNumeric = false;
 						if (!char.IsLetter(c)) {
 							isAlphanumeric = false;
@@ -292,6 +186,13 @@ namespace Whalculator.Core.Calculator.Equation {
 			}
 		}
 
+		/// <summary>
+		/// Separates arguments by a separator, with regards to brackets
+		/// </summary>
+		/// <param name="input"></param>
+		/// <param name="separator"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private static ISolvable[] SeparateArgumentsBySeparator(string input, char separator, GenerationArgs args) {
 			if (input.Equals("")) {
 				return new ISolvable[] { };
@@ -304,9 +205,9 @@ namespace Whalculator.Core.Calculator.Equation {
 			for (int k = 0; k < input.Length; k++) {
 				char c = input[k];
 
-				if (c.IsOpenBracket()) {
+				if (IsOpenBracket(c)) {
 					stack.Push(c);
-				} else if (c.IsCloseBracket()) {
+				} else if (IsCloseBracket(c)) {
 					if (IsBracketPair(stack.Peek(), c)) {
 						stack.Pop();
 					} else {
@@ -332,6 +233,12 @@ namespace Whalculator.Core.Calculator.Equation {
 			return parts;
 		}
 
+		/// <summary>
+		/// Invokes a <c>Simplifier</c> on the specified <c>ISolvable</c> and all its child nodes
+		/// </summary>
+		/// <param name="solvable"></param>
+		/// <param name="simplifier"></param>
+		/// <returns></returns>
 		private static ISolvable Simplify(ISolvable solvable, Simplifier simplifier) {
 			if (solvable is NestedSolvable nested) {
 				for (int i = 0; i < nested.operands.Length; i++) {
@@ -344,6 +251,12 @@ namespace Whalculator.Core.Calculator.Equation {
 			}
 		}
 
+		/// <summary>
+		/// Continuously applies the specified simplifiers to the specified <c>ISolvable</c> until the node graph does not change
+		/// </summary>
+		/// <param name="solvable"></param>
+		/// <param name="simplifiers"></param>
+		/// <returns></returns>
 		public static ISolvable Simplify(this ISolvable solvable, IEnumerable<Simplifier> simplifiers) {
 			ISolvable s = solvable;
 			string str = "";
@@ -359,20 +272,36 @@ namespace Whalculator.Core.Calculator.Equation {
 			return s;
 		}
 
-		private static bool IsOpenBracket(this char c) {
+		/// <summary>
+		/// Returns true if the input character is an open bracket
+		/// </summary>
+		/// <param name="c"></param>
+		/// <returns></returns>
+		private static bool IsOpenBracket(char c) {
 			return c == '('
 				|| c == '{'
 				|| c == '<'
 				|| c == '[';
 		}
 
-		private static bool IsCloseBracket(this char c) {
+		/// <summary>
+		/// Returns true if the input character is an close bracket
+		/// </summary>
+		/// <param name="c"></param>
+		/// <returns></returns>
+		private static bool IsCloseBracket(char c) {
 			return c == ')'
 				|| c == '}'
 				|| c == '>'
 				|| c == ']';
 		}
 
+		/// <summary>
+		/// Returns true if the specified input characters are an open and close bracket pair, respectively.
+		/// </summary>
+		/// <param name="c1"></param>
+		/// <param name="c2"></param>
+		/// <returns></returns>
 		private static bool IsBracketPair(char c1, char c2) {
 			return c1 switch
 			{

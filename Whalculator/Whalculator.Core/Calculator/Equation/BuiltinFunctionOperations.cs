@@ -13,8 +13,6 @@ namespace Whalculator.Core.Calculator.Equation {
 		public static BuiltinFunctionOperation LogOperation = new BuiltinFunctionOperation("log", 2, LogExactValueOperation, LogResultValueOperation);
 		public static BuiltinFunctionOperation LnOperation = new BuiltinFunctionOperation("ln", 1, LnExactValueOperation, LnResultValueOperation);
 
-		public static BuiltinFunctionOperation DifferentiateOperation = new BuiltinFunctionOperation("d", 2, DifferentiateExactValueOperation, DifferentiateResultValueOperation);
-
 		public static BuiltinFunctionOperation SineOperation = new BuiltinFunctionOperation("sin", 1, SineExactValueOperation, SineResultValueOperation);
 		public static BuiltinFunctionOperation CosineOperation = new BuiltinFunctionOperation("cos", 1, CosineExactValueOperation, CosineResultValueOperation);
 		public static BuiltinFunctionOperation TangentOperation = new BuiltinFunctionOperation("tan", 1, TangentExactValueOperation, TangentResultValueOperation);
@@ -87,16 +85,6 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		public static IResult LnResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
 			return new Literal(Math.Log(((Literal)operands[0].GetResultValue(args)).Value));
-		}
-
-		//Special functions
-
-		public static ISolvable DifferentiateExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			throw new NotImplementedException();
-		}
-
-		public static IResult DifferentiateResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			throw new NotImplementedException();
 		}
 
 		// Trig functions

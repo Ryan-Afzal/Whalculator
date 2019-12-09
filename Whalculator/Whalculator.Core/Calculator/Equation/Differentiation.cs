@@ -26,6 +26,12 @@ namespace Whalculator.Core.Calculator.Equation {
 				.SimplifyDerivative3();
 		}
 
+		/// <summary>
+		/// Gets the derivative of the input expression
+		/// </summary>
+		/// <param name="input"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		private static ISolvable GetDerivative(ISolvable input, DerivativeArgs args) {
 			if (input is Literal) {
 				return new Literal(0);
@@ -158,6 +164,11 @@ namespace Whalculator.Core.Calculator.Equation {
 			}
 		}
 
+		/// <summary>
+		/// First step of derivative simplification
+		/// </summary>
+		/// <param name="input"></param>
+		/// <returns></returns>
 		private static ISolvable SimplifyDerivative1(this ISolvable input) {
 			return input.Simplify(new Simplifier[] {
 				Simplifiers.SimplifyLevelOperators,
@@ -166,6 +177,11 @@ namespace Whalculator.Core.Calculator.Equation {
 			});
 		}
 
+		/// <summary>
+		/// Second step of derivative simplification
+		/// </summary>
+		/// <param name="input"></param>
+		/// <returns></returns>
 		private static ISolvable SimplifyDerivative2(this ISolvable input) {
 			return input.Simplify(new Simplifier[] {
 				Simplifiers.SimplifyRemoveZerosOnes,
@@ -175,6 +191,11 @@ namespace Whalculator.Core.Calculator.Equation {
 			});
 		}
 
+		/// <summary>
+		/// Third step of derivative simplification
+		/// </summary>
+		/// <param name="input"></param>
+		/// <returns></returns>
 		private static ISolvable SimplifyDerivative3(this ISolvable input) {
 			return input.Simplify(new Simplifier[] {
 				Simplifiers.SimplifyRemoveZerosOnes,

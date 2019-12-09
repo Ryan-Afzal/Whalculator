@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Whalculator.Core.Calculator.Equation {
+	/// <summary>
+	/// Represents a builtin function, such as <c>sin(x)</c> or <c>ln(x)</c>. These functions are not redefineable.
+	/// </summary>
 	public sealed class BuiltinFunction : NestedSolvable {
 
 		public BuiltinFunction(BuiltinFunctionOperation operation, params ISolvable[] operands) : base(operands) {

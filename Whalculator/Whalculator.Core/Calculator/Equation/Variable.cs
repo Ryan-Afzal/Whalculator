@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Whalculator.Core.Calculator.Equation {
+	/// <summary>
+	/// Represents a reference to a variable, such as <c>x</c>, or a constant such as <c>e</c>
+	/// </summary>
 	public sealed class Variable : ISolvable {
 
 		public Variable(string variableName) {
