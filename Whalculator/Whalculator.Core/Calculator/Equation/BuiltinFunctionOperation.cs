@@ -7,6 +7,9 @@ namespace Whalculator.Core.Calculator.Equation {
 
 	public delegate IResult BuiltinFunctionResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args);
 
+	/// <summary>
+	/// The operation component of a builtin function. It is designed not to change.
+	/// </summary>
 	public struct BuiltinFunctionOperation {
 		
 		internal BuiltinFunctionOperation(string name, int numargs, BuiltinFunctionExactValueOperation exactValueOperation, BuiltinFunctionResultValueOperation resultValueOperation) {

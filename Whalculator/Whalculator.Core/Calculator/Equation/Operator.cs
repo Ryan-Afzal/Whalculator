@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Whalculator.Core.Calculator.Equation {
+	/// <summary>
+	/// Represents an operator with an arbitrary number of operands
+	/// </summary>
 	public sealed class Operator : NestedSolvable {
 
 		public Operator(Operation operation, params ISolvable[] operands) : base(SortOperands(operation.SortedOperands, operands)) {
@@ -41,7 +44,7 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		private string GetStringFromOperand(ISolvable x) {
 			if (x is Operator o) {
-				if (o.Operation.Order < Operation.Order) {
+				if (o.Operation.Order <= Operation.Order) {
 					return $"({o.GetEquationString()})";
 				}
 			}

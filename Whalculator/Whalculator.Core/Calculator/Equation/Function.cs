@@ -4,11 +4,17 @@ using System.Text;
 
 namespace Whalculator.Core.Calculator.Equation {
 
+	/// <summary>
+	/// Arguments used in evaluating functions during expression evaluation.
+	/// </summary>
 	public struct FunctionArgumentArgs {
 		public Dictionary<string, int> ArgNames { get; internal set; }
 		public ISolvable[] Args { get; internal set; }
 	}
 
+	/// <summary>
+	/// Represents a reference to a function, such as <c>f(x)</c>, or <c>def(ax, by)</c>
+	/// </summary>
 	public sealed class Function : NestedSolvable {
 
 		public Function(string name, ISolvable[] args) : this(name, 0, args) {

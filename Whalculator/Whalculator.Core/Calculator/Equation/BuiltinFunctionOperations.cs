@@ -217,7 +217,7 @@ namespace Whalculator.Core.Calculator.Equation {
 			ISolvable[] terms = new ISolvable[v.Dimensions];
 
 			for (int i = 0; i < terms.Length; i++) {
-				terms[i] = new Operator(Operations.ExponateOperation, v.Components[i].Clone(), new Literal(2));
+				terms[i] = new Operator(Operations.ExponateOperation, v.operands[i].Clone(), new Literal(2));
 			}
 
 			var output = new BuiltinFunction(SqrtOperation,	new Operator(Operations.AddOperation, terms));

@@ -35,8 +35,7 @@ namespace Whalculator.Core.Calculator {
 		public ISolvable GetSolvableFromText(string input) {
 			return ExpressionBuilder.GetSolvable(input, new GenerationArgs() {
 				OperatorSet = OperatorSet,
-				BuiltinFunctionOperationSet = BuiltinFunctionOperationSet,
-				Functions = Functions
+				BuiltinFunctionOperationSet = BuiltinFunctionOperationSet
 			});
 		}
 

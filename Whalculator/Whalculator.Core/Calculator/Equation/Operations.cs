@@ -23,13 +23,14 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public static IResult AddResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			double output = 0.0;
+			//double output = 0.0;
 
-			foreach (var o in operands) {
-				output += ((Literal)o.GetResultValue(args)).Value;
-			}
+			//foreach (var o in operands) {
+			//	output += ((Literal)o.GetResultValue(args)).Value;
+			//}
 
-			return new Literal(output);
+			//return new Literal(output);
+			return AddExactValueOperation(operands, args).GetResultValue(args);
 		}
 
 		public static ISolvable SubtractExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {

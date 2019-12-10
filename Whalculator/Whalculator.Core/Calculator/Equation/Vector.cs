@@ -3,49 +3,44 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Whalculator.Core.Calculator.Equation {
-	public class Vector : IResult {
+	/// <summary>
+	/// Represents a vector, such as <c>&lt;1,0&gt;</c> or <c>&lt;10.35,2.5,9.17&gt;</c>
+	/// </summary>
+	public class Vector : NestedSolvable, IResult {
 
-		public Vector(params ISolvable[] components) {
-			Components = components;
+		public Vector(params ISolvable[] components) : base(components) {
+
 		}
-
-		public ISolvable[] Components { get; }
 
 		public int Dimensions {
 			get {
-				return Components.Length;
+				return this.operands.Length;
 			}
 		}
 
-		public ISolvable GetExactValue(ExpressionEvaluationArgs args) {
+		public override ISolvable GetExactValue(ExpressionEvaluationArgs args) {
 			return this.Clone();
 		}
 
-		public IResult GetResultValue(ExpressionEvaluationArgs args) {
+		public override IResult GetResultValue(ExpressionEvaluationArgs args) {
 			return this.Clone() as IResult;
 		}
 
-		public ISolvable Clone() {
-			ISolvable[] components = new ISolvable[Components.Length];
-
-			for (int i = 0; i < components.Length; i++) {
-				components[i] = Components[i];
-			}
-
-			return new Vector(components);
+		public override ISolvable Clone() {
+			return new Vector(this.CloneOperands());
 		}
 
-		public string GetEquationString() {
+		public override string GetEquationString() {
 			StringBuilder builder = new StringBuilder();
 
 			builder.Append('<');
 
-			if (Components.Length > 0) {
-				builder.Append(Components[0].GetEquationString());
+			if (operands.Length > 0) {
+				builder.Append(this.operands[0].GetEquationString());
 
-				for (int i = 1; i < Components.Length; i++) {
+				for (int i = 1; i < this.operands.Length; i++) {
 					builder.Append(",");
-					builder.Append(Components[i].GetEquationString());
+					builder.Append(this.operands[i].GetEquationString());
 				}
 			}
 

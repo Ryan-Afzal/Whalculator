@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Whalculator.Core.Calculator.Equation {
-
+	/// <summary>
+	/// Represents a generic node in the expression node graph
+	/// </summary>
 	public interface ISolvable : IComparable<ISolvable>, IEquatable<ISolvable> {
 
 		/// <summary>
