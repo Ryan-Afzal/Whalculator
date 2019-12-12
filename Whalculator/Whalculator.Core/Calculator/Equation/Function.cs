@@ -48,35 +48,67 @@ namespace Whalculator.Core.Calculator.Equation {
 				}
 			}
 
-			args.Args = new FunctionArgumentArgs() {
-				ArgNames = info.ArgNames,
-				Args = _args
-			};
-
-			return solvable.GetExactValue(args);
-		}
-
-		public override IResult GetResultValue(ExpressionEvaluationArgs args) {
-			ISolvable[] _args = this.EvaluateOperandsResult(args);
-			var info = args.FunctionSet.GetFunction(Name);
-			ISolvable solvable = info.Function.Clone();
-
-			if (DifferentiationDegree > 0) {
-				var x = info.ArgNames.Keys.GetEnumerator();
-				x.MoveNext();
-				string argName = x.Current;
-
-				for (int i = 0; i < DifferentiationDegree; i++) {
-					solvable = solvable.GetDerivative(argName);
+			int k = -1;
+			for (int i = 0; i < _args.Length; i++) {
+				if (_args[i] is List) {
+					if (k == -1) {
+						k = i;
+					} else {
+						throw new ArgumentException("Cannot operate on two lists");
+					}
 				}
 			}
 
-			args.Args = new FunctionArgumentArgs() {
-				ArgNames = info.ArgNames,
-				Args = _args
-			};
+			if (k == -1) {
+				args.Args = new FunctionArgumentArgs() {
+					ArgNames = info.ArgNames,
+					Args = _args
+				};
 
-			return solvable.GetResultValue(args);
+				return solvable.GetExactValue(args);
+			} else {
+				List l = _args[k] as List;
+				ISolvable[] output = new ISolvable[l.operands.Length];
+
+				for (int i = 0; i < output.Length; i++) {
+					ISolvable[] __args = new ISolvable[_args.Length];
+					Array.Copy(_args, __args, __args.Length);
+					__args[k] = l.operands[i];
+
+					args.Args = new FunctionArgumentArgs() {
+						ArgNames = info.ArgNames,
+						Args = __args
+					};
+
+					output[i] = solvable.GetExactValue(args);
+				}
+
+				return new List(output);
+			}
+		}
+
+		public override IResult GetResultValue(ExpressionEvaluationArgs args) {
+			//ISolvable[] _args = this.EvaluateOperandsResult(args);
+			//var info = args.FunctionSet.GetFunction(Name);
+			//ISolvable solvable = info.Function.Clone();
+
+			//if (DifferentiationDegree > 0) {
+			//	var x = info.ArgNames.Keys.GetEnumerator();
+			//	x.MoveNext();
+			//	string argName = x.Current;
+
+			//	for (int i = 0; i < DifferentiationDegree; i++) {
+			//		solvable = solvable.GetDerivative(argName);
+			//	}
+			//}
+
+			//args.Args = new FunctionArgumentArgs() {
+			//	ArgNames = info.ArgNames,
+			//	Args = _args
+			//};
+
+			//return solvable.GetResultValue(args);
+			return this.GetExactValue(args).GetResultValue(args);
 		}
 
 		public override string GetEquationString() {
