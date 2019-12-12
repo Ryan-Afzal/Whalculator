@@ -7,9 +7,9 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		public static readonly Operation AddOperation = new Operation(AddExactValueOperation, AddResultValueOperation, 0, '+', true);
 		public static readonly Operation SubtractOperation = new Operation(SubtractExactValueOperation, SubtractResultValueOperation, 0, '-', false);
-		public static readonly Operation DivideOperation = new Operation(DivideExactValueOperation, DivideResultValueOperation, 1, '/', false);
-		public static readonly Operation ModuloOperation = new Operation(ModuloExactValueOperation, ModuloResultValueOperation, 1, '%', false);
-		public static readonly Operation MultiplyOperation = new Operation(MultiplyExactValueOperation, MultiplyResultValueOperation, 2, '*', true);
+		public static readonly Operation MultiplyOperation = new Operation(MultiplyExactValueOperation, MultiplyResultValueOperation, 1, '*', true);
+		public static readonly Operation DivideOperation = new Operation(DivideExactValueOperation, DivideResultValueOperation, 2, '/', false);
+		public static readonly Operation ModuloOperation = new Operation(ModuloExactValueOperation, ModuloResultValueOperation, 2, '%', false);
 		public static readonly Operation ExponateOperation = new Operation(ExponateExactValueOperation, ExponateResultValueOperation, 3, '^', false);
 		
 		public static ISolvable AddExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
