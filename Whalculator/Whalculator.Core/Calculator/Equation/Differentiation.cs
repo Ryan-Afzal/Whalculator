@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Whalculator.Core.Calculator.Equation {
+	/// <summary>
+	/// Contains different methods to perform differentiation-based operations on <c>ISolvable</c>s
+	/// </summary>
 	public static class Differentiation {
 
 		private struct DerivativeArgs {
