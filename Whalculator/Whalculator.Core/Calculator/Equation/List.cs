@@ -13,11 +13,11 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public override ISolvable GetExactValue(ExpressionEvaluationArgs args) {
-			return this.Clone();
+			return new List(this.EvaluateOperandsResult(args));
 		}
 
 		public override IResult GetResultValue(ExpressionEvaluationArgs args) {
-			return this.Clone() as IResult;
+			return new List(this.EvaluateOperandsResult(args));
 		}
 
 		public override ISolvable Clone() {

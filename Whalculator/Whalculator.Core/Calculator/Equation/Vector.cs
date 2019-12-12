@@ -19,11 +19,11 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public override ISolvable GetExactValue(ExpressionEvaluationArgs args) {
-			return this.Clone();
+			return new Vector(this.EvaluateOperandsExact(args));
 		}
 
 		public override IResult GetResultValue(ExpressionEvaluationArgs args) {
-			return this.Clone() as IResult;
+			return new Vector(this.EvaluateOperandsResult(args));
 		}
 
 		public override ISolvable Clone() {

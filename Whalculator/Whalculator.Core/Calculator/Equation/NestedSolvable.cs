@@ -30,5 +30,25 @@ namespace Whalculator.Core.Calculator.Equation {
 			return output;
 		}
 
+		protected internal ISolvable[] EvaluateOperandsExact(ExpressionEvaluationArgs args) {
+			ISolvable[] output = new ISolvable[this.operands.Length];
+
+			for (int i = 0; i < output.Length; i++) {
+				output[i] = this.operands[i].GetExactValue(args);
+			}
+
+			return output;
+		}
+
+		protected internal ISolvable[] EvaluateOperandsResult(ExpressionEvaluationArgs args) {
+			IResult[] output = new IResult[this.operands.Length];
+
+			for (int i = 0; i < output.Length; i++) {
+				output[i] = this.operands[i].GetResultValue(args);
+			}
+
+			return output;
+		}
+
 	}
 }

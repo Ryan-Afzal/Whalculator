@@ -34,7 +34,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public override ISolvable GetExactValue(ExpressionEvaluationArgs args) {
-			ISolvable[] _args = this.EvaluateOperands(args);
+			ISolvable[] _args = this.EvaluateOperandsExact(args);
 			var info = args.FunctionSet.GetFunction(Name);
 			ISolvable solvable = info.Function.Clone();
 			
@@ -57,7 +57,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public override IResult GetResultValue(ExpressionEvaluationArgs args) {
-			ISolvable[] _args = this.EvaluateOperands(args);
+			ISolvable[] _args = this.EvaluateOperandsResult(args);
 			var info = args.FunctionSet.GetFunction(Name);
 			ISolvable solvable = info.Function.Clone();
 
@@ -100,16 +100,6 @@ namespace Whalculator.Core.Calculator.Equation {
 
 			builder.Append(')');
 			return builder.ToString();
-		}
-
-		private ISolvable[] EvaluateOperands(ExpressionEvaluationArgs args) {
-			ISolvable[] output = new ISolvable[this.operands.Length];
-
-			for (int i = 0; i < output.Length; i++) {
-				output[i] = this.operands[i].GetExactValue(args);
-			}
-
-			return output;
 		}
 	}
 

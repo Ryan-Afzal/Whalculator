@@ -26,9 +26,15 @@ namespace Whalculator.Core.Calculator.Equation {
 		public static BuiltinFunctionOperation ArccosecantOperation = new BuiltinFunctionOperation("arccsc", 1, ArccosecantExactValueOperation, ArccosecantResultValueOperation);
 		public static BuiltinFunctionOperation ArccotangentOperation = new BuiltinFunctionOperation("arccot", 1, ArccotangentExactValueOperation, ArccotangentResultValueOperation);
 
+		public static BuiltinFunctionOperation SortOperation = new BuiltinFunctionOperation("sort", 1, SortExactValueOperation, SortResultValueOperation);
+		public static BuiltinFunctionOperation ModeOperation = new BuiltinFunctionOperation("mode", 1, ModeExactValueOperation, ModeResultValueOperation);
+		public static BuiltinFunctionOperation MedianOperation = new BuiltinFunctionOperation("med", 1, MedianExactValueOperation, MedianResultValueOperation);
+		public static BuiltinFunctionOperation MeanOperation = new BuiltinFunctionOperation("mean", 1, MeanExactValueOperation, MeanResultValueOperation);
+		//public static BuiltinFunctionOperation StandardDeviationOperation = new BuiltinFunctionOperation("stddev", 1, StandardDeviationExactValueOperation, StandardDeviationResultValueOperation);
+
 		public static BuiltinFunctionOperation VectorFromMagnitudeAndDirectionOperation = new BuiltinFunctionOperation("vector", 2, VectorFromMagnitudeAndDirectionExactValueOperation, VectorFromMagnitudeAndDirectionResultValueOperation);
 		public static BuiltinFunctionOperation MagnitudeFromVectorOperation = new BuiltinFunctionOperation("mag", 1, MagnitudeFromVectorExactValueOperation, MagnitudeFromVectorResultValueOperation);
-		
+
 		// Regular functions
 
 		public static ISolvable AbsExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
@@ -187,7 +193,69 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		//List Functions
 
+		public static ISolvable SortExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			ISolvable[] elements = ((List)operands[0].GetExactValue(args)).EvaluateOperandsExact(args);
+			Array.Sort(elements);
+			return new List(elements);
+		}
 
+		public static IResult SortResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			ISolvable[] elements = ((List)operands[0]).EvaluateOperandsResult(args);
+			Array.Sort(elements);
+			return new List(elements);
+		}
+
+		public static ISolvable ModeExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			ISolvable[] elements = ((List)operands[0].GetExactValue(args)).EvaluateOperandsExact(args);
+			Dictionary<string, (ISolvable, int)> dict = new Dictionary<string, (ISolvable, int)>();
+			
+			for (int i = 0; i < elements.Length; i++) {
+				string str = elements[i].GetEquationString();
+				if (dict.ContainsKey(str)) {
+					(ISolvable a, int b) = dict[str];
+					dict[str] = (a, b + 1);
+				} else {
+					dict.Add(str, (elements[i], 1));
+				}
+			}
+
+			ISolvable output = null;
+			int count = 0;
+			foreach (KeyValuePair<string, (ISolvable, int)> pair in dict) {
+				if (pair.Value.Item2 > count) {
+					output = pair.Value.Item1;
+					count = pair.Value.Item2;
+				}
+			}
+
+			return output;
+		}
+
+		public static IResult ModeResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return ModeExactValueOperation(operands, args).GetResultValue(args);
+		}
+
+		public static ISolvable MedianExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			ISolvable[] elements = ((List)operands[0].GetExactValue(args)).EvaluateOperandsExact(args);
+			Array.Sort(elements);
+			return elements[elements.Length / 2];
+		}
+
+		public static IResult MedianResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return MedianExactValueOperation(operands, args).GetResultValue(args);
+		}
+
+		public static ISolvable MeanExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			List node = (List)operands[0].GetExactValue(args);
+			return new Operator(Operations.DivideOperation,
+					new Operator(Operations.AddOperation, node.EvaluateOperandsExact(args)),
+					new Literal(node.operands.Length)
+				).GetExactValue(args);
+		}
+
+		public static IResult MeanResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return MeanExactValueOperation(operands, args).GetResultValue(args);
+		}
 
 		//Vector Functions
 

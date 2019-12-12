@@ -36,6 +36,11 @@ namespace Whalculator.Core.Calculator.Equation {
 			this.AddOperation(BuiltinFunctionOperations.ArccosecantOperation);
 			this.AddOperation(BuiltinFunctionOperations.ArccotangentOperation);
 
+			this.AddOperation(BuiltinFunctionOperations.SortOperation);
+			this.AddOperation(BuiltinFunctionOperations.ModeOperation);
+			this.AddOperation(BuiltinFunctionOperations.MedianOperation);
+			this.AddOperation(BuiltinFunctionOperations.MeanOperation);
+
 			this.AddOperation(BuiltinFunctionOperations.VectorFromMagnitudeAndDirectionOperation);
 			this.AddOperation(BuiltinFunctionOperations.MagnitudeFromVectorOperation);
 		}
