@@ -40,6 +40,7 @@ namespace Whalculator.Core.Calculator.Equation {
 			this.AddOperation(BuiltinFunctionOperations.ModeOperation);
 			this.AddOperation(BuiltinFunctionOperations.MedianOperation);
 			this.AddOperation(BuiltinFunctionOperations.MeanOperation);
+			this.AddOperation(BuiltinFunctionOperations.StandardDeviationOperation);
 
 			this.AddOperation(BuiltinFunctionOperations.VectorFromMagnitudeAndDirectionOperation);
 			this.AddOperation(BuiltinFunctionOperations.MagnitudeFromVectorOperation);

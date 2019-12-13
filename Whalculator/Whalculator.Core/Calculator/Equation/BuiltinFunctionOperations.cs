@@ -30,7 +30,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		public static BuiltinFunctionOperation ModeOperation = new BuiltinFunctionOperation("mode", 1, ModeExactValueOperation, ModeResultValueOperation);
 		public static BuiltinFunctionOperation MedianOperation = new BuiltinFunctionOperation("med", 1, MedianExactValueOperation, MedianResultValueOperation);
 		public static BuiltinFunctionOperation MeanOperation = new BuiltinFunctionOperation("mean", 1, MeanExactValueOperation, MeanResultValueOperation);
-		//public static BuiltinFunctionOperation StandardDeviationOperation = new BuiltinFunctionOperation("stddev", 1, StandardDeviationExactValueOperation, StandardDeviationResultValueOperation);
+		public static BuiltinFunctionOperation StandardDeviationOperation = new BuiltinFunctionOperation("stddev", 1, StandardDeviationExactValueOperation, StandardDeviationResultValueOperation);
 
 		public static BuiltinFunctionOperation VectorFromMagnitudeAndDirectionOperation = new BuiltinFunctionOperation("vector", 2, VectorFromMagnitudeAndDirectionExactValueOperation, VectorFromMagnitudeAndDirectionResultValueOperation);
 		public static BuiltinFunctionOperation MagnitudeFromVectorOperation = new BuiltinFunctionOperation("mag", 1, MagnitudeFromVectorExactValueOperation, MagnitudeFromVectorResultValueOperation);
@@ -255,6 +255,37 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		public static IResult MeanResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
 			return MeanExactValueOperation(operands, args).GetResultValue(args);
+		}
+
+		public static ISolvable StandardDeviationExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			List node = (List)operands[0].GetExactValue(args);
+			
+			if (node.operands.Length < 2) {
+				return new Literal(0);
+			}
+
+			ISolvable minusMean = new Operator(Operations.MultiplyOperation, 
+				new Literal(-1), 
+				MeanExactValueOperation(new ISolvable[] { node }, args)
+			);
+
+			ISolvable[] sum = node.EvaluateOperandsExact(args);
+
+			for (int i = 0; i < sum.Length; i++) {
+				sum[i] = new Operator(Operations.ExponateOperation,
+					new Operator(Operations.AddOperation, sum[i].Clone(), minusMean.Clone()),
+					new Literal(2)
+				);
+			}
+
+			return new BuiltinFunction(SqrtOperation, new Operator(Operations.DivideOperation,
+					new Operator(Operations.AddOperation, sum),
+					new Literal(node.operands.Length - 1)
+				)).GetExactValue(args);
+		}
+
+		public static IResult StandardDeviationResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return StandardDeviationExactValueOperation(operands, args).GetResultValue(args);
 		}
 
 		//Vector Functions
