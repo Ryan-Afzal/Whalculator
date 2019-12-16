@@ -11,6 +11,7 @@ namespace Whalculator.Core.Calculator.Equation {
 	public struct GenerationArgs {
 		public IOperatorSet OperatorSet { get; set; }
 		public IBuiltinFunctionOperationSet BuiltinFunctionOperationSet { get; set; }
+		//public char[,] BracketPairs { get; set; }
 	}
 
 	/// <summary>

@@ -10,5 +10,6 @@ namespace Whalculator.Core.Calculator.Equation {
 		public IVariableSet VariableSet { get; set; }
 		public IFunctionSet FunctionSet { get; set; }
 		public FunctionArgumentArgs Args { get; set; }
+		public bool IsDegrees { get; set; }
 	}
 }

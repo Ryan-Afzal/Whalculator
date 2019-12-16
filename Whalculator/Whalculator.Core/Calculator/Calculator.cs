@@ -8,7 +8,6 @@ namespace Whalculator.Core.Calculator {
 
 		private class CalculatorSettings : ICalculatorSettings {
 			public bool IsDegrees { get; set; }
-			public bool SigFigs { get; set; }
 		}
 
 		protected internal Calculator() {
@@ -29,14 +28,7 @@ namespace Whalculator.Core.Calculator {
 		public IFunctionSet Functions { get; }
 
 		protected virtual ICalculatorSettings GetSettings() {
-			return new CalculatorSettings() { IsDegrees = true, SigFigs = false };
-		}
-
-		public ISolvable GetSolvableFromText(string input) {
-			return ExpressionBuilder.GetSolvable(input, new GenerationArgs() {
-				OperatorSet = OperatorSet,
-				BuiltinFunctionOperationSet = BuiltinFunctionOperationSet
-			});
+			return new CalculatorSettings() { IsDegrees = true };
 		}
 
 		public IResult GetResultValue(string input) {
@@ -50,6 +42,44 @@ namespace Whalculator.Core.Calculator {
 				.GetEquationString();
 		}
 
+		public bool SetVariable(string head, string body) {
+			return Variables.SetVariable(head, this.GetResultValue(body));
+		}
+
+		public bool SetFunction(string head, string body) {
+			int hi = head.IndexOf('(');
+			string name = head.Substring(0, hi);
+
+			if (name.Equals("\'")) {
+				throw new ArgumentException("Cannot use a keyword as a function name");
+			} else if (name.Equals("$")) {
+				throw new ArgumentException("Cannot use a keyword as a function name");
+			}
+
+			var argnames = new Dictionary<string, int>();
+			string[] fnArgs = head.Substring(hi + 1, head.Length - hi - 2).Split(',');
+
+			for (int k = 0; k < fnArgs.Length; k++) {
+				argnames[fnArgs[k]] = k;
+			}
+
+			FunctionInfo info = new FunctionInfo() {
+				Name = name,
+				Head = head,
+				ArgNames = argnames,
+				Function = this.GetSolvableFromText(body)
+			};
+
+			return Functions.SetFunction(info.Name, info);
+		}
+
+		public ISolvable GetSolvableFromText(string input) {
+			return ExpressionBuilder.GetSolvable(input, new GenerationArgs() {
+				OperatorSet = OperatorSet,
+				BuiltinFunctionOperationSet = BuiltinFunctionOperationSet
+			});
+		}
+
 		private ExpressionEvaluationArgs GetArgs() {
 			return new ExpressionEvaluationArgs() {
 				VariableSet = Variables,
@@ -57,7 +87,8 @@ namespace Whalculator.Core.Calculator {
 				Args = new FunctionArgumentArgs() {
 					ArgNames = new Dictionary<string, int>(),
 					Args = new ISolvable[0]
-				}
+				},
+				IsDegrees = Settings.IsDegrees
 			};
 		}
 	}

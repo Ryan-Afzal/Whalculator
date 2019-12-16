@@ -21,7 +21,7 @@ namespace Whalculator.ConsoleApp {
 			while (!input.Equals("--quit")) {
 				try {
 					input = input.Replace(" ", "");
-
+					
 					int idx = input.IndexOf("d/dx");
 					if (idx == 0) {
 						string body = input.Substring(4);
@@ -33,34 +33,12 @@ namespace Whalculator.ConsoleApp {
 						} else {
 							string head = input.Substring(0, i);
 							string body = input.Substring(i + 1);
-
+							
 							int hi = head.IndexOf('(');
 							if (hi == -1) {
-								calc.Variables.SetVariable(head, calc.GetResultValue(body));
+								calc.SetVariable(head, body);
 							} else {
-								string name = head.Substring(0, hi);
-
-								if (name.Equals("\'")) {
-									throw new ArgumentException("Cannot use a keyword as a function name");
-								} else if (name.Equals("$")) {
-									throw new ArgumentException("Cannot use a keyword as a function name");
-								}
-
-								var argnames = new Dictionary<string, int>();
-								string[] fnArgs = head.Substring(hi + 1, head.Length - hi - 2).Split(',');
-
-								for (int k = 0; k < fnArgs.Length; k++) {
-									argnames[fnArgs[k]] = k;
-								}
-
-								FunctionInfo info = new FunctionInfo() {
-									Name = name,
-									Head = head,
-									ArgNames = argnames,
-									Function = calc.GetSolvableFromText(body)
-								};
-
-								calc.Functions.SetFunction(info.Name, info);
+								calc.SetFunction(head, body);
 							}
 						}
 					}
