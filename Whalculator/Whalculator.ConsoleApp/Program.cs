@@ -29,7 +29,7 @@ namespace Whalculator.ConsoleApp {
 					} else {
 						int i = input.IndexOf('=');
 						if (i == -1) {
-							Console.WriteLine(calc.GetExactValue(input));
+							Console.WriteLine(calc.GetResultValue(input).GetEquationString());
 						} else {
 							string head = input.Substring(0, i);
 							string body = input.Substring(i + 1);

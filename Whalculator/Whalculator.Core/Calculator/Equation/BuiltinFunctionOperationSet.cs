@@ -23,6 +23,9 @@ namespace Whalculator.Core.Calculator.Equation {
 			this.AddOperation(BuiltinFunctionOperations.LogOperation);
 			this.AddOperation(BuiltinFunctionOperations.LnOperation);
 
+			this.AddOperation(BuiltinFunctionOperations.ToDegreesOperation);
+			this.AddOperation(BuiltinFunctionOperations.ToRadiansOperation);
+
 			this.AddOperation(BuiltinFunctionOperations.SineOperation);
 			this.AddOperation(BuiltinFunctionOperations.CosineOperation);
 			this.AddOperation(BuiltinFunctionOperations.TangentOperation);
