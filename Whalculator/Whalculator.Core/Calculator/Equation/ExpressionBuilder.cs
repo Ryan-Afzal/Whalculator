@@ -11,7 +11,7 @@ namespace Whalculator.Core.Calculator.Equation {
 	public struct GenerationArgs {
 		public IOperatorSet OperatorSet { get; set; }
 		public IBuiltinFunctionOperationSet BuiltinFunctionOperationSet { get; set; }
-		//public char[,] BracketPairs { get; set; }
+		public char[,] BracketPairs { get; set; }
 	}
 
 	/// <summary>
@@ -109,14 +109,14 @@ namespace Whalculator.Core.Calculator.Equation {
 			for (int i = 0; i < text.Length; i++) {
 				char c = text[i];
 
-				if (IsOpenBracket(c)) {
+				if (IsOpenBracket(c, args)) {
 					stack.Push(c);
 					isNumeric = false;
 					isAlphanumeric = false;
-				} else if (IsCloseBracket(c)) {
+				} else if (IsCloseBracket(c, args)) {
 					isNumeric = false;
 					isAlphanumeric = false;
-					if (!stack.IsEmpty && IsBracketPair(stack.Peek(), c)) {
+					if (!stack.IsEmpty && IsBracketPair(stack.Peek(), c, args)) {
 						stack.Pop();
 					} else {
 						throw new MalformedEquationException(ErrorCode.MismatchedParentheses);
@@ -206,10 +206,10 @@ namespace Whalculator.Core.Calculator.Equation {
 			for (int k = 0; k < input.Length; k++) {
 				char c = input[k];
 
-				if (IsOpenBracket(c)) {
+				if (IsOpenBracket(c, args)) {
 					stack.Push(c);
-				} else if (IsCloseBracket(c)) {
-					if (IsBracketPair(stack.Peek(), c)) {
+				} else if (IsCloseBracket(c, args)) {
+					if (!stack.IsEmpty && IsBracketPair(stack.Peek(), c, args)) {
 						stack.Pop();
 					} else {
 						throw new MalformedEquationException(ErrorCode.MismatchedParentheses);
@@ -278,23 +278,29 @@ namespace Whalculator.Core.Calculator.Equation {
 		/// </summary>
 		/// <param name="c"></param>
 		/// <returns></returns>
-		private static bool IsOpenBracket(char c) {
-			return c == '('
-				|| c == '{'
-				|| c == '<'
-				|| c == '[';
+		private static bool IsOpenBracket(char c, GenerationArgs args) {
+			for (int i = 0; i < args.BracketPairs.Length; i++) {
+				if (c == args.BracketPairs[i, 0]) {
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		/// <summary>
-		/// Returns true if the input character is an close bracket
+		/// Returns true if the input character is a close bracket
 		/// </summary>
 		/// <param name="c"></param>
 		/// <returns></returns>
-		private static bool IsCloseBracket(char c) {
-			return c == ')'
-				|| c == '}'
-				|| c == '>'
-				|| c == ']';
+		private static bool IsCloseBracket(char c, GenerationArgs args) {
+			for (int i = 0; i < args.BracketPairs.Length; i++) {
+				if (c == args.BracketPairs[i, 1]) {
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		/// <summary>
@@ -303,15 +309,14 @@ namespace Whalculator.Core.Calculator.Equation {
 		/// <param name="c1"></param>
 		/// <param name="c2"></param>
 		/// <returns></returns>
-		private static bool IsBracketPair(char c1, char c2) {
-			return c1 switch
-			{
-				'(' => c2 == ')',
-				'{' => c2 == '}',
-				'<' => c2 == '>',
-				'[' => c2 == ']',
-				_ => false,
-			};
+		private static bool IsBracketPair(char c1, char c2, GenerationArgs args) {
+			for (int i = 0; i < args.BracketPairs.Length; i++) {
+				if (c1 == args.BracketPairs[i, 0] && c2 == args.BracketPairs[i, 1]) {
+					return true;
+				}
+			}
+
+			return false;
 		}
 	}
 }
