@@ -5,7 +5,7 @@ using Whalculator.Core.Misc;
 
 namespace Whalculator.Core.Calculator.Equation {
 	/// <summary>
-	/// Base class for <c>ISolvable</c> node that have an arbitrary number of children represented as operands. 
+	/// Base class for <c>ISolvable</c> nodes that have an arbitrary number of children represented as operands. 
 	/// </summary>
 	public abstract class NestedSolvable : ISolvable {
 
