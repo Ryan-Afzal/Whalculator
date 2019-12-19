@@ -279,7 +279,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		/// <param name="c"></param>
 		/// <returns></returns>
 		private static bool IsOpenBracket(char c, GenerationArgs args) {
-			for (int i = 0; i < args.BracketPairs.Length; i++) {
+			for (int i = 0; i < args.BracketPairs.Length / 2; i++) {
 				if (c == args.BracketPairs[i, 0]) {
 					return true;
 				}
@@ -294,7 +294,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		/// <param name="c"></param>
 		/// <returns></returns>
 		private static bool IsCloseBracket(char c, GenerationArgs args) {
-			for (int i = 0; i < args.BracketPairs.Length; i++) {
+			for (int i = 0; i < args.BracketPairs.Length / 2; i++) {
 				if (c == args.BracketPairs[i, 1]) {
 					return true;
 				}
@@ -310,7 +310,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		/// <param name="c2"></param>
 		/// <returns></returns>
 		private static bool IsBracketPair(char c1, char c2, GenerationArgs args) {
-			for (int i = 0; i < args.BracketPairs.Length; i++) {
+			for (int i = 0; i < args.BracketPairs.Length / 2; i++) {
 				if (c1 == args.BracketPairs[i, 0] && c2 == args.BracketPairs[i, 1]) {
 					return true;
 				}

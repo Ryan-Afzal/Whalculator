@@ -1,0 +1,66 @@
+﻿@page "/calculator"
+
+@using Whalculator.WebApp.Data
+@inject CalculatorService CalculatorService
+
+<h1>Calculator</h1>
+
+@if (instance is null) {
+    <p><em>Loading ...</em></p>
+} else {
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <div class="row">
+                    <!-- Left Pane -->
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    <!-- Console Output -->
+                    <p>Output: @output</p>
+                </div>
+                <div class="row">
+                    <!-- Console Input -->
+                    <EditForm Model="@inputModel" OnValidSubmit="@HandleInput">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+
+                        <InputText id="text" @onkeypress="OnKeyPress" @bind-Value="inputModel.InputText" />
+                    </EditForm>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="row">
+                    <!-- Right Pane -->
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private string output = "";
+    private CalculatorInstance instance;
+
+    protected override async Task OnInitializedAsync() {
+        instance = await CalculatorService.GetCalculatorInstanceAsync();
+        output = "";
+    }
+
+    private CalculatorInputModel inputModel = new CalculatorInputModel();
+
+    private void HandleInput() {
+
+    }
+
+    private void OnKeyPress(KeyboardEventArgs args) {
+        if (inputModel.InputText is null) {
+            return;
+        }
+
+        if (args.Key.Equals("Enter")) {
+            output = instance.Calculator.GetResultValue(inputModel.InputText).GetEquationString();
+        }
+    }
+}

@@ -14,8 +14,7 @@ namespace Whalculator.Tests {
 		public static ISolvable GetSolvableFromText(string text) {
 			return ExpressionBuilder.GetSolvable(text, new GenerationArgs() {
 				OperatorSet = Operators,
-				BuiltinFunctionOperationSet = BuiltinFunctionOperations, 
-				Functions = Functions
+				BuiltinFunctionOperationSet = BuiltinFunctionOperations
 			});
 		}
 
