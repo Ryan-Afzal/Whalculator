@@ -59,8 +59,10 @@
             return;
         }
 
-        if (args.Key.Equals("Enter")) {
+        try {
             output = instance.Calculator.GetResultValue(inputModel.InputText).GetEquationString();
+        } catch (Exception) {
+            output = "";
         }
     }
 }
