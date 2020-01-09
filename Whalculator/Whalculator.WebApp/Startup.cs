@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Whalculator.WebApp.Data;
+using Whalculator.WebApp.Hubs;
+using Whalculator.WebApp.Interfaces;
+using Whalculator.WebApp.Services;
 
 namespace Whalculator.WebApp {
 	public class Startup {
@@ -19,15 +20,12 @@ namespace Whalculator.WebApp {
 
 		public IConfiguration Configuration { get; }
 
-		// This method gets called by the runtime. Use this method to add services to the container.
-		// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
 		public void ConfigureServices(IServiceCollection services) {
 			services.AddRazorPages();
-			services.AddServerSideBlazor();
-			services.AddSingleton<CalculatorService>();
+			services.AddSignalR();
+			services.AddSingleton<ICalculatorService, CalculatorService>();
 		}
 
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
 			if (env.IsDevelopment()) {
 				app.UseDeveloperExceptionPage();
@@ -41,9 +39,11 @@ namespace Whalculator.WebApp {
 
 			app.UseRouting();
 
+			app.UseAuthorization();
+
 			app.UseEndpoints(endpoints => {
-				endpoints.MapBlazorHub();
-				endpoints.MapFallbackToPage("/_Host");
+				endpoints.MapRazorPages();
+				endpoints.MapHub<CalcHub>("/calcHub");
 			});
 		}
 	}
