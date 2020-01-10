@@ -16,7 +16,9 @@
             </div>
             <div class="col-6">
                 <div id="output">
-                    @output
+                    @foreach (string s in this.output) {
+                        <span class="output-text">@s</span>
+                    }
                 </div>
 
                 <br />
@@ -34,17 +36,19 @@
         </div>
     </div>
 }
+<link href="css/index.css" rel="stylesheet" />
 
 @code {
 
-    private string output = "";
+    private LinkedList<string> output;
 
     private CalculatorInstance instance;
 
     private CalculatorInputModel InputModel { get; set; }
 
     protected override async Task OnInitializedAsync() {
-        instance = await CalculatorService.GetInstanceAsync();
+        this.output = new LinkedList<string>();
+        this.instance = await CalculatorService.GetInstanceAsync();
         InputModel = new CalculatorInputModel();
     }
 
@@ -52,7 +56,7 @@
         string result;
         string input = InputModel.InputText;
 
-        this.output += $"\n{input}";
+        this.output.AddLast(input);
 
         input = input.Replace(" ", "");
 
@@ -79,7 +83,7 @@
             }
         }
 
-        this.output += $"\n=> {result}";
+        this.output.AddLast($"=> {result}");
     }
 
 }
