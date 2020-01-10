@@ -12,7 +12,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <div id="output" class="w-100 h-100">
+                <div id="output">
                     @foreach (string s in this.output) {
                         <span class="output-text">@s</span>
                     }
@@ -34,21 +34,23 @@
 
 @code {
 
-    private LinkedList<string> output;
+    private LinkedList<string> output = new LinkedList<string>();
 
-    private CalculatorInstance instance;
+    private CalculatorInstance? instance;
 
-    private CalculatorInputModel InputModel { get; set; }
+    private CalculatorInputModel InputModel { get; } = new CalculatorInputModel();
 
     protected override async Task OnInitializedAsync() {
-        this.output = new LinkedList<string>();
         this.instance = await CalculatorService.GetInstanceAsync();
-        InputModel = new CalculatorInputModel();
     }
 
     private void HandleInput() {
+        if (this.instance is null) {
+            return;
+        }
+
         string result;
-        string input = InputModel.InputText;
+        string input = InputModel.InputText ?? "";
 
         this.output.AddLast(input);
 
@@ -77,7 +79,7 @@
                     result = "Set " + head + "!";
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception) {
             result = "ERROR";
         }
 

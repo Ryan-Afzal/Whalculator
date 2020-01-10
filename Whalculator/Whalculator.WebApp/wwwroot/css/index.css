@@ -1,13 +1,18 @@
 ﻿#output {
     display: block;
+    height: 75vh;
     overflow-y: scroll;
+    border: 1px solid black;
+    padding: 4px;
 }
 
 #input {
-
+    border: 1px solid black;
+    font-family: Consolas;
 }
 
 .output-text {
     display: block;
     font-family: Consolas;
+    border: none;
 }
