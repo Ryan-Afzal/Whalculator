@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Whalculator.WebApp.Hubs;
-using Whalculator.WebApp.Interfaces;
-using Whalculator.WebApp.Services;
+using Whalculator.WebApp.Data;
 
 namespace Whalculator.WebApp {
 	public class Startup {
@@ -22,8 +21,8 @@ namespace Whalculator.WebApp {
 
 		public void ConfigureServices(IServiceCollection services) {
 			services.AddRazorPages();
-			services.AddSignalR();
-			services.AddSingleton<ICalculatorService, CalculatorService>();
+			services.AddServerSideBlazor();
+			services.AddSingleton<CalculatorService>();
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
@@ -39,11 +38,9 @@ namespace Whalculator.WebApp {
 
 			app.UseRouting();
 
-			app.UseAuthorization();
-
 			app.UseEndpoints(endpoints => {
-				endpoints.MapRazorPages();
-				endpoints.MapHub<CalcHub>("/calcHub");
+				endpoints.MapBlazorHub();
+				endpoints.MapFallbackToPage("/_Host");
 			});
 		}
 	}
