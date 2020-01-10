@@ -1,5 +1,7 @@
 ﻿#output {
     display: block;
+    overflow-y: scroll;
+    height: 100%;
 }
 
 #input {
