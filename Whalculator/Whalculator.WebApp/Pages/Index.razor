@@ -11,11 +11,8 @@
 } else {
     <div class="container">
         <div class="row">
-            <div class="col-3">
-                <!-- Left Pane -->
-            </div>
-            <div class="col-6">
-                <div id="output">
+            <div class="col-12">
+                <div id="output" class="w-100 h-100">
                     @foreach (string s in this.output) {
                         <span class="output-text">@s</span>
                     }
@@ -27,11 +24,8 @@
                     <DataAnnotationsValidator />
                     <ValidationSummary />
 
-                    <InputText id="input" @bind-Value="InputModel.InputText" />
+                    <InputText id="input" class="w-100" @bind-Value="InputModel.InputText" />
                 </EditForm>
-            </div>
-            <div class="col-3">
-                <!-- Right Pane -->
             </div>
         </div>
     </div>
@@ -58,29 +52,33 @@
 
         this.output.AddLast(input);
 
-        input = input.Replace(" ", "");
+        try {
+            input = input.Replace(" ", "");
 
-        int idx = input.IndexOf("d/dx");
-        if (idx == 0) {
-            string body = input.Substring(4);
-            result = this.instance.Calculator.GetSolvableFromText(body).GetDerivative("x").GetEquationString();
-        } else {
-            int i = input.IndexOf('=');
-            if (i == -1) {
-                result = this.instance.Calculator.GetResultValue(input).GetEquationString();
+            int idx = input.IndexOf("d/dx");
+            if (idx == 0) {
+                string body = input.Substring(4);
+                result = this.instance.Calculator.GetSolvableFromText(body).GetDerivative("x").GetEquationString();
             } else {
-                string head = input.Substring(0, i);
-                string body = input.Substring(i + 1);
-
-                int hi = head.IndexOf('(');
-                if (hi == -1) {
-                    this.instance.Calculator.SetVariable(head, body);
+                int i = input.IndexOf('=');
+                if (i == -1) {
+                    result = this.instance.Calculator.GetResultValue(input).GetEquationString();
                 } else {
-                    this.instance.Calculator.SetFunction(head, body);
-                }
+                    string head = input.Substring(0, i);
+                    string body = input.Substring(i + 1);
 
-                result = "Set " + head + "!";
+                    int hi = head.IndexOf('(');
+                    if (hi == -1) {
+                        this.instance.Calculator.SetVariable(head, body);
+                    } else {
+                        this.instance.Calculator.SetFunction(head, body);
+                    }
+
+                    result = "Set " + head + "!";
+                }
             }
+        } catch (Exception e) {
+            result = "ERROR";
         }
 
         this.output.AddLast($"=> {result}");

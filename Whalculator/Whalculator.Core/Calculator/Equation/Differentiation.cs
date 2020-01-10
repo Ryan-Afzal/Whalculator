@@ -114,11 +114,23 @@ namespace Whalculator.Core.Calculator.Equation {
 								f.operands[1].Clone()
 							),
 							f.operands[0].Clone()));
+				} else if (f.Operation.Name.Equals("sqrt")) {
+					output = new Operator(Operations.DivideOperation, 
+						new Literal(1), 
+						new Operator(Operations.MultiplyOperation, 
+							new Literal(2),
+							new BuiltinFunction(BuiltinFunctionOperations.SqrtOperation, 
+								f.operands[0].Clone()
+								)
+							)
+						);
+				} else if (f.Operation.Name.Equals("root")) {
+					throw new NotImplementedException();
 				} else if (f.Operation.Name.Equals("sin")) {// cos(x)
 					output = new BuiltinFunction(BuiltinFunctionOperations.CosineOperation, f.CloneOperands());
 				} else if (f.Operation.Name.Equals("cos")) {// -sin(x)
-					output = new Operator(Operations.MultiplyOperation, 
-						new Literal(-1), 
+					output = new Operator(Operations.MultiplyOperation,
+						new Literal(-1),
 						new BuiltinFunction(BuiltinFunctionOperations.SineOperation, f.CloneOperands()));
 				} else if (f.Operation.Name.Equals("tan")) {// sec(x)^2
 					output = new Operator(Operations.ExponateOperation,
