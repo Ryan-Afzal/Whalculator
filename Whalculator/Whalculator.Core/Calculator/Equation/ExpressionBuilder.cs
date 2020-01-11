@@ -31,10 +31,10 @@ namespace Whalculator.Core.Calculator.Equation {
 				}
 
 				public char Value { get; }
-				public ExpressionBuilderStackNode Prev { get; set; }
+				public ExpressionBuilderStackNode? Prev { get; set; }
 			}
 
-			private ExpressionBuilderStackNode top;
+			private ExpressionBuilderStackNode? top;
 
 			public ExpressionBuilderStack() {
 				Count = 0;
@@ -48,6 +48,10 @@ namespace Whalculator.Core.Calculator.Equation {
 			}
 
 			public char Pop() {
+				if (this.top is null) {
+					throw new NotImplementedException();
+				}
+
 				char value = this.top.Value;
 				this.top = this.top.Prev;
 				Count--;
@@ -55,10 +59,18 @@ namespace Whalculator.Core.Calculator.Equation {
 			}
 
 			public char Peek() {
+				if (this.top is null) {
+					throw new InvalidOperationException();
+				}
+
 				return this.top.Value;
 			}
 
 			public char PeekPrev() {
+				if (this.top?.Prev is null) {
+					throw new InvalidOperationException();
+				}
+
 				return this.top.Prev.Value;
 			}
 
