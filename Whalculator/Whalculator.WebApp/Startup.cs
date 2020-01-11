@@ -20,6 +20,11 @@ namespace Whalculator.WebApp {
 		public IConfiguration Configuration { get; }
 
 		public void ConfigureServices(IServiceCollection services) {
+			services.Configure<ForwardedHeadersOptions>(options => {
+				options.ForwardedHeaders =
+					ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+			});
+			
 			services.AddRazorPages();
 			services.AddServerSideBlazor();
 			services.AddSingleton<CalculatorService>();
@@ -32,7 +37,8 @@ namespace Whalculator.WebApp {
 				app.UseExceptionHandler("/Error");
 				app.UseHsts();
 			}
-
+			
+			app.UseForwardedHeaders();
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
 
