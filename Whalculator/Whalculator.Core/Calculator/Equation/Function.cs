@@ -67,7 +67,7 @@ namespace Whalculator.Core.Calculator.Equation {
 
 				return solvable.GetExactValue(args);
 			} else {
-				List l = _args[k] as List;
+				List l = (List)_args[k];
 				ISolvable[] output = new ISolvable[l.operands.Length];
 
 				for (int i = 0; i < output.Length; i++) {

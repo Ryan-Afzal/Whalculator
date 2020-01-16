@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Whalculator.Core.Calculator.Equation {
 	/// <summary>
@@ -27,6 +28,16 @@ namespace Whalculator.Core.Calculator.Equation {
 				.SimplifyDerivative1()
 				.SimplifyDerivative2()
 				.SimplifyDerivative3();
+		}
+
+		public static async Task<ISolvable> GetDerivativeAsync(this ISolvable input, string ind) {
+			ISolvable s = GetDerivative(input, new DerivativeArgs() { IndependentVariable = ind });
+
+			s = await s.SimplifyDerivative1Async();
+			s = await s.SimplifyDerivative2Async();
+			s = await s.SimplifyDerivative3Async();
+
+			return s;
 		}
 
 		/// <summary>
@@ -192,6 +203,14 @@ namespace Whalculator.Core.Calculator.Equation {
 			});
 		}
 
+		private static async Task<ISolvable> SimplifyDerivative1Async(this ISolvable input) {
+			return await input.SimplifyAsync(new Simplifier[] {
+				Simplifiers.SimplifyLevelOperators,
+				Simplifiers.SimplifyRemoveZerosOnes,
+				Simplifiers.SimplifyRationalExpressions
+			});
+		}
+
 		/// <summary>
 		/// Second step of derivative simplification
 		/// </summary>
@@ -206,6 +225,15 @@ namespace Whalculator.Core.Calculator.Equation {
 			});
 		}
 
+		private static async Task<ISolvable> SimplifyDerivative2Async(this ISolvable input) {
+			return await input.SimplifyAsync(new Simplifier[] {
+				Simplifiers.SimplifyRemoveZerosOnes,
+				Simplifiers.SimplifyLevelOperators,
+				Simplifiers.SimplifyRationalExpressions,
+				Simplifiers.SimplifyCollectLikeTerms
+			});
+		}
+
 		/// <summary>
 		/// Third step of derivative simplification
 		/// </summary>
@@ -213,6 +241,13 @@ namespace Whalculator.Core.Calculator.Equation {
 		/// <returns></returns>
 		private static ISolvable SimplifyDerivative3(this ISolvable input) {
 			return input.Simplify(new Simplifier[] {
+				Simplifiers.SimplifyRemoveZerosOnes,
+				Simplifiers.SimplifyLevelOperators
+			});
+		}
+
+		private static async Task<ISolvable> SimplifyDerivative3Async(this ISolvable input) {
+			return await input.SimplifyAsync(new Simplifier[] {
 				Simplifiers.SimplifyRemoveZerosOnes,
 				Simplifiers.SimplifyLevelOperators
 			});

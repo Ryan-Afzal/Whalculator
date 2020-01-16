@@ -47,7 +47,7 @@ namespace Whalculator.Core.Calculator.Equation {
 			return VariableName;
 		}
 
-		public override bool Equals(object obj) {
+		public override bool Equals(object? obj) {
 			if (obj is Variable v && v.VariableName.Equals(VariableName)) {
 				return true;
 			} else {

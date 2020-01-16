@@ -114,7 +114,7 @@ namespace Whalculator.Core.Calculator.Equation {
 							if (l.Value == 0) {
 								return new Literal(0);
 							} else if (l.Value == 1) {
-								o.operands[i] = null;
+								o.operands[i] = null!;
 								z++;
 							}
 						}
@@ -154,7 +154,7 @@ namespace Whalculator.Core.Calculator.Equation {
 					for (int i = 0; i < o.operands.Length; i++) {
 						if (o.operands[i] is Literal l) {
 							if (l.Value == 0) {
-								o.operands[i] = null;
+								o.operands[i] = null!;
 								z++;
 							}
 						}
@@ -223,7 +223,7 @@ namespace Whalculator.Core.Calculator.Equation {
 						if (o.operands[i] is Literal l) {
 							if (o.operands[i - 1] is Literal _l) {
 								o.operands[i - 1] = new Literal(l.Value + _l.Value);
-								o.operands[i] = null;
+								o.operands[i] = null!;
 								c--;
 								continue;
 							}
@@ -264,7 +264,7 @@ namespace Whalculator.Core.Calculator.Equation {
 						if (o.operands[i] is Literal l) {
 							if (o.operands[i - 1] is Literal _l) {
 								o.operands[i - 1] = new Literal(l.Value * _l.Value);
-								o.operands[i] = null;
+								o.operands[i] = null!;
 								c--;
 								continue;
 							}
@@ -274,13 +274,13 @@ namespace Whalculator.Core.Calculator.Equation {
 							o.operands[i] = new Operator(Operations.ExponateOperation, o.operands[i], new Literal(1));
 						}
 
-						var curr = o.operands[i] as Operator;
+						var curr = (Operator)o.operands[i];
 
 						if (o.operands[i - 1] is Operator prevOperator) {
 							if (prevOperator.Operation.Name == '^') {
 								if (prevOperator.operands[0].Equals(curr.operands[0])) {
 									o.operands[i - 1] = new Operator(Operations.ExponateOperation, prevOperator.operands[0], new Operator(Operations.AddOperation, prevOperator.operands[1], curr.operands[1]));
-									o.operands[i] = null;
+									o.operands[i] = null!;
 									c--;
 									continue;
 								}

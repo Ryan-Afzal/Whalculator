@@ -13,7 +13,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		IResult ISolvable.GetResultValue(ExpressionEvaluationArgs args) {
-			return this.Clone() as IResult;
+			return (IResult)this.Clone();
 		}
 
 	}

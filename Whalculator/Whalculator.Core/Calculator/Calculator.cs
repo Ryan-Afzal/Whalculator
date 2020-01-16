@@ -4,14 +4,10 @@ using System.Text;
 using Whalculator.Core.Calculator.Equation;
 
 namespace Whalculator.Core.Calculator {
-	public class Calculator : ICalculator {
+	public class Calculator {
 
-		private class CalculatorSettings : ICalculatorSettings {
-			public bool IsDegrees { get; set; }
-		}
-
-		protected internal Calculator() {
-			Settings = this.GetSettings();
+		public Calculator() {
+			Settings = this.GetDefaultSettings();
 
 			OperatorSet = new OperatorSet();
 			BuiltinFunctionOperationSet = new BuiltinFunctionOperationSet();
@@ -19,7 +15,7 @@ namespace Whalculator.Core.Calculator {
 			Functions = new FunctionSet();
 		}
 
-		public ICalculatorSettings Settings { get; }
+		public CalculatorSettings Settings { get; }
 
 		public IOperatorSet OperatorSet { get; }
 		public IBuiltinFunctionOperationSet BuiltinFunctionOperationSet { get; }
@@ -27,7 +23,7 @@ namespace Whalculator.Core.Calculator {
 		public IVariableSet Variables { get; }
 		public IFunctionSet Functions { get; }
 
-		protected virtual ICalculatorSettings GetSettings() {
+		protected virtual CalculatorSettings GetDefaultSettings() {
 			return new CalculatorSettings() { IsDegrees = true };
 		}
 

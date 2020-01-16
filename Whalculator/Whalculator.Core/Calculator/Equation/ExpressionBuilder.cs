@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Whalculator.Core.Calculator.Equation {
 
@@ -48,30 +49,18 @@ namespace Whalculator.Core.Calculator.Equation {
 			}
 
 			public char Pop() {
-				if (this.top is null) {
-					throw new NotImplementedException();
-				}
-
-				char value = this.top.Value;
+				char value = this.top!.Value;
 				this.top = this.top.Prev;
 				Count--;
 				return value;
 			}
 
 			public char Peek() {
-				if (this.top is null) {
-					throw new InvalidOperationException();
-				}
-
-				return this.top.Value;
+				return this.top!.Value;
 			}
 
 			public char PeekPrev() {
-				if (this.top?.Prev is null) {
-					throw new InvalidOperationException();
-				}
-
-				return this.top.Prev.Value;
+				return this.top!.Prev!.Value;
 			}
 
 			public int Count { get; private set; }
@@ -93,12 +82,29 @@ namespace Whalculator.Core.Calculator.Equation {
 		public static ISolvable GetSolvable(string text, GenerationArgs args) {
 			text = text.Replace(" ", "");
 
+			if (text.Length == 0) {
+				throw new ArgumentException("Text should contain input");
+			}
+
 			return ParseText(text, args).Simplify(new Simplifier[] {
 				Simplifiers.SimplifyLevelOperators,
 				Simplifiers.SimplifyTransformNegatives
 			});
 		}
 		
+		public static async Task<ISolvable> GetSolvableAsync(string text, GenerationArgs args) {
+			text = text.Replace(" ", "");
+
+			if (text.Length == 0) {
+				throw new ArgumentException("Text should contain input");
+			}
+
+			return await ParseText(text, args).SimplifyAsync(new Simplifier[] {
+				Simplifiers.SimplifyLevelOperators,
+				Simplifiers.SimplifyTransformNegatives
+			});
+		}
+
 		/// <summary>
 		/// General-case recursive parse function for generating <c>ISolvable</c>-based nodes from text
 		/// </summary>
@@ -279,6 +285,21 @@ namespace Whalculator.Core.Calculator.Equation {
 
 				foreach (var sim in simplifiers) {
 					s = Simplify(s, sim);
+				}
+			}
+
+			return s;
+		}
+
+		public static async Task<ISolvable> SimplifyAsync(this ISolvable solvable, IEnumerable<Simplifier> simplifiers) {
+			ISolvable s = solvable;
+			string str = "";
+
+			while (!str.Equals(s.GetEquationString())) {
+				str = s.GetEquationString();
+
+				foreach (var sim in simplifiers) {
+					s = await Task.Run(() => Simplify(s, sim));
 				}
 			}
 
