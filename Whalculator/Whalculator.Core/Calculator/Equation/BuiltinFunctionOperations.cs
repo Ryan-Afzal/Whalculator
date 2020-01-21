@@ -252,16 +252,16 @@ namespace Whalculator.Core.Calculator.Equation {
 				}
 			}
 
-			ISolvable output = null;
+			ISolvable? output = null;
 			int count = 0;
-			foreach (KeyValuePair<string, (ISolvable, int)> pair in dict) {
-				if (pair.Value.Item2 > count) {
-					output = pair.Value.Item1;
-					count = pair.Value.Item2;
+			foreach (var value in dict.Values) {
+				if (value.Item2 > count) {
+					output = value.Item1;
+					count = value.Item2;
 				}
 			}
 
-			return output;
+			return output!;
 		}
 
 		public static IResult ModeResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
@@ -344,7 +344,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public static ISolvable MagnitudeFromVectorExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			Vector v = (operands[0].GetResultValue(args)) as Vector;
+			Vector v = (Vector)operands[0].GetResultValue(args);
 
 			ISolvable[] terms = new ISolvable[v.Dimensions];
 

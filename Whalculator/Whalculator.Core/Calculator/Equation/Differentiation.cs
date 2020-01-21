@@ -16,13 +16,14 @@ namespace Whalculator.Core.Calculator.Equation {
 		/// <summary>
 		/// Returns the derivative of the provided function.
 		/// <example>
-		/// <code>ISolvable x = ...;</code>
-		/// <code>ISolvable y = x.GetDerivative("x");</code>
+		///		<code>ISolvable x = ...;</code>
+		///		<code>ISolvable y = x.GetDerivative("x");</code>
 		/// </example>
 		/// </summary>
 		/// <param name="input">The input function</param>
 		/// <param name="ind">The independent variable</param>
 		/// <returns>An <c>ISolvable</c> that is the derivative of <c>input</c></returns>
+		[Obsolete]
 		public static ISolvable GetDerivative(this ISolvable input, string ind) {
 			return GetDerivative(input, new DerivativeArgs() { IndependentVariable = ind })
 				.SimplifyDerivative1()
@@ -190,11 +191,7 @@ namespace Whalculator.Core.Calculator.Equation {
 			}
 		}
 
-		/// <summary>
-		/// First step of derivative simplification
-		/// </summary>
-		/// <param name="input"></param>
-		/// <returns></returns>
+		[Obsolete]
 		private static ISolvable SimplifyDerivative1(this ISolvable input) {
 			return input.Simplify(new Simplifier[] {
 				Simplifiers.SimplifyLevelOperators,
@@ -211,11 +208,7 @@ namespace Whalculator.Core.Calculator.Equation {
 			});
 		}
 
-		/// <summary>
-		/// Second step of derivative simplification
-		/// </summary>
-		/// <param name="input"></param>
-		/// <returns></returns>
+		[Obsolete]
 		private static ISolvable SimplifyDerivative2(this ISolvable input) {
 			return input.Simplify(new Simplifier[] {
 				Simplifiers.SimplifyRemoveZerosOnes,
@@ -234,11 +227,7 @@ namespace Whalculator.Core.Calculator.Equation {
 			});
 		}
 
-		/// <summary>
-		/// Third step of derivative simplification
-		/// </summary>
-		/// <param name="input"></param>
-		/// <returns></returns>
+		[Obsolete]
 		private static ISolvable SimplifyDerivative3(this ISolvable input) {
 			return input.Simplify(new Simplifier[] {
 				Simplifiers.SimplifyRemoveZerosOnes,

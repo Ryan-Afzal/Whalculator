@@ -79,6 +79,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		/// <param name="text"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
+		[Obsolete]
 		public static ISolvable GetSolvable(string text, GenerationArgs args) {
 			text = text.Replace(" ", "");
 
@@ -276,6 +277,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		/// <param name="solvable"></param>
 		/// <param name="simplifiers"></param>
 		/// <returns></returns>
+		[Obsolete]
 		public static ISolvable Simplify(this ISolvable solvable, IEnumerable<Simplifier> simplifiers) {
 			ISolvable s = solvable;
 			string str = "";
@@ -306,11 +308,6 @@ namespace Whalculator.Core.Calculator.Equation {
 			return s;
 		}
 
-		/// <summary>
-		/// Returns true if the input character is an open bracket
-		/// </summary>
-		/// <param name="c"></param>
-		/// <returns></returns>
 		private static bool IsOpenBracket(char c, GenerationArgs args) {
 			for (int i = 0; i < args.BracketPairs.Length / 2; i++) {
 				if (c == args.BracketPairs[i, 0]) {
@@ -321,11 +318,6 @@ namespace Whalculator.Core.Calculator.Equation {
 			return false;
 		}
 
-		/// <summary>
-		/// Returns true if the input character is a close bracket
-		/// </summary>
-		/// <param name="c"></param>
-		/// <returns></returns>
 		private static bool IsCloseBracket(char c, GenerationArgs args) {
 			for (int i = 0; i < args.BracketPairs.Length / 2; i++) {
 				if (c == args.BracketPairs[i, 1]) {
@@ -336,12 +328,6 @@ namespace Whalculator.Core.Calculator.Equation {
 			return false;
 		}
 
-		/// <summary>
-		/// Returns true if the specified input characters are an open and close bracket pair, respectively.
-		/// </summary>
-		/// <param name="c1"></param>
-		/// <param name="c2"></param>
-		/// <returns></returns>
 		private static bool IsBracketPair(char c1, char c2, GenerationArgs args) {
 			for (int i = 0; i < args.BracketPairs.Length / 2; i++) {
 				if (c1 == args.BracketPairs[i, 0] && c2 == args.BracketPairs[i, 1]) {

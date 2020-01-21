@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Whalculator.Core.Calculator;
 using Whalculator.Core.Calculator.Equation;
 using Whalculator.Core.Misc;
 
 namespace Whalculator.ConsoleApp {
 	public class Program {
-		public static void Main(string[] args) {
+		public static async Task Main(string[] args) {
 			Console.WriteLine("Starting Whalculator...");
 			
 			Console.Write("\tLoading Calculator...");
@@ -25,20 +26,20 @@ namespace Whalculator.ConsoleApp {
 					int idx = input.IndexOf("d/dx");
 					if (idx == 0) {
 						string body = input.Substring(4);
-						Console.WriteLine(calc.GetSolvableFromText(body).GetDerivative("x").GetEquationString());
+						Console.WriteLine((await (await calc.GetSolvableFromTextAsync(body)).GetDerivativeAsync("x")).GetEquationString());
 					} else {
 						int i = input.IndexOf('=');
 						if (i == -1) {
-							Console.WriteLine(calc.GetResultValue(input).GetEquationString());
+							Console.WriteLine((await calc.GetResultValueAsync(input)).GetEquationString());
 						} else {
 							string head = input.Substring(0, i);
 							string body = input.Substring(i + 1);
 							
 							int hi = head.IndexOf('(');
 							if (hi == -1) {
-								calc.SetVariable(head, body);
+								await calc.SetVariableAsync(head, body);
 							} else {
-								calc.SetFunction(head, body);
+								await calc.SetFunctionAsync(head, body);
 							}
 						}
 					}
