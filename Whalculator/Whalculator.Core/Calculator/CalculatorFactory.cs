@@ -5,8 +5,8 @@ using System.Text;
 namespace Whalculator.Core.Calculator {
 	public static class CalculatorFactory {
 
-		public static Calculator GetDefaultCalculator() {
-			return new Calculator();
+		public static BaseCalculator GetDefaultCalculator() {
+			return new BaseCalculator();
 		}
 
 	}

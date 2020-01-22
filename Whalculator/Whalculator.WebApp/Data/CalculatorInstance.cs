@@ -8,7 +8,7 @@ namespace Whalculator.WebApp.Data {
 	public class CalculatorInstance {
 
 		public CalculatorInstance() {
-			Calculator = CalculatorFactory.GetDefaultCalculator();
+			Calculator = new Calculator();
 		}
 
 		public Calculator Calculator { get; }

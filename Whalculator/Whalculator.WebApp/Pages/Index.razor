@@ -55,34 +55,7 @@
         this.output.AddLast(input);
 
         try {
-            input = input.Replace(" ", "");
-
-            int idx = input.IndexOf("d/dx");
-            if (idx == 0) {
-                string body = input.Substring(4);
-                result = (await (await this.instance.Calculator.GetSolvableFromTextAsync(body)).GetDerivativeAsync("x")).GetEquationString();
-            } else {
-                int i = input.IndexOf('=');
-                if (i == -1) {
-                    result = (await this.instance.Calculator.GetResultValueAsync(input)).GetEquationString();
-                } else {
-                    string head = input.Substring(0, i);
-                    string body = input.Substring(i + 1);
-
-                    int hi = head.IndexOf('(');
-                    if (hi == -1) {
-                        if (double.TryParse(head, out double numericTestVariable)) {
-                            throw new ArgumentException("Cannot reassign a literal");
-                        }
-
-                        await this.instance.Calculator.SetVariableAsync(head, body);
-                    } else {
-                        await this.instance.Calculator.SetFunctionAsync(head, body);
-                    }
-
-                    result = "Set " + head + "!";
-                }
-            }
+            result = await this.instance.Calculator.ProcessInputAsync(input);
         } catch (Exception) {
             result = "ERROR";
         }

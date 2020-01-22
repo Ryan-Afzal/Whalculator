@@ -22,7 +22,7 @@ namespace Whalculator.TestApp {
 			}
 		}
 
-		private static async Task<ISolvable> TestDerivativeAsync(string text, Calculator calc) {
+		private static async Task<ISolvable> TestDerivativeAsync(string text, BaseCalculator calc) {
 			ISolvable solvable = await calc.GetSolvableFromTextAsync(text);
 			return await solvable.GetDerivativeAsync("x");
 		}
