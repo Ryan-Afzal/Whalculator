@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Whalculator.Core.Calculator.Equation {
 	/// <summary>
@@ -12,12 +13,12 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		}
 
-		public override ISolvable GetExactValue(ExpressionEvaluationArgs args) {
-			return new List(this.EvaluateOperandsResult(args));
+		public override async Task<ISolvable> GetExactValueAsync(ExpressionEvaluationArgs args) {
+			return new List(await this.EvaluateOperandsResult(args));
 		}
 
-		public override IResult GetResultValue(ExpressionEvaluationArgs args) {
-			return new List(this.EvaluateOperandsResult(args));
+		public override async Task<IResult> GetResultValueAsync(ExpressionEvaluationArgs args) {
+			return new List(await this.EvaluateOperandsResult(args));
 		}
 
 		public override ISolvable Clone() {

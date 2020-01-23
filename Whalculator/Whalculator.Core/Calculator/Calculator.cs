@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Whalculator.Core.Calculator.Equation;
@@ -7,7 +8,7 @@ using Whalculator.Core.Calculator.Equation;
 namespace Whalculator.Core.Calculator {
 	public class Calculator {
 
-		private delegate Task<string> Command(string input);
+		private delegate Task<string> Command(params string[] args);
 
 		private readonly BaseCalculator baseCalculator;
 
@@ -16,7 +17,7 @@ namespace Whalculator.Core.Calculator {
 		public Calculator() {
 			this.baseCalculator = CalculatorFactory.GetDefaultCalculator();
 			this.commands = new Dictionary<string, Command>() {
-				{ "d/dx", DerivativeCommand }
+				{ "d/d", DerivativeCommand }
 			};
 		}
 
@@ -28,11 +29,34 @@ namespace Whalculator.Core.Calculator {
 
 			if (index != -1) {
 				string cmdString = input.Substring(0, index);
-				string restString = input.Substring(index + 1);
+				string restString = input
+					//.Substring(index + 1)
+					.Trim();
 
 				foreach (var pair in this.commands) {
 					if (pair.Key == cmdString) {
-						return await pair.Value.Invoke(restString);
+						var list = new LinkedList<string>();
+
+						int last = -1;
+						for (int k = 0; k < restString.Length; k++) {
+							char c = restString[k];
+
+							if (c == ' ') {
+								if (restString[k + 1] == '-') {
+									if (last != -1) {
+										list.AddLast(restString[(last)..k].Replace("-", "").Trim());
+									}
+
+									last = k;
+								} else {
+									list.AddLast(restString[(last)..k].Replace("-", "").Trim());
+									list.AddLast(restString.Substring(k + 1));
+									break;
+								}
+							}
+						}
+
+						return await pair.Value.Invoke(list.ToArray());
 					}
 				}
 			}
@@ -49,7 +73,7 @@ namespace Whalculator.Core.Calculator {
 				int hi = head.IndexOf('(');
 				if (hi == -1) {
 					if (await this.baseCalculator.SetVariableAsync(head, body)) {
-						result = $"{head} = {null}";
+						result = $"{head} = {body}";
 					} else {
 						result = "ERROR";
 					}
@@ -65,8 +89,9 @@ namespace Whalculator.Core.Calculator {
 			return result;
 		}
 
-		private async Task<string> DerivativeCommand(string input) {
-			return (await (await this.baseCalculator.GetSolvableFromTextAsync(input)).GetDerivativeAsync("x")).GetEquationString();
+		private async Task<string> DerivativeCommand(string[] args) {
+			//return (await (await this.baseCalculator.GetSolvableFromTextAsync(input)).GetDerivativeAsync("x", false)).GetEquationString();
+			return (await (await this.baseCalculator.GetSolvableFromTextAsync(args[1])).GetDerivativeAsync(args[0], true)).GetEquationString();
 		}
 
 	}

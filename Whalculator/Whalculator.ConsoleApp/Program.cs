@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Whalculator.Core.Calculator;
 using Whalculator.Core.Calculator.Equation;
@@ -26,7 +27,7 @@ namespace Whalculator.ConsoleApp {
 					int idx = input.IndexOf("d/dx");
 					if (idx == 0) {
 						string body = input.Substring(4);
-						Console.WriteLine((await (await calc.GetSolvableFromTextAsync(body)).GetDerivativeAsync("x")).GetEquationString());
+						Console.WriteLine((await (await calc.GetSolvableFromTextAsync(body)).GetDerivativeAsync("x", false)).GetEquationString());
 					} else {
 						int i = input.IndexOf('=');
 						if (i == -1) {

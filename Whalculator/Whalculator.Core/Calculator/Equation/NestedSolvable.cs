@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Whalculator.Core.Misc;
 
 namespace Whalculator.Core.Calculator.Equation {
@@ -16,8 +17,8 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public abstract ISolvable Clone();
-		public abstract IResult GetResultValue(ExpressionEvaluationArgs args);
-		public abstract ISolvable GetExactValue(ExpressionEvaluationArgs args);
+		public abstract Task<IResult> GetResultValueAsync(ExpressionEvaluationArgs args);
+		public abstract Task<ISolvable> GetExactValueAsync(ExpressionEvaluationArgs args);
 		public abstract string GetEquationString();
 
 		protected internal ISolvable[] CloneOperands() {
@@ -30,21 +31,21 @@ namespace Whalculator.Core.Calculator.Equation {
 			return output;
 		}
 
-		protected internal ISolvable[] EvaluateOperandsExact(ExpressionEvaluationArgs args) {
+		protected internal async Task<ISolvable[]> EvaluateOperandsExact(ExpressionEvaluationArgs args) {
 			ISolvable[] output = new ISolvable[this.operands.Length];
 
 			for (int i = 0; i < output.Length; i++) {
-				output[i] = this.operands[i].GetExactValue(args);
+				output[i] = await this.operands[i].GetExactValueAsync(args);
 			}
 
 			return output;
 		}
 
-		protected internal ISolvable[] EvaluateOperandsResult(ExpressionEvaluationArgs args) {
+		protected internal async Task<ISolvable[]> EvaluateOperandsResult(ExpressionEvaluationArgs args) {
 			IResult[] output = new IResult[this.operands.Length];
 
 			for (int i = 0; i < output.Length; i++) {
-				output[i] = this.operands[i].GetResultValue(args);
+				output[i] = await this.operands[i].GetResultValueAsync(args);
 			}
 
 			return output;

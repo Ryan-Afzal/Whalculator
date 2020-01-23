@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Whalculator.Core.Calculator.Equation {
 	/// <summary>
@@ -13,7 +14,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		/// </summary>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		public ISolvable GetExactValue(ExpressionEvaluationArgs args);
+		public Task<ISolvable> GetExactValueAsync(ExpressionEvaluationArgs args);
 
 		/// <summary>
 		/// Gets the decimal value of this ISolvable.
@@ -24,7 +25,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		/// </summary>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		public IResult GetResultValue(ExpressionEvaluationArgs args);
+		public Task<IResult> GetResultValueAsync(ExpressionEvaluationArgs args);
 
 		/// <summary>
 		/// Gets a functional, recursive clone of this <code>ISolvable</code> 

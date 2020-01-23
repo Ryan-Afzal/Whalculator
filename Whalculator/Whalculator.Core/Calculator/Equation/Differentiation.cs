@@ -4,35 +4,21 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Whalculator.Core.Calculator.Equation {
-	/// <summary>
-	/// Contains different methods to perform differentiation-based operations on <c>ISolvable</c>s
-	/// </summary>
 	public static class Differentiation {
 
 		private struct DerivativeArgs {
-			public string IndependentVariable { get; set; }
+
+			public DerivativeArgs(string ind, bool imp) {
+				IndependentVariable = ind;
+				Implicit = imp;
+			}
+
+			public string IndependentVariable { get; }
+			public bool Implicit { get; }
 		}
 
-		/// <summary>
-		/// Returns the derivative of the provided function.
-		/// <example>
-		///		<code>ISolvable x = ...;</code>
-		///		<code>ISolvable y = x.GetDerivative("x");</code>
-		/// </example>
-		/// </summary>
-		/// <param name="input">The input function</param>
-		/// <param name="ind">The independent variable</param>
-		/// <returns>An <c>ISolvable</c> that is the derivative of <c>input</c></returns>
-		[Obsolete]
-		public static ISolvable GetDerivative(this ISolvable input, string ind) {
-			return GetDerivative(input, new DerivativeArgs() { IndependentVariable = ind })
-				.SimplifyDerivative1()
-				.SimplifyDerivative2()
-				.SimplifyDerivative3();
-		}
-
-		public static async Task<ISolvable> GetDerivativeAsync(this ISolvable input, string ind) {
-			ISolvable s = GetDerivative(input, new DerivativeArgs() { IndependentVariable = ind });
+		public static async Task<ISolvable> GetDerivativeAsync(this ISolvable input, string ind, bool imp) {
+			ISolvable s = GetDerivative(input, new DerivativeArgs(ind, imp));
 
 			s = await s.SimplifyDerivative1Async();
 			s = await s.SimplifyDerivative2Async();
@@ -51,10 +37,14 @@ namespace Whalculator.Core.Calculator.Equation {
 			if (input is Literal) {
 				return new Literal(0);
 			} else if (input is Variable v) {
-				if (v.VariableName.Equals(args.IndependentVariable)) {
-					return new Literal(1);
+				if (args.Implicit) {
+					return new ImplicitDifferentiationSymbol(v.VariableName, args.IndependentVariable);
 				} else {
-					return new Literal(0);
+					if (v.VariableName.Equals(args.IndependentVariable)) {
+						return new Literal(1);
+					} else {
+						return new Literal(0);
+					}
 				}
 			} else if (input is Operator o) {
 				if (o.Operation.Name == '+') {
@@ -191,30 +181,11 @@ namespace Whalculator.Core.Calculator.Equation {
 			}
 		}
 
-		[Obsolete]
-		private static ISolvable SimplifyDerivative1(this ISolvable input) {
-			return input.Simplify(new Simplifier[] {
-				Simplifiers.SimplifyLevelOperators,
-				Simplifiers.SimplifyRemoveZerosOnes,
-				Simplifiers.SimplifyRationalExpressions
-			});
-		}
-
 		private static async Task<ISolvable> SimplifyDerivative1Async(this ISolvable input) {
 			return await input.SimplifyAsync(new Simplifier[] {
 				Simplifiers.SimplifyLevelOperators,
 				Simplifiers.SimplifyRemoveZerosOnes,
 				Simplifiers.SimplifyRationalExpressions
-			});
-		}
-
-		[Obsolete]
-		private static ISolvable SimplifyDerivative2(this ISolvable input) {
-			return input.Simplify(new Simplifier[] {
-				Simplifiers.SimplifyRemoveZerosOnes,
-				Simplifiers.SimplifyLevelOperators,
-				Simplifiers.SimplifyRationalExpressions,
-				Simplifiers.SimplifyCollectLikeTerms
 			});
 		}
 
@@ -224,14 +195,6 @@ namespace Whalculator.Core.Calculator.Equation {
 				Simplifiers.SimplifyLevelOperators,
 				Simplifiers.SimplifyRationalExpressions,
 				Simplifiers.SimplifyCollectLikeTerms
-			});
-		}
-
-		[Obsolete]
-		private static ISolvable SimplifyDerivative3(this ISolvable input) {
-			return input.Simplify(new Simplifier[] {
-				Simplifiers.SimplifyRemoveZerosOnes,
-				Simplifiers.SimplifyLevelOperators
 			});
 		}
 

@@ -36,6 +36,10 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public bool SetVariable(string name, ISolvable value) {
+			if (double.TryParse(name, out double testVar)) {
+				return false;
+			}
+
 			if (this.IsVariable(name) && this.IsConstant(name)) {
 				return false;
 			}

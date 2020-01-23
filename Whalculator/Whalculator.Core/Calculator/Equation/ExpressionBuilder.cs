@@ -73,26 +73,6 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		}
 		
-		/// <summary>
-		/// Gets the <c>ISolvable</c>-based node graph for the specified input text
-		/// </summary>
-		/// <param name="text"></param>
-		/// <param name="args"></param>
-		/// <returns></returns>
-		[Obsolete]
-		public static ISolvable GetSolvable(string text, GenerationArgs args) {
-			text = text.Replace(" ", "");
-
-			if (text.Length == 0) {
-				throw new ArgumentException("Text should contain input");
-			}
-
-			return ParseText(text, args).Simplify(new Simplifier[] {
-				Simplifiers.SimplifyLevelOperators,
-				Simplifiers.SimplifyTransformNegatives
-			});
-		}
-		
 		public static async Task<ISolvable> GetSolvableAsync(string text, GenerationArgs args) {
 			text = text.Replace(" ", "");
 
@@ -269,28 +249,6 @@ namespace Whalculator.Core.Calculator.Equation {
 			} else {
 				return simplifier.Invoke(solvable);
 			}
-		}
-
-		/// <summary>
-		/// Continuously applies the specified simplifiers to the specified <c>ISolvable</c> until the node graph does not change
-		/// </summary>
-		/// <param name="solvable"></param>
-		/// <param name="simplifiers"></param>
-		/// <returns></returns>
-		[Obsolete]
-		public static ISolvable Simplify(this ISolvable solvable, IEnumerable<Simplifier> simplifiers) {
-			ISolvable s = solvable;
-			string str = "";
-
-			while (!str.Equals(s.GetEquationString())) {
-				str = s.GetEquationString();
-
-				foreach (var sim in simplifiers) {
-					s = Simplify(s, sim);
-				}
-			}
-
-			return s;
 		}
 
 		public static async Task<ISolvable> SimplifyAsync(this ISolvable solvable, IEnumerable<Simplifier> simplifiers) {

@@ -18,41 +18,41 @@ namespace Whalculator.Tests {
 		public void TestDifferentiateLinear2() {
 			var calc = CalculatorFactory.GetDefaultCalculator();
 			var eqn = calc.GetSolvableFromText("2*x+100");
-			Assert.AreEqual("2", eqn.GetDerivative("x").GetEquationString());
+			Assert.AreEqual("2", await eqn.GetDerivative("x").GetEquationString());
 		}
 
 		[TestMethod]
 		public void TestDifferentiateQuadratic1() {
 			var calc = CalculatorFactory.GetDefaultCalculator();
 			var eqn = calc.GetSolvableFromText("x^2");
-			var derivative = eqn.GetDerivative("x");
+			var derivative = await eqn.GetDerivative("x");
 			Assert.AreEqual("2*x", derivative.GetEquationString());
 			var args = new ExpressionEvaluationArgs() {
 				VariableSet = calc.Variables
 			};
 			calc.Variables.SetVariable("x", new Literal(0));
-			Assert.AreEqual(new Literal(0), derivative.GetResultValue(args));
+			Assert.AreEqual(new Literal(0), await derivative.GetResultValueAsync(args));
 			calc.Variables.SetVariable("x", new Literal(1));
-			Assert.AreEqual(new Literal(2), derivative.GetResultValue(args));
+			Assert.AreEqual(new Literal(2), await derivative.GetResultValueAsync(args));
 			calc.Variables.SetVariable("x", new Literal(2));
-			Assert.AreEqual(new Literal(4), derivative.GetResultValue(args));
+			Assert.AreEqual(new Literal(4), await derivative.GetResultValueAsync(args));
 		}
 
 		[TestMethod]
 		public void TestDifferentiateQuadratic2() {
 			var calc = CalculatorFactory.GetDefaultCalculator();
 			var eqn = calc.GetSolvableFromText("x^2+2*x+1");
-			var derivative = eqn.GetDerivative("x");
+			var derivative = await eqn.GetDerivative("x");
 			Assert.AreEqual("2+2*x", derivative.GetEquationString());
 			var args = new ExpressionEvaluationArgs() {
 				VariableSet = calc.Variables
 			};
 			calc.Variables.SetVariable("x", new Literal(0));
-			Assert.AreEqual(2, derivative.GetResultValue(args));
+			Assert.AreEqual(2, derivative.GetResultValueAsync(args));
 			calc.Variables.SetVariable("x", new Literal(1));
-			Assert.AreEqual(4, derivative.GetResultValue(args));
+			Assert.AreEqual(4, derivative.GetResultValueAsync(args));
 			calc.Variables.SetVariable("x", new Literal(2));
-			Assert.AreEqual(6, derivative.GetResultValue(args));
+			Assert.AreEqual(6, derivative.GetResultValueAsync(args));
 		}
 
 		[TestMethod]
@@ -65,11 +65,11 @@ namespace Whalculator.Tests {
 				VariableSet = calc.Variables
 			};
 			calc.Variables.SetVariable("x", new Literal(0));
-			Assert.AreEqual(0, derivative.GetResultValue(args));
+			Assert.AreEqual(0, derivative.GetResultValueAsync(args));
 			calc.Variables.SetVariable("x", new Literal(1));
-			Assert.AreEqual(3, derivative.GetResultValue(args));
+			Assert.AreEqual(3, derivative.GetResultValueAsync(args));
 			calc.Variables.SetVariable("x", new Literal(2));
-			Assert.AreEqual(12, derivative.GetResultValue(args));
+			Assert.AreEqual(12, derivative.GetResultValueAsync(args));
 		}
 
 		[TestMethod]
@@ -82,11 +82,11 @@ namespace Whalculator.Tests {
 				VariableSet = calc.Variables
 			};
 			calc.Variables.SetVariable("x", new Literal(0));
-			Assert.AreEqual(3, derivative.GetResultValue(args));
+			Assert.AreEqual(3, derivative.GetResultValueAsync(args));
 			calc.Variables.SetVariable("x", new Literal(1));
-			Assert.AreEqual(12, derivative.GetResultValue(args));
+			Assert.AreEqual(12, derivative.GetResultValueAsync(args));
 			calc.Variables.SetVariable("x", new Literal(2));
-			Assert.AreEqual(27, derivative.GetResultValue(args));
+			Assert.AreEqual(27, derivative.GetResultValueAsync(args));
 		}
 
 		[TestMethod]
@@ -99,11 +99,11 @@ namespace Whalculator.Tests {
 				VariableSet = calc.Variables
 			};
 			calc.Variables.SetVariable("x", new Literal(0));
-			Assert.AreEqual(2, derivative.GetResultValue(args));
+			Assert.AreEqual(2, derivative.GetResultValueAsync(args));
 			calc.Variables.SetVariable("x", new Literal(1));
-			Assert.AreEqual(4, derivative.GetResultValue(args));
+			Assert.AreEqual(4, derivative.GetResultValueAsync(args));
 			calc.Variables.SetVariable("x", new Literal(2));
-			Assert.AreEqual(6, derivative.GetResultValue(args));
+			Assert.AreEqual(6, derivative.GetResultValueAsync(args));
 		}
 
 		[TestMethod]
@@ -116,11 +116,11 @@ namespace Whalculator.Tests {
 				VariableSet = calc.Variables
 			};
 			calc.Variables.SetVariable("x", new Literal(1));
-			Assert.AreEqual(1.0 / 2, derivative.GetResultValue(args));
+			Assert.AreEqual(1.0 / 2, derivative.GetResultValueAsync(args));
 			calc.Variables.SetVariable("x", new Literal(4));
-			Assert.AreEqual(1.0 / 4, derivative.GetResultValue(args));
+			Assert.AreEqual(1.0 / 4, derivative.GetResultValueAsync(args));
 			calc.Variables.SetVariable("x", new Literal(9));
-			Assert.AreEqual(1.0 / 6, derivative.GetResultValue(args));
+			Assert.AreEqual(1.0 / 6, derivative.GetResultValueAsync(args));
 		}
 
 		[TestMethod]
@@ -133,11 +133,11 @@ namespace Whalculator.Tests {
 				VariableSet = calc.Variables
 			};
 			calc.Variables.SetVariable("x", new Literal(0.5));
-			Assert.AreEqual(1.0, derivative.GetResultValue(args));
+			Assert.AreEqual(1.0, derivative.GetResultValueAsync(args));
 			calc.Variables.SetVariable("x", new Literal(2));
-			Assert.AreEqual(1.0 / 2, derivative.GetResultValue(args));
+			Assert.AreEqual(1.0 / 2, derivative.GetResultValueAsync(args));
 			calc.Variables.SetVariable("x", new Literal(4.5));
-			Assert.AreEqual(1.0 / 6, derivative.GetResultValue(args));
+			Assert.AreEqual(1.0 / 6, derivative.GetResultValueAsync(args));
 		}
 
 		[TestMethod]
@@ -150,11 +150,11 @@ namespace Whalculator.Tests {
 				VariableSet = calc.Variables
 			};
 			calc.Variables.SetVariable("x", new Literal(1));
-			Assert.AreEqual(1.0, derivative.GetResultValue(args));
+			Assert.AreEqual(1.0, derivative.GetResultValueAsync(args));
 			calc.Variables.SetVariable("x", new Literal(2));
-			Assert.AreEqual(1.0 / 2, derivative.GetResultValue(args));
+			Assert.AreEqual(1.0 / 2, derivative.GetResultValueAsync(args));
 			calc.Variables.SetVariable("x", new Literal(3));
-			Assert.AreEqual(1.0 / 3, derivative.GetResultValue(args));
+			Assert.AreEqual(1.0 / 3, derivative.GetResultValueAsync(args));
 		}
 
 		[TestMethod]
@@ -167,11 +167,11 @@ namespace Whalculator.Tests {
 				VariableSet = calc.Variables
 			};
 			calc.Variables.SetVariable("x", new Literal(1));
-			Assert.AreEqual(1.0 / 3, derivative.GetResultValue(args));
+			Assert.AreEqual(1.0 / 3, derivative.GetResultValueAsync(args));
 			calc.Variables.SetVariable("x", new Literal(2));
-			Assert.AreEqual(2.0 / 7, derivative.GetResultValue(args));
+			Assert.AreEqual(2.0 / 7, derivative.GetResultValueAsync(args));
 			calc.Variables.SetVariable("x", new Literal(3));
-			Assert.AreEqual(1.0 / 4, derivative.GetResultValue(args));
+			Assert.AreEqual(1.0 / 4, derivative.GetResultValueAsync(args));
 		}
 
 		[TestMethod]
@@ -184,11 +184,11 @@ namespace Whalculator.Tests {
 				VariableSet = calc.Variables
 			};
 			calc.Variables.SetVariable("x", new Literal(1));
-			Assert.AreEqual(1.0 / 3, derivative.GetResultValue(args));
+			Assert.AreEqual(1.0 / 3, derivative.GetResultValueAsync(args));
 			calc.Variables.SetVariable("x", new Literal(2));
-			Assert.AreEqual(2.0 / 7, derivative.GetResultValue(args));
+			Assert.AreEqual(2.0 / 7, derivative.GetResultValueAsync(args));
 			calc.Variables.SetVariable("x", new Literal(3));
-			Assert.AreEqual(1.0 / 4, derivative.GetResultValue(args));
+			Assert.AreEqual(1.0 / 4, derivative.GetResultValueAsync(args));
 		}
 
 		[TestMethod]

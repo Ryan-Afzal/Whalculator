@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Whalculator.Core.Calculator.Equation {
 	public static class BuiltinFunctionOperations {
@@ -40,65 +41,65 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		// Regular functions
 
-		public static ISolvable AbsExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Abs(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<ISolvable> AbsExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Abs(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static IResult AbsResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Abs(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<IResult> AbsResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Abs(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static ISolvable CeilExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Ceiling(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<ISolvable> CeilExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Ceiling(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static IResult CeilResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Ceiling(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<IResult> CeilResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Ceiling(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static ISolvable FloorExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Floor(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<ISolvable> FloorExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Floor(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static IResult FloorResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Floor(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<IResult> FloorResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Floor(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static ISolvable RootExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Pow(((Literal)operands[0].GetResultValue(args)).Value, 1 / ((Literal)operands[1].GetResultValue(args)).Value));
+		public static async Task<ISolvable> RootExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Pow(((Literal)await operands[0].GetResultValueAsync(args)).Value, 1 / ((Literal)await operands[1].GetResultValueAsync(args)).Value));
 		}
 
-		public static IResult RootResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Pow(((Literal)operands[0].GetResultValue(args)).Value, 1 / ((Literal)operands[1].GetResultValue(args)).Value));
+		public static async Task<IResult> RootResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Pow(((Literal)await operands[0].GetResultValueAsync(args)).Value, 1 / ((Literal)await operands[1].GetResultValueAsync(args)).Value));
 		}
 
-		public static ISolvable SqrtExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Sqrt(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<ISolvable> SqrtExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Sqrt(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static IResult SqrtResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Sqrt(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<IResult> SqrtResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Sqrt(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static ISolvable LogExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Log(((Literal)operands[1].GetResultValue(args)).Value) / Math.Log(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<ISolvable> LogExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Log(((Literal)await operands[1].GetResultValueAsync(args)).Value) / Math.Log(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static IResult LogResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Log(((Literal)operands[1].GetResultValue(args)).Value) / Math.Log(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<IResult> LogResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Log(((Literal)await operands[1].GetResultValueAsync(args)).Value) / Math.Log(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static ISolvable LnExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Log(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<ISolvable> LnExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Log(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static IResult LnResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Log(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<IResult> LnResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Log(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
 		// Angle functions
 
-		public static ISolvable ToDegreesExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+		public static async Task<ISolvable> ToDegreesExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
 			return new Operator(Operations.DivideOperation,
 				 new Operator(Operations.MultiplyOperation,
 					 new Literal(180),
@@ -108,11 +109,11 @@ namespace Whalculator.Core.Calculator.Equation {
 				 );
 		}
 
-		public static IResult ToDegreesResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return ToDegreesExactValueOperation(operands, args).GetResultValue(args);
+		public static async Task<IResult> ToDegreesResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return await (await ToDegreesExactValueOperation(operands, args)).GetResultValueAsync(args);
 		}
 
-		public static ISolvable ToRadiansExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+		public static async Task<ISolvable> ToRadiansExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
 			return new Operator(Operations.DivideOperation,
 				new Operator(Operations.MultiplyOperation,
 					new Variable("pi"),
@@ -122,124 +123,124 @@ namespace Whalculator.Core.Calculator.Equation {
 				);
 		}
 
-		public static IResult ToRadiansResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return ToRadiansExactValueOperation(operands, args).GetResultValue(args);
+		public static async Task<IResult> ToRadiansResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return await (await ToRadiansExactValueOperation(operands, args)).GetResultValueAsync(args);
 		}
 
 		// Trig functions
 
-		public static ISolvable SineExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Sin(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<ISolvable> SineExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Sin(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static IResult SineResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Sin(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<IResult> SineResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Sin(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static ISolvable CosineExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Cos(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<ISolvable> CosineExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Cos(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static IResult CosineResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Cos(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<IResult> CosineResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Cos(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static ISolvable TangentExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Tan(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<ISolvable> TangentExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Tan(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static IResult TangentResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Tan(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<IResult> TangentResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Tan(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static ISolvable SecantExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(1 / Math.Cos(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<ISolvable> SecantExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(1 / Math.Cos(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static IResult SecantResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(1 / Math.Cos(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<IResult> SecantResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(1 / Math.Cos(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static ISolvable CosecantExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(1 / Math.Sin(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<ISolvable> CosecantExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(1 / Math.Sin(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static IResult CosecantResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(1 / Math.Sin(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<IResult> CosecantResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(1 / Math.Sin(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static ISolvable CotangentExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(1 / Math.Tan(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<ISolvable> CotangentExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(1 / Math.Tan(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static IResult CotangentResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(1 / Math.Tan(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<IResult> CotangentResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(1 / Math.Tan(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static ISolvable ArcsineExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Asin(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<ISolvable> ArcsineExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Asin(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static IResult ArcsineResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Asin(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<IResult> ArcsineResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Asin(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static ISolvable ArccosineExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Cos(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<ISolvable> ArccosineExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Cos(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static IResult ArccosineResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Cos(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<IResult> ArccosineResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Cos(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static ISolvable ArctangentExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Atan(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<ISolvable> ArctangentExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Atan(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static IResult ArctangentResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Atan(((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<IResult> ArctangentResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Atan(((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static ISolvable ArcsecantExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Acos(1 / ((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<ISolvable> ArcsecantExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Acos(1 / ((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static IResult ArcsecantResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Acos(1 / ((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<IResult> ArcsecantResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Acos(1 / ((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static ISolvable ArccosecantExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Sin(1 / ((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<ISolvable> ArccosecantExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Sin(1 / ((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static IResult ArccosecantResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Sin(1 / ((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<IResult> ArccosecantResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Sin(1 / ((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static ISolvable ArccotangentExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Atan(1 / ((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<ISolvable> ArccotangentExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Atan(1 / ((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
-		public static IResult ArccotangentResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return new Literal(Math.Atan(1 / ((Literal)operands[0].GetResultValue(args)).Value));
+		public static async Task<IResult> ArccotangentResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return new Literal(Math.Atan(1 / ((Literal)await operands[0].GetResultValueAsync(args)).Value));
 		}
 
 		//List Functions
 
-		public static ISolvable SortExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			ISolvable[] elements = ((List)operands[0].GetExactValue(args)).EvaluateOperandsExact(args);
+		public static async Task<ISolvable> SortExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			ISolvable[] elements = await ((List)await operands[0].GetExactValueAsync(args)).EvaluateOperandsExact(args);
 			Array.Sort(elements);
 			return new List(elements);
 		}
 
-		public static IResult SortResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			ISolvable[] elements = ((List)operands[0]).EvaluateOperandsResult(args);
+		public static async Task<IResult> SortResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			ISolvable[] elements = await ((List)operands[0]).EvaluateOperandsResult(args);
 			Array.Sort(elements);
 			return new List(elements);
 		}
 
-		public static ISolvable ModeExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			ISolvable[] elements = ((List)operands[0].GetExactValue(args)).EvaluateOperandsExact(args);
+		public static async Task<ISolvable> ModeExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			ISolvable[] elements = await ((List)await operands[0].GetExactValueAsync(args)).EvaluateOperandsExact(args);
 			Dictionary<string, (ISolvable, int)> dict = new Dictionary<string, (ISolvable, int)>();
 			
 			for (int i = 0; i < elements.Length; i++) {
@@ -264,34 +265,34 @@ namespace Whalculator.Core.Calculator.Equation {
 			return output!;
 		}
 
-		public static IResult ModeResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return ModeExactValueOperation(operands, args).GetResultValue(args);
+		public static async Task<IResult> ModeResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return await (await ModeExactValueOperation(operands, args)).GetResultValueAsync(args);
 		}
 
-		public static ISolvable MedianExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			ISolvable[] elements = ((List)operands[0].GetExactValue(args)).EvaluateOperandsExact(args);
+		public static async Task<ISolvable> MedianExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			ISolvable[] elements = await ((List)await operands[0].GetExactValueAsync(args)).EvaluateOperandsExact(args);
 			Array.Sort(elements);
 			return elements[elements.Length / 2];
 		}
 
-		public static IResult MedianResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return MedianExactValueOperation(operands, args).GetResultValue(args);
+		public static async Task<IResult> MedianResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return await (await MedianExactValueOperation(operands, args)).GetResultValueAsync(args);
 		}
 
-		public static ISolvable MeanExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			List node = (List)operands[0].GetExactValue(args);
-			return new Operator(Operations.DivideOperation,
-					new Operator(Operations.AddOperation, node.EvaluateOperandsExact(args)),
+		public static async Task<ISolvable> MeanExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			List node = (List)await operands[0].GetExactValueAsync(args);
+			return await new Operator(Operations.DivideOperation,
+					new Operator(Operations.AddOperation, await node.EvaluateOperandsExact(args)),
 					new Literal(node.operands.Length)
-				).GetExactValue(args);
+				).GetExactValueAsync(args);
 		}
 
-		public static IResult MeanResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return MeanExactValueOperation(operands, args).GetResultValue(args);
+		public static async Task<IResult> MeanResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return await (await MeanExactValueOperation(operands, args)).GetResultValueAsync(args);
 		}
 
-		public static ISolvable StandardDeviationExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			List node = (List)operands[0].GetExactValue(args);
+		public static async Task<ISolvable> StandardDeviationExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			List node = (List)await operands[0].GetExactValueAsync(args);
 			
 			if (node.operands.Length < 2) {
 				return new Literal(0);
@@ -299,10 +300,10 @@ namespace Whalculator.Core.Calculator.Equation {
 
 			ISolvable minusMean = new Operator(Operations.MultiplyOperation, 
 				new Literal(-1), 
-				MeanExactValueOperation(new ISolvable[] { node }, args)
+				await MeanExactValueOperation(new ISolvable[] { node }, args)
 			);
 
-			ISolvable[] sum = node.EvaluateOperandsExact(args);
+			ISolvable[] sum = await node.EvaluateOperandsExact(args);
 
 			for (int i = 0; i < sum.Length; i++) {
 				sum[i] = new Operator(Operations.ExponateOperation,
@@ -311,19 +312,19 @@ namespace Whalculator.Core.Calculator.Equation {
 				);
 			}
 
-			return new BuiltinFunction(SqrtOperation, new Operator(Operations.DivideOperation,
+			return await new BuiltinFunction(SqrtOperation, new Operator(Operations.DivideOperation,
 					new Operator(Operations.AddOperation, sum),
 					new Literal(node.operands.Length - 1)
-				)).GetExactValue(args);
+				)).GetExactValueAsync(args);
 		}
 
-		public static IResult StandardDeviationResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return StandardDeviationExactValueOperation(operands, args).GetResultValue(args);
+		public static async Task<IResult> StandardDeviationResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return await (await StandardDeviationExactValueOperation(operands, args)).GetResultValueAsync(args);
 		}
 
 		//Vector Functions
 
-		public static ISolvable VectorFromMagnitudeAndDirectionExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+		public static async Task<ISolvable> VectorFromMagnitudeAndDirectionExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
 			var mag = operands[0];
 			var dir = operands[1];
 
@@ -339,12 +340,12 @@ namespace Whalculator.Core.Calculator.Equation {
 			);
 		}
 
-		public static IResult VectorFromMagnitudeAndDirectionResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return VectorFromMagnitudeAndDirectionExactValueOperation(operands, args).GetResultValue(args);
+		public static async Task<IResult> VectorFromMagnitudeAndDirectionResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return await (await VectorFromMagnitudeAndDirectionExactValueOperation(operands, args)).GetResultValueAsync(args);
 		}
 
-		public static ISolvable MagnitudeFromVectorExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			Vector v = (Vector)operands[0].GetResultValue(args);
+		public static async Task<ISolvable> MagnitudeFromVectorExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			Vector v = (Vector)await operands[0].GetResultValueAsync(args);
 
 			ISolvable[] terms = new ISolvable[v.Dimensions];
 
@@ -353,11 +354,11 @@ namespace Whalculator.Core.Calculator.Equation {
 			}
 
 			var output = new BuiltinFunction(SqrtOperation,	new Operator(Operations.AddOperation, terms));
-			return output.GetExactValue(args);
+			return await output.GetExactValueAsync(args);
 		}
 
-		public static IResult MagnitudeFromVectorResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
-			return MagnitudeFromVectorExactValueOperation(operands, args).GetResultValue(args);
+		public static async Task<IResult> MagnitudeFromVectorResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args) {
+			return await (await MagnitudeFromVectorExactValueOperation(operands, args)).GetResultValueAsync(args);
 		}
 
 	}

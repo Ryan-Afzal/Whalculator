@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Whalculator.Core.Calculator.Equation {
 	
@@ -19,25 +20,25 @@ namespace Whalculator.Core.Calculator.Equation {
 			return new Variable(VariableName);
 		}
 
-		public IResult GetResultValue(ExpressionEvaluationArgs args) {
+		public async Task<IResult> GetResultValueAsync(ExpressionEvaluationArgs args) {
 			if (args.Args.ArgNames.ContainsKey(VariableName)) {
 				var arg = args.Args.Args[args.Args.ArgNames[VariableName]];
 				//args.Args = new FunctionArgumentArgs() { ArgNames = new Dictionary<string, int>() };
-				return arg.GetResultValue(args);
+				return await arg.GetResultValueAsync(args);
 			} else if (args.VariableSet.IsVariable(VariableName)) {
-				return args.VariableSet[VariableName].GetResultValue(args);
+				return await args.VariableSet[VariableName].GetResultValueAsync(args);
 			} else {
 				throw new InvalidEquationException(ErrorCode.NonexistentVariable);
 			}
 		}
 
-		public ISolvable GetExactValue(ExpressionEvaluationArgs args) {
+		public async Task<ISolvable> GetExactValueAsync(ExpressionEvaluationArgs args) {
 			if (args.Args.ArgNames.ContainsKey(VariableName)) {
 				var arg = args.Args.Args[args.Args.ArgNames[VariableName]];
 				//args.Args = new FunctionArgumentArgs() { ArgNames = new Dictionary<string, int>() };
-				return arg.GetExactValue(args);
+				return await arg.GetExactValueAsync(args);
 			} else if (args.VariableSet.IsVariable(VariableName)) {
-				return args.VariableSet[VariableName].GetExactValue(args);
+				return await args.VariableSet[VariableName].GetExactValueAsync(args);
 			} else {
 				throw new InvalidEquationException(ErrorCode.NonexistentVariable);
 			}

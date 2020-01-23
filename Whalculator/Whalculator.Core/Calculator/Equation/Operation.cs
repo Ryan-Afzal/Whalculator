@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Whalculator.Core.Calculator.Equation {
 
-	public delegate ISolvable ExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args);
+	public delegate Task<ISolvable> ExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args);
 
-	public delegate IResult ResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args);
+	public delegate Task<IResult> ResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args);
 
 	public struct Operation {
 

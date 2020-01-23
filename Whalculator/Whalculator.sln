@@ -5,16 +5,9 @@ VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whalculator.Core", "Whalculator.Core\Whalculator.Core.csproj", "{0C8A50E9-C7AC-4C79-9D2F-51B8B70AB4C3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whalculator.Tests", "Calculator.Tests\Whalculator.Tests.csproj", "{E0BDA143-1EF6-4B56-87CF-E71A0E4063CE}"
-	ProjectSection(ProjectDependencies) = postProject
-		{0C8A50E9-C7AC-4C79-9D2F-51B8B70AB4C3} = {0C8A50E9-C7AC-4C79-9D2F-51B8B70AB4C3}
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whalculator.ConsoleApp", "Whalculator.ConsoleApp\Whalculator.ConsoleApp.csproj", "{185FC28F-5E5B-4EE7-9EB9-D5A56D550DFE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whalculator.WebApp", "Whalculator.WebApp\Whalculator.WebApp.csproj", "{246CA328-B93F-4E95-AAF5-DBD45326C301}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whalculator.TestApp", "Whalculator.TestApp\Whalculator.TestApp.csproj", "{52467DD7-302F-4C9B-962A-7D8D06DD3C76}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,10 +19,6 @@ Global
 		{0C8A50E9-C7AC-4C79-9D2F-51B8B70AB4C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C8A50E9-C7AC-4C79-9D2F-51B8B70AB4C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C8A50E9-C7AC-4C79-9D2F-51B8B70AB4C3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E0BDA143-1EF6-4B56-87CF-E71A0E4063CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E0BDA143-1EF6-4B56-87CF-E71A0E4063CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E0BDA143-1EF6-4B56-87CF-E71A0E4063CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E0BDA143-1EF6-4B56-87CF-E71A0E4063CE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{185FC28F-5E5B-4EE7-9EB9-D5A56D550DFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{185FC28F-5E5B-4EE7-9EB9-D5A56D550DFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{185FC28F-5E5B-4EE7-9EB9-D5A56D550DFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -38,10 +27,6 @@ Global
 		{246CA328-B93F-4E95-AAF5-DBD45326C301}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{246CA328-B93F-4E95-AAF5-DBD45326C301}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{246CA328-B93F-4E95-AAF5-DBD45326C301}.Release|Any CPU.Build.0 = Release|Any CPU
-		{52467DD7-302F-4C9B-962A-7D8D06DD3C76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{52467DD7-302F-4C9B-962A-7D8D06DD3C76}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{52467DD7-302F-4C9B-962A-7D8D06DD3C76}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{52467DD7-302F-4C9B-962A-7D8D06DD3C76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

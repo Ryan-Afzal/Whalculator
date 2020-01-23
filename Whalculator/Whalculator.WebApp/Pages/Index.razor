@@ -44,7 +44,7 @@
         this.instance = await CalculatorService.GetInstanceAsync();
     }
 
-    private async void HandleInput() {
+    private async Task HandleInput() {
         if (this.instance is null) {
             return;
         }

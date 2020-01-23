@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Whalculator.Core.Calculator.Equation {
 
@@ -33,8 +34,8 @@ namespace Whalculator.Core.Calculator.Equation {
 			return new Function(Name, DifferentiationDegree, this.CloneOperands());
 		}
 
-		public override ISolvable GetExactValue(ExpressionEvaluationArgs args) {
-			ISolvable[] _args = this.EvaluateOperandsExact(args);
+		public override async Task<ISolvable> GetExactValueAsync(ExpressionEvaluationArgs args) {
+			ISolvable[] _args = await this.EvaluateOperandsExact(args);
 			var info = args.FunctionSet.GetFunction(Name);
 			ISolvable solvable = info.Function.Clone();
 			
@@ -44,7 +45,7 @@ namespace Whalculator.Core.Calculator.Equation {
 				string argName = x.Current;
 
 				for (int i = 0; i < DifferentiationDegree; i++) {
-					solvable = solvable.GetDerivative(argName);
+					solvable = await solvable.GetDerivativeAsync(argName, false);
 				}
 			}
 
@@ -65,7 +66,7 @@ namespace Whalculator.Core.Calculator.Equation {
 					Args = _args
 				};
 
-				return solvable.GetExactValue(args);
+				return await solvable.GetExactValueAsync(args);
 			} else {
 				List l = (List)_args[k];
 				ISolvable[] output = new ISolvable[l.operands.Length];
@@ -80,14 +81,14 @@ namespace Whalculator.Core.Calculator.Equation {
 						Args = __args
 					};
 
-					output[i] = solvable.GetExactValue(args);
+					output[i] = await solvable.GetExactValueAsync(args);
 				}
 
 				return new List(output);
 			}
 		}
 
-		public override IResult GetResultValue(ExpressionEvaluationArgs args) {
+		public override async Task<IResult> GetResultValueAsync(ExpressionEvaluationArgs args) {
 			//ISolvable[] _args = this.EvaluateOperandsResult(args);
 			//var info = args.FunctionSet.GetFunction(Name);
 			//ISolvable solvable = info.Function.Clone();
@@ -108,7 +109,7 @@ namespace Whalculator.Core.Calculator.Equation {
 			//};
 
 			//return solvable.GetResultValue(args);
-			return this.GetExactValue(args).GetResultValue(args);
+			return await (await this.GetExactValueAsync(args)).GetResultValueAsync(args);
 		}
 
 		public override string GetEquationString() {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Whalculator.Core.Calculator.Equation {
 	/// <summary>
@@ -18,12 +19,12 @@ namespace Whalculator.Core.Calculator.Equation {
 			return new Literal(Value);
 		}
 
-		public IResult GetResultValue(ExpressionEvaluationArgs args) {
-			return (IResult)this.Clone();
+		public async Task<IResult> GetResultValueAsync(ExpressionEvaluationArgs args) {
+			return await Task.FromResult((IResult)this.Clone());
 		}
 
-		public ISolvable GetExactValue(ExpressionEvaluationArgs args) {
-			return this.Clone();
+		public async Task<ISolvable> GetExactValueAsync(ExpressionEvaluationArgs args) {
+			return await Task.FromResult(this.Clone());
 		}
 
 		public string GetEquationString() {

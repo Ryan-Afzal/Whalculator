@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Whalculator.Core.Calculator.Equation {
-	public delegate ISolvable BuiltinFunctionExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args);
+	public delegate Task<ISolvable> BuiltinFunctionExactValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args);
 
-	public delegate IResult BuiltinFunctionResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args);
+	public delegate Task<IResult> BuiltinFunctionResultValueOperation(ISolvable[] operands, ExpressionEvaluationArgs args);
 
 	/// <summary>
 	/// The operation component of a builtin function. It is designed not to change.
