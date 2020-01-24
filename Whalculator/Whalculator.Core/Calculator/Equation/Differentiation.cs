@@ -37,11 +37,11 @@ namespace Whalculator.Core.Calculator.Equation {
 			if (input is Literal) {
 				return new Literal(0);
 			} else if (input is Variable v) {
-				if (args.Implicit) {
-					return new ImplicitDifferentiationSymbol(v.VariableName, args.IndependentVariable);
+				if (v.VariableName.Equals(args.IndependentVariable)) {
+					return new Literal(1);
 				} else {
-					if (v.VariableName.Equals(args.IndependentVariable)) {
-						return new Literal(1);
+					if (args.Implicit) {
+						return new ImplicitDifferentiationSymbol(v.VariableName, args.IndependentVariable);
 					} else {
 						return new Literal(0);
 					}
