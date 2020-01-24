@@ -13,8 +13,12 @@
         <div class="row">
             <div class="col-12">
                 <div id="output">
-                    @foreach (string s in this.output) {
-                        <span class="output-text">@s</span>
+                    @{
+                        LinkedListNode<string>? node = this.output.First;
+                    }
+                    @for (int i = 0; i < this.output.Count; i++) {
+                        <span id="output-@i" class="output-text">@node!.Value</span>
+                        node = node.Next;
                     }
                 </div>
 
