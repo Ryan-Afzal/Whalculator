@@ -7,7 +7,7 @@ using Whalculator.Core.Calculator.Equation;
 namespace Whalculator.Core.Calculator {
 	public class BaseCalculator {
 
-		protected internal BaseCalculator() {
+		public BaseCalculator() {
 			Settings = this.GetDefaultSettings();
 
 			OperatorSet = new OperatorSet();
@@ -18,11 +18,11 @@ namespace Whalculator.Core.Calculator {
 
 		public CalculatorSettings Settings { get; }
 
-		public IOperatorSet OperatorSet { get; }
-		public IBuiltinFunctionOperationSet BuiltinFunctionOperationSet { get; }
+		public OperatorSet OperatorSet { get; }
+		public BuiltinFunctionOperationSet BuiltinFunctionOperationSet { get; }
 
-		public IVariableSet Variables { get; }
-		public IFunctionSet Functions { get; }
+		public VariableSet Variables { get; }
+		public FunctionSet Functions { get; }
 
 		protected virtual CalculatorSettings GetDefaultSettings() {
 			return new CalculatorSettings() { IsDegrees = true };

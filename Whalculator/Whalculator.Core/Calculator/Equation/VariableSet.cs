@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Whalculator.Core.Calculator.Equation {
-	public sealed class VariableSet : IVariableSet {
+	public sealed class VariableSet : IViewableVariableSet {
 
 		private struct VariableInfo {
 			public string Name { get; internal set; }
@@ -58,6 +58,12 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		public bool IsConstant(string name) {
 			return this.variables[name].IsConstant;
+		}
+
+		public IEnumerable<(string, IResult)> GetAllVariables() {
+			foreach (var item in this.variables.Values) {
+				yield return (item.Name, (IResult)item.Value.Clone());
+			}
 		}
 	}
 }

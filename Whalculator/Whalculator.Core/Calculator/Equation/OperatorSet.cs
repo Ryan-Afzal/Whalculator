@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Whalculator.Core.Calculator.Equation {
-	public sealed class OperatorSet : IOperatorSet {
+	public sealed class OperatorSet : IViewableOperatorSet {
 
 		private readonly IDictionary<char, Operation> dictionary;
 

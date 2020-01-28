@@ -21,6 +21,30 @@ namespace Whalculator.Core.Calculator {
 			};
 		}
 
+		public IViewableBuiltinFunctionOperationSet BuiltinFunctions {
+			get {
+				return this.baseCalculator.BuiltinFunctionOperationSet;
+			}
+		}
+
+		public IViewableFunctionSet Functions {
+			get {
+				return this.baseCalculator.Functions;
+			}
+		}
+
+		public IViewableOperatorSet Operators {
+			get {
+				return this.baseCalculator.OperatorSet;
+			}
+		}
+
+		public IViewableVariableSet Variables {
+			get {
+				return this.baseCalculator.Variables;
+			}
+		}
+
 		public async Task<string> ProcessInputAsync(string input) {
 			string result;
 			input = input.Trim();

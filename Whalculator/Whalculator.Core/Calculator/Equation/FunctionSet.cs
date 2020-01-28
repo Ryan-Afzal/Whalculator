@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Whalculator.Core.Calculator.Equation {
 
-	public sealed class FunctionSet : IFunctionSet {
+	public sealed class FunctionSet : IViewableFunctionSet {
 
 		private readonly Dictionary<string, FunctionInfo> functions;
 
@@ -50,6 +50,12 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		public FunctionInfo GetFunction(string name) {
 			return this.functions[name];
+		}
+
+		public IEnumerable<FunctionInfo> GetAllFunctions() {
+			foreach (var item in functions.Values) {
+				yield return item;
+			}
 		}
 
 	}

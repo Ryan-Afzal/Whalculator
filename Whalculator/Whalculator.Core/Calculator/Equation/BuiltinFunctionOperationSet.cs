@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Whalculator.Core.Calculator.Equation {
-	public sealed class BuiltinFunctionOperationSet : IBuiltinFunctionOperationSet {
+	public sealed class BuiltinFunctionOperationSet : IViewableBuiltinFunctionOperationSet {
 
 		private readonly IDictionary<string, BuiltinFunctionOperation> operations;
 
@@ -55,6 +55,12 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		public bool IsBuiltinFunctionOperation(string name) {
 			return this.operations.ContainsKey(name);
+		}
+
+		public IEnumerable<BuiltinFunctionOperation> GetAllBuiltinFunctionOperations() {
+			foreach (var item in this.operations.Values) {
+				yield return item;
+			}
 		}
 	}
 }

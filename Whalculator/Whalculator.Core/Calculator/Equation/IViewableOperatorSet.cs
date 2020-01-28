@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Whalculator.Core.Calculator.Equation {
-	public interface IOperatorSet {
-		bool IsOperator(char c);
-		Operation GetOperation(char c);
+	public interface IViewableOperatorSet {
+		public bool IsOperator(char c);
+		public Operation GetOperation(char c);
 	}
 }

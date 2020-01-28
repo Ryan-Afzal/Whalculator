@@ -10,8 +10,8 @@ namespace Whalculator.Core.Calculator.Equation {
 	/// Represents arguments passed during the generation of an <c>ISolvable</c>-based node graph
 	/// </summary>
 	public struct GenerationArgs {
-		public IOperatorSet OperatorSet { get; set; }
-		public IBuiltinFunctionOperationSet BuiltinFunctionOperationSet { get; set; }
+		public OperatorSet OperatorSet { get; set; }
+		public BuiltinFunctionOperationSet BuiltinFunctionOperationSet { get; set; }
 		public char[,] BracketPairs { get; set; }
 	}
 
