@@ -1,7 +1,6 @@
 ﻿@page "/"
 
 @using Whalculator.WebApp.Data
-@using Whalculator.Core.Calculator.Equation
 @inject CalculatorService CalculatorService
 
 <h1>Calculator</h1>
@@ -11,24 +10,26 @@
 } else {
     <div class="container">
         <div class="row">
-            <div class="col-2 overflow-auto">
-                <ul class="list-group">
-                    @foreach (var item in this.instance.Calculator.Variables.GetAllVariables()) {
-                        <li class="list-group-item">
-                            <span class="output-text">@item.Item1 = @item.Item2.GetEquationString()</span>
-                        </li>
-                    }
-                </ul>
+            <div class="col-3">
+                <div class="scrolls">
+                    <ul class="list-group">
+                        @foreach (var item in this.instance.Calculator.Variables.GetAllVariables()) {
+                            <li class="list-group-item">
+                                <span class="output-text">@item.Item1 = @item.Item2.GetEquationString()</span>
+                            </li>
+                        }
+                    </ul>
 
-                <hr />
+                    <hr />
 
-                <ul class="list-group">
-                    @foreach (var item in this.instance.Calculator.Functions.GetAllFunctions()) {
-                        <li class="list-group-item">
-                            <span class="output-text">@item.Name = @item.Function.GetEquationString()</span>
-                        </li>
-                    }
-                </ul>
+                    <ul class="list-group">
+                        @foreach (var item in this.instance.Calculator.Functions.GetAllFunctions()) {
+                            <li class="list-group-item">
+                                <span class="output-text">@item.Name = @item.Function.GetEquationString()</span>
+                            </li>
+                        }
+                    </ul>
+                </div>
             </div>
             <div class="col-8">
                 <div id="output">

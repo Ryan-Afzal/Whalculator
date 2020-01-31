@@ -114,7 +114,6 @@ namespace Whalculator.Core.Calculator {
 		}
 
 		private async Task<string> DerivativeCommand(string[] args) {
-			//return (await (await this.baseCalculator.GetSolvableFromTextAsync(input)).GetDerivativeAsync("x", false)).GetEquationString();
 			return (await (await this.baseCalculator.GetSolvableFromTextAsync(args[1])).GetDerivativeAsync(args[0], true)).GetEquationString();
 		}
 

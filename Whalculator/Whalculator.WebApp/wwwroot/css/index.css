@@ -16,3 +16,8 @@
     font-family: Consolas;
     border: none;
 }
+
+.scrolls {
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
