@@ -109,6 +109,9 @@ namespace Whalculator.Core.Calculator.Equation {
 			}
 		}
 
+		public ISimplificationProvider GetSimplifier() {
+			return new DefaultSimplificationProvider(this);
+		}
 
 	}
 
