@@ -1,33 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Whalculator.Core.Calculator.Equation {
 
-	public delegate ISolvable Simplifier(ISolvable solvable);
+	public abstract class Simplifier {
+		
+		internal Simplifier? Next { get; set; }
 
-	public static class Simplifiers {
+		public abstract Task<ISolvable> InvokeAsync(ISolvable solvable);
 
-		/// <summary>
-		/// Turns subtraction into addition with a negative multiplier
-		/// </summary>
-		/// <param name="solvable"></param>
-		/// <returns></returns>
-		public static ISolvable SimplifyTransformNegatives(ISolvable solvable) {
-			if (solvable is Operator o) {
-				if (o.Operation.Name == '-') {
-					if (o.operands[0] is Literal l) {
-						if (l.Value == 0) {
-							return new Operator(Operations.MultiplyOperation, new Literal(-1), o.operands[1]);
-						}
-					}
-
-					return new Operator(Operations.AddOperation, o.operands[0], new Operator(Operations.MultiplyOperation, new Literal(-1), o.operands[1]));
-				}
+		protected Task<ISolvable> InvokeNext(ISolvable solvable) {
+			if (Next is null) {
+				return Task.FromResult(solvable);
+			} else {
+				return Task.Run(() => Next.InvokeAsync(solvable));
 			}
-
-			return solvable;
 		}
+
+	}
+
+	public static class OldSimplifiers {
 
 		/// <summary>
 		/// Levels nested addition and multiplication operators
