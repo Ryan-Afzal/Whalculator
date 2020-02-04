@@ -7,39 +7,36 @@ namespace Whalculator.Core.Calculator.Equation {
 	internal class DefaultSimplificationProvider : ISimplificationProvider {
 
 		private readonly ISolvable solvable;
-		private Simplifier? first;
-		private Simplifier? last;
+		private readonly LinkedList<ISimplifier> simplifiers;
 
 		internal DefaultSimplificationProvider(ISolvable solvable) {
 			this.solvable = solvable.Clone();
-			this.first = null;
-			this.last = null;
+			this.simplifiers = new LinkedList<ISimplifier>();
 		}
 
-		public ISimplificationProvider AddSimplifier(Simplifier simplifier) {
-			if (this.first is null) {
-				this.first = simplifier;
-				this.last = this.first;
-			} else {
-				this.last!.Next = simplifier;
-				this.last = simplifier;
-			}
-			
-			return this;
+		public bool AddSimplifier(ISimplifier simplifier) {
+			this.simplifiers.AddLast(simplifier);
+			return true;
 		}
 
 		public async Task<ISolvable> SimplifyAsync() {
 			ISolvable s = this.solvable.Clone();
-
-			if (this.first is null) {
-				return s;
-			}
-
 			string str = "";
 
 			while (!str.Equals(s.GetEquationString())) {
 				str = s.GetEquationString();
-				s = await this.first.InvokeAsync(s);
+
+				LinkedListNode<ISimplifier>? node = this.simplifiers.First;
+				while (node is LinkedListNode<ISimplifier>) {
+					bool pass;
+					(s, pass) = await node.Value.Simplify(s);
+
+					if (pass) {
+						node = node.Next;
+					} else {
+						node = null;
+					}
+				}
 			}
 
 			return s;
