@@ -9,5 +9,9 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 			return provider.AddSimplifier(new TransformNegativesSimplifier());
 		}
 
+		public static ISimplificationProvider AddLevelOperatorSimplifier(this ISimplificationProvider provider) {
+			return provider.AddSimplifier(new LevelOperatorsSimplifier());
+		}
+
 	}
 }

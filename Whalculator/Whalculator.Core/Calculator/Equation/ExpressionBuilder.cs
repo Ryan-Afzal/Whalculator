@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
+using Whalculator.Core.Calculator.Equation.Simplifiers;
 
 namespace Whalculator.Core.Calculator.Equation {
 
@@ -80,10 +81,11 @@ namespace Whalculator.Core.Calculator.Equation {
 				throw new ArgumentException("Text should contain input");
 			}
 
-			return await ParseText(text, args).SimplifyAsync(new Simplifier[] {
-				Simplifiers.SimplifyLevelOperators,
-				Simplifiers.SimplifyTransformNegatives
-			});
+			return await ParseText(text, args)
+				.GetSimplifier()
+				.AddTransformNegativesSimplifier()
+				.AddLevelOperatorSimplifier()
+				.SimplifyAsync();
 		}
 
 		/// <summary>
@@ -231,39 +233,6 @@ namespace Whalculator.Core.Calculator.Equation {
 			}
 
 			return parts;
-		}
-
-		/// <summary>
-		/// Invokes a <c>Simplifier</c> on the specified <c>ISolvable</c> and all its child nodes
-		/// </summary>
-		/// <param name="solvable"></param>
-		/// <param name="simplifier"></param>
-		/// <returns></returns>
-		private static ISolvable Simplify(ISolvable solvable, Simplifier simplifier) {
-			if (solvable is NestedSolvable nested) {
-				for (int i = 0; i < nested.operands.Length; i++) {
-					nested.operands[i] = Simplify(nested.operands[i], simplifier);
-				}
-
-				return simplifier.Invoke(nested);
-			} else {
-				return simplifier.Invoke(solvable);
-			}
-		}
-
-		public static async Task<ISolvable> SimplifyAsync(this ISolvable solvable, IEnumerable<Simplifier> simplifiers) {
-			ISolvable s = solvable;
-			string str = "";
-
-			while (!str.Equals(s.GetEquationString())) {
-				str = s.GetEquationString();
-
-				foreach (var sim in simplifiers) {
-					s = await Task.Run(() => Simplify(s, sim));
-				}
-			}
-
-			return s;
 		}
 
 		private static bool IsOpenBracket(char c, GenerationArgs args) {
