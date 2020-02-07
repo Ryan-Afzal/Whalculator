@@ -182,27 +182,30 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		private static async Task<ISolvable> SimplifyDerivative1Async(this ISolvable input) {
-			return await input.SimplifyAsync(new Simplifier[] {
-				Simplifiers.SimplifyLevelOperators,
-				Simplifiers.SimplifyRemoveZerosOnes,
-				Simplifiers.SimplifyRationalExpressions
-			});
+			//return await input.SimplifyAsync(new Simplifier[] {
+			//	Simplifiers.SimplifyLevelOperators,
+			//	Simplifiers.SimplifyRemoveZerosOnes,
+			//	Simplifiers.SimplifyRationalExpressions
+			//});
+			throw new NotImplementedException();
 		}
 
 		private static async Task<ISolvable> SimplifyDerivative2Async(this ISolvable input) {
-			return await input.SimplifyAsync(new Simplifier[] {
-				Simplifiers.SimplifyRemoveZerosOnes,
-				Simplifiers.SimplifyLevelOperators,
-				Simplifiers.SimplifyRationalExpressions,
-				Simplifiers.SimplifyCollectLikeTerms
-			});
+			//return await input.SimplifyAsync(new Simplifier[] {
+			//	Simplifiers.SimplifyRemoveZerosOnes,
+			//	Simplifiers.SimplifyLevelOperators,
+			//	Simplifiers.SimplifyRationalExpressions,
+			//	Simplifiers.SimplifyCollectLikeTerms
+			//});
+			throw new NotImplementedException();
 		}
 
 		private static async Task<ISolvable> SimplifyDerivative3Async(this ISolvable input) {
-			return await input.SimplifyAsync(new Simplifier[] {
-				Simplifiers.SimplifyRemoveZerosOnes,
-				Simplifiers.SimplifyLevelOperators
-			});
+			//return await input.SimplifyAsync(new Simplifier[] {
+			//	Simplifiers.SimplifyRemoveZerosOnes,
+			//	Simplifiers.SimplifyLevelOperators
+			//});
+			throw new NotImplementedException();
 		}
 	}
 }

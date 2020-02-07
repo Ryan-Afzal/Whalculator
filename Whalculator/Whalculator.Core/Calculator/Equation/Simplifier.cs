@@ -9,19 +9,21 @@ namespace Whalculator.Core.Calculator.Equation {
 		
 		internal Simplifier? Next { get; set; }
 
-		public abstract Task<ISolvable> InvokeAsync(ISolvable solvable);
+		protected abstract Task<(ISolvable, bool)> InvokeAsync(ISolvable solvable);
 
-		protected Task<ISolvable> InvokeNext(ISolvable solvable) {
-			if (Next is null) {
-				return Task.FromResult(solvable);
+		internal async Task<ISolvable> InvokeBaseAsync(ISolvable solvable) {
+			var invokeResult = await InvokeAsync(solvable);
+
+			if (Next is object && invokeResult.Item2) {
+				return await Next.InvokeBaseAsync(invokeResult.Item1);
 			} else {
-				return Task.Run(() => Next.InvokeAsync(solvable));
+				return await Task.FromResult(invokeResult.Item1);
 			}
 		}
 
 		protected async Task<NestedSolvable> InvokeOnChildrenAsync(NestedSolvable solvable) {
 			for (int i = 0; i < solvable.operands.Length; i++) {
-				solvable.operands[i] = await InvokeAsync(solvable.operands[i]);
+				(solvable.operands[i], _) = await InvokeAsync(solvable.operands[i]);
 			}
 
 			return solvable;
@@ -30,29 +32,6 @@ namespace Whalculator.Core.Calculator.Equation {
 	}
 
 	public static class OldSimplifiers {
-
-		/// <summary>
-		/// Turns rational expressions into negative exponation
-		/// </summary>
-		/// <param name="solvable"></param>
-		/// <returns></returns>
-		public static ISolvable SimplifyRationalExpressions(ISolvable solvable) {
-			if (solvable is Operator o) {
-				if (o.Operation.Name == '/') {
-					return new Operator(
-						Operations.MultiplyOperation,
-						o.operands[0],
-						new Operator(
-							Operations.ExponateOperation,
-							o.operands[1],
-							new Literal(-1)
-						)
-					);
-				}
-			}
-
-			return solvable;
-		}
 
 		/// <summary>
 		/// Removes zeros and ones in addition, multiplication, and exponation

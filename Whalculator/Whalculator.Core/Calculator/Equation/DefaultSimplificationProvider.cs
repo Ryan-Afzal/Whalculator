@@ -39,7 +39,7 @@ namespace Whalculator.Core.Calculator.Equation {
 
 			while (!str.Equals(s.GetEquationString())) {
 				str = s.GetEquationString();
-				s = await this.first.InvokeAsync(s);
+				s = await this.first.InvokeBaseAsync(s);
 			}
 
 			return s;
