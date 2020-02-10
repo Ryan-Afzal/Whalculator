@@ -109,12 +109,12 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 							}
 						}
 
-						return (solvable, true);
+						return (n, true);
 					} else {
-						return (solvable, true);
+						return (n, true);
 					}
 				} else {
-					return (solvable, true);
+					return (n, true);
 				}
 			} else {
 				return (solvable, true);

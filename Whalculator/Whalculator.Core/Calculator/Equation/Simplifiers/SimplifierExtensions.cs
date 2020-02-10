@@ -21,5 +21,13 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 			return provider.AddSimplifier(new RemoveZerosOnesSimplifier());
 		}
 
+		public static ISimplificationProvider AddCollectLikeTermsSimplifier(this ISimplificationProvider provider) {
+			return provider.AddSimplifier(new CollectLikeTermsSimplifier());
+		}
+
+		public static ISimplificationProvider AddNegativeExponentsSimplifier(this ISimplificationProvider provider) {
+			return provider.AddSimplifier(new NegativeExponentsSimplifier());
+		}
+
 	}
 }

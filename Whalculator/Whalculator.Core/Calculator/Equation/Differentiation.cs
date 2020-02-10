@@ -192,13 +192,13 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		private static async Task<ISolvable> SimplifyDerivative2Async(this ISolvable input) {
-			//return await input.SimplifyAsync(new Simplifier[] {
-			//	Simplifiers.SimplifyRemoveZerosOnes,
-			//	Simplifiers.SimplifyLevelOperators,
-			//	Simplifiers.SimplifyRationalExpressions,
-			//	Simplifiers.SimplifyCollectLikeTerms
-			//});
-			throw new NotImplementedException();
+			return await input
+				.GetSimplifier()
+					.AddRemoveZerosOnesSimplifier()
+					.AddLevelOperatorSimplifier()
+					.AddRationalExpressionsSimplifier()
+					.AddCollectLikeTermsSimplifier()
+				.SimplifyAsync();
 		}
 
 		private static async Task<ISolvable> SimplifyDerivative3Async(this ISolvable input) {
