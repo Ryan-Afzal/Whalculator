@@ -13,5 +13,13 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 			return provider.AddSimplifier(new LevelOperatorsSimplifier());
 		}
 
+		public static ISimplificationProvider AddRationalExpressionsSimplifier(this ISimplificationProvider provider) {
+			return provider.AddSimplifier(new RationalExpressionsSimplifier());
+		}
+
+		public static ISimplificationProvider AddRemoveZerosOnesSimplifier(this ISimplificationProvider provider) {
+			return provider.AddSimplifier(new RemoveZerosOnesSimplifier());
+		}
+
 	}
 }

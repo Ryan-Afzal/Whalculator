@@ -23,7 +23,7 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		protected async Task<NestedSolvable> InvokeOnChildrenAsync(NestedSolvable solvable) {
 			for (int i = 0; i < solvable.operands.Length; i++) {
-				(solvable.operands[i], _) = await InvokeAsync(solvable.operands[i]);
+				solvable.operands[i] = await InvokeBaseAsync(solvable.operands[i]);
 			}
 
 			return solvable;
@@ -32,115 +32,6 @@ namespace Whalculator.Core.Calculator.Equation {
 	}
 
 	public static class OldSimplifiers {
-
-		/// <summary>
-		/// Removes zeros and ones in addition, multiplication, and exponation
-		/// </summary>
-		/// <param name="solvable"></param>
-		/// <returns></returns>
-		public static ISolvable SimplifyRemoveZerosOnes(ISolvable solvable) {
-			if (solvable is Operator o) {
-				if (o.Operation.Name == '*') {
-					int z = 0;
-					for (int i = 0; i < o.operands.Length; i++) {
-						if (o.operands[i] is Literal l) {
-							if (l.Value == 0) {
-								return new Literal(0);
-							} else if (l.Value == 1) {
-								o.operands[i] = null!;
-								z++;
-							}
-						}
-					}
-
-					if (z != 0) {
-						int length = o.operands.Length - z;
-
-						if (length == 0) {
-							return new Literal(1);
-						} else if (length == 1) {
-							for (int i = 0; i < o.operands.Length; i++) {
-								if (!(o.operands[i] is null)) {
-									return o.operands[i];
-								}
-							}
-						}
-
-						ISolvable[] args = new ISolvable[length];
-						int k = 0;
-
-						for (int i = 0; i < o.operands.Length; i++) {
-							if (o.operands[i] is null) {
-								continue;
-							}
-
-							args[k] = o.operands[i];
-							k++;
-						}
-
-						return new Operator(o.Operation, args);
-					}
-
-					return solvable;
-				} else if (o.Operation.Name == '+') {
-					int z = 0;
-					for (int i = 0; i < o.operands.Length; i++) {
-						if (o.operands[i] is Literal l) {
-							if (l.Value == 0) {
-								o.operands[i] = null!;
-								z++;
-							}
-						}
-					}
-
-					if (z != 0) {
-						int length = o.operands.Length - z;
-
-						if (length == 0) {
-							return new Literal(0);
-						} else if (length == 1) {
-							for (int i = 0; i < o.operands.Length; i++) {
-								if (!(o.operands[i] is null)) {
-									return o.operands[i];
-								}
-							}
-						}
-
-						ISolvable[] args = new ISolvable[length];
-						int k = 0;
-
-						for (int i = 0; i < o.operands.Length; i++) {
-							if (o.operands[i] is null) {
-								continue;
-							}
-
-							args[k] = o.operands[i];
-							k++;
-						}
-
-						return new Operator(o.Operation, args);
-					}
-				} else if (o.Operation.Name == '^') {
-					if (o.operands[0] is Literal l) {
-						if (l.Value == 0) {
-							return new Literal(0);
-						} else if (l.Value == 1) {
-							return new Literal(1);
-						}
-					}
-
-					if (o.operands[1] is Literal _l) {
-						if (_l.Value == 0) {
-							return new Literal(1);
-						} else if (_l.Value == 1) {
-							return o.operands[0];
-						}
-					}
-				}
-			}
-
-			return solvable;
-		}
 
 		/// <summary>
 		/// Collects like terms in addition and multiplication

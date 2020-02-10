@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 	public class LevelOperatorsSimplifier : Simplifier {
-		public override async Task<ISolvable> InvokeAsync(ISolvable solvable) {
+		protected override async Task<(ISolvable, bool)> InvokeAsync(ISolvable solvable) {
 			if (solvable is NestedSolvable n) {
 				n = await InvokeOnChildrenAsync(n);
 
@@ -15,7 +15,7 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 					int len = o.operands.Length;
 
 					if (len == 1) {
-						return await InvokeNext(o.operands[0]);
+						return (o.operands[0], true);
 					}
 
 					for (int i = 0; i < o.operands.Length; i++) {
@@ -38,12 +38,12 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 						}
 					}
 
-					return await InvokeNext(new Operator(o.Operation, arr));
+					return (new Operator(o.Operation, arr), true);
 				} else {
-					return await InvokeNext(solvable);
+					return (solvable, true);
 				}
 			} else {
-				return await InvokeNext(solvable);
+				return (solvable, true);
 			}
 		}
 	}

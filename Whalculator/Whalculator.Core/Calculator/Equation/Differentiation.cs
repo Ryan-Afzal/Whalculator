@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Whalculator.Core.Calculator.Equation.Simplifiers;
 
 namespace Whalculator.Core.Calculator.Equation {
 	public static class Differentiation {
@@ -182,12 +183,12 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		private static async Task<ISolvable> SimplifyDerivative1Async(this ISolvable input) {
-			//return await input.SimplifyAsync(new Simplifier[] {
-			//	Simplifiers.SimplifyLevelOperators,
-			//	Simplifiers.SimplifyRemoveZerosOnes,
-			//	Simplifiers.SimplifyRationalExpressions
-			//});
-			throw new NotImplementedException();
+			return await input
+				.GetSimplifier()
+					.AddLevelOperatorSimplifier()
+					.AddRemoveZerosOnesSimplifier()
+					.AddRationalExpressionsSimplifier()
+				.SimplifyAsync();
 		}
 
 		private static async Task<ISolvable> SimplifyDerivative2Async(this ISolvable input) {
@@ -201,11 +202,11 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		private static async Task<ISolvable> SimplifyDerivative3Async(this ISolvable input) {
-			//return await input.SimplifyAsync(new Simplifier[] {
-			//	Simplifiers.SimplifyRemoveZerosOnes,
-			//	Simplifiers.SimplifyLevelOperators
-			//});
-			throw new NotImplementedException();
+			return await input
+				.GetSimplifier()
+					.AddRemoveZerosOnesSimplifier()
+					.AddLevelOperatorSimplifier()
+				.SimplifyAsync();
 		}
 	}
 }
