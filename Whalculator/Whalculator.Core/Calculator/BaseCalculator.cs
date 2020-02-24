@@ -46,12 +46,6 @@ namespace Whalculator.Core.Calculator {
 				.GetResultValueAsync(this.GetArgs());
 		}
 
-		public async Task<string> GetExactValueAsync(string input) {
-			return (await (await this.GetSolvableFromTextAsync(input))
-				.GetExactValueAsync(this.GetArgs()))
-				.GetEquationString();
-		}
-
 		public async Task<bool> SetVariableAsync(string head, string body) {
 			return Variables.SetVariable(head, await this.GetResultValueAsync(body));
 		}

@@ -15,10 +15,6 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		public Operation Operation { get; }
 
-		public override async Task<ISolvable> GetExactValueAsync(ExpressionEvaluationArgs args) {
-			return await Operation.ExactValueOperation.Invoke(this.operands, args);
-		}
-
 		public override async Task<IResult> GetResultValueAsync(ExpressionEvaluationArgs args) {
 			return await Operation.ResultValueOperation.Invoke(this.operands, args);
 		}

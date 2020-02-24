@@ -18,7 +18,6 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		public abstract ISolvable Clone();
 		public abstract Task<IResult> GetResultValueAsync(ExpressionEvaluationArgs args);
-		public abstract Task<ISolvable> GetExactValueAsync(ExpressionEvaluationArgs args);
 		public abstract string GetEquationString();
 
 		protected internal ISolvable[] CloneOperands() {
@@ -26,16 +25,6 @@ namespace Whalculator.Core.Calculator.Equation {
 
 			for (int i = 0; i < output.Length; i++) {
 				output[i] = this.operands[i];
-			}
-
-			return output;
-		}
-
-		protected internal async Task<ISolvable[]> EvaluateOperandsExact(ExpressionEvaluationArgs args) {
-			ISolvable[] output = new ISolvable[this.operands.Length];
-
-			for (int i = 0; i < output.Length; i++) {
-				output[i] = await this.operands[i].GetExactValueAsync(args);
 			}
 
 			return output;

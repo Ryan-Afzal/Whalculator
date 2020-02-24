@@ -32,18 +32,6 @@ namespace Whalculator.Core.Calculator.Equation {
 			}
 		}
 
-		public async Task<ISolvable> GetExactValueAsync(ExpressionEvaluationArgs args) {
-			if (args.Args.ArgNames.ContainsKey(VariableName)) {
-				var arg = args.Args.Args[args.Args.ArgNames[VariableName]];
-				//args.Args = new FunctionArgumentArgs() { ArgNames = new Dictionary<string, int>() };
-				return await arg.GetExactValueAsync(args);
-			} else if (args.VariableSet.IsVariable(VariableName)) {
-				return await args.VariableSet[VariableName].GetExactValueAsync(args);
-			} else {
-				throw new InvalidEquationException(ErrorCode.NonexistentVariable);
-			}
-		}
-
 		public string GetEquationString() {
 			return VariableName;
 		}

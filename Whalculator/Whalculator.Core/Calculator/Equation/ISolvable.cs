@@ -14,7 +14,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		/// </summary>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		public Task<ISolvable> GetExactValueAsync(ExpressionEvaluationArgs args);
+		//public Task<ISolvable> GetExactValueAsync(ExpressionEvaluationArgs args);
 
 		/// <summary>
 		/// Gets the decimal value of this ISolvable.

@@ -34,11 +34,11 @@ namespace Whalculator.Core.Calculator.Equation {
 			return new Function(Name, DifferentiationDegree, this.CloneOperands());
 		}
 
-		public override async Task<ISolvable> GetExactValueAsync(ExpressionEvaluationArgs args) {
-			ISolvable[] _args = await this.EvaluateOperandsExact(args);
+		public override async Task<IResult> GetResultValueAsync(ExpressionEvaluationArgs args) {
+			ISolvable[] _args = await this.EvaluateOperandsResult(args);
 			var info = args.FunctionSet.GetFunction(Name);
 			ISolvable solvable = info.Function.Clone();
-			
+
 			if (DifferentiationDegree > 0) {
 				var x = info.ArgNames.Keys.GetEnumerator();
 				x.MoveNext();
@@ -66,7 +66,7 @@ namespace Whalculator.Core.Calculator.Equation {
 					Args = _args
 				};
 
-				return await solvable.GetExactValueAsync(args);
+				return await solvable.GetResultValueAsync(args);
 			} else {
 				List l = (List)_args[k];
 				ISolvable[] output = new ISolvable[l.operands.Length];
@@ -81,35 +81,11 @@ namespace Whalculator.Core.Calculator.Equation {
 						Args = __args
 					};
 
-					output[i] = await solvable.GetExactValueAsync(args);
+					output[i] = await solvable.GetResultValueAsync(args);
 				}
 
 				return new List(output);
 			}
-		}
-
-		public override async Task<IResult> GetResultValueAsync(ExpressionEvaluationArgs args) {
-			//ISolvable[] _args = this.EvaluateOperandsResult(args);
-			//var info = args.FunctionSet.GetFunction(Name);
-			//ISolvable solvable = info.Function.Clone();
-
-			//if (DifferentiationDegree > 0) {
-			//	var x = info.ArgNames.Keys.GetEnumerator();
-			//	x.MoveNext();
-			//	string argName = x.Current;
-
-			//	for (int i = 0; i < DifferentiationDegree; i++) {
-			//		solvable = solvable.GetDerivative(argName);
-			//	}
-			//}
-
-			//args.Args = new FunctionArgumentArgs() {
-			//	ArgNames = info.ArgNames,
-			//	Args = _args
-			//};
-
-			//return solvable.GetResultValue(args);
-			return await (await this.GetExactValueAsync(args)).GetResultValueAsync(args);
 		}
 
 		public override string GetEquationString() {

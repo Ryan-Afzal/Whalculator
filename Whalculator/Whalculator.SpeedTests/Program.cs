@@ -8,7 +8,7 @@ namespace Whalculator.SpeedTests {
 		public static void Main(string[] args) {
 			var calc = new Calculator();
 			var baseCalc = new BaseCalculator();
-			_ = baseCalc.GetExactValueAsync("1").Result;
+			_ = baseCalc.GetResultValueAsync("1").Result;
 			Console.WriteLine("Starting Speed Tests...");
 
 			Console.WriteLine("Starting Node Graph Tests...");
