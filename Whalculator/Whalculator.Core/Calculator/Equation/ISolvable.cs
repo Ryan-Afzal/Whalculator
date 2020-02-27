@@ -104,6 +104,22 @@ namespace Whalculator.Core.Calculator.Equation {
 				} else {
 					return -1;
 				}
+			} else if (solvable1 is ImplicitDifferentiationSymbol) {
+				if (solvable2 is Literal) {
+					return 1;
+				} else if (solvable2 is Variable) {
+					return 1;
+				} else if (solvable2 is Operator) {
+					return 1;
+				} else if (solvable2 is BuiltinFunction) {
+					return 1;
+				} else if (solvable2 is Function) {
+					return 1;
+				} else if (solvable2 is ImplicitDifferentiationSymbol) {
+					return solvable1.GetEquationString().CompareTo(solvable2.GetEquationString());
+				} else {
+					return -1;
+				}
 			} else {
 				return solvable1.GetEquationString().CompareTo(solvable2.GetEquationString());
 			}
