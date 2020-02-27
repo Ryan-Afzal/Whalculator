@@ -5,10 +5,8 @@ using System.Threading.Tasks;
 
 namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 	public class CollectLikeTermsSimplifier : Simplifier {
-		protected override async Task<(ISolvable, bool)> InvokeAsync(ISolvable solvable) {
+		public override ISolvable Invoke(ISolvable solvable) {
 			if (solvable is NestedSolvable n) {
-				n = await InvokeOnChildrenAsync(n);
-
 				if (n is Operator o) {
 					if (o.Operation.Name == '+') {
 						int c = o.operands.Length - 1;
@@ -22,23 +20,6 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 									continue;
 								}
 							}
-
-							//if (!(o.operands[i] is Operator mult && mult.Operation.Name == '*')) {
-							//	o.operands[i] = new Operator(Operations.MultiplyOperation, o.operands[i], new Literal(1));
-							//}
-
-							//var curr = o.operands[i] as Operator;
-
-							//if (o.operands[i - 1] is Operator prevOperator) {
-							//	if (prevOperator.Operation.Name == '^') {
-							//		if (prevOperator.operands[0].Equals(curr.operands[0])) {
-							//			o.operands[i - 1] = new Operator(Operations.ExponateOperation, prevOperator.operands[0], new Operator(Operations.AddOperation, prevOperator.operands[1], curr.operands[1]));
-							//			o.operands[i] = null;
-							//			c--;
-							//			continue;
-							//		}
-							//	}
-							//}
 						}
 
 						ISolvable[] output = new ISolvable[c + 1];
@@ -50,7 +31,7 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 							}
 						}
 
-						return (new Operator(Operations.AddOperation, output), true);
+						return new Operator(Operations.AddOperation, output);
 					} else if (o.Operation.Name == '*') {
 						int c = o.operands.Length - 1;
 
@@ -91,15 +72,15 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 							}
 						}
 
-						return (new Operator(Operations.MultiplyOperation, output), true);
+						return new Operator(Operations.MultiplyOperation, output);
 					} else {
-						return (n, true);
+						return n;
 					}
 				} else {
-					return (n, true);
+					return n;
 				}
 			} else {
-				return (solvable, true);
+				return solvable;
 			}
 		}
 	}

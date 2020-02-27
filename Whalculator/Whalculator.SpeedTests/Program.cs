@@ -33,6 +33,8 @@ namespace Whalculator.SpeedTests {
 			await TestExactValue(baseCalc, "1 + 5");
 			await TestExactValue(baseCalc, "1 + 5 + 3");
 			await TestExactValue(baseCalc, "1 + 5 + 3 + (-1)");
+			await TestExactValue(baseCalc, "1 + 5 + 3 + (-1)");
+			await TestExactValue(baseCalc, "1 + 5 + 3 + ln(10)");
 			Console.WriteLine("Ended Exact Value Tests.");
 		}
 
@@ -72,7 +74,7 @@ namespace Whalculator.SpeedTests {
 				.AddCollectLikeTermsSimplifier()
 				.AddSimplifier(new ExactValuesSimplifier())
 				.SimplifyAsync();
-			Console.WriteLine($"\tResult: {result}");
+			Console.WriteLine($"\tResult: {result.GetEquationString()}");
 		}
 	}
 }

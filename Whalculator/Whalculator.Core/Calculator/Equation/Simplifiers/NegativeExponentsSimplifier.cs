@@ -5,10 +5,8 @@ using System.Threading.Tasks;
 
 namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 	public class NegativeExponentsSimplifier : Simplifier {
-		protected override async Task<(ISolvable, bool)> InvokeAsync(ISolvable solvable) {
+		public override ISolvable Invoke(ISolvable solvable) {
 			if (solvable is NestedSolvable n) {
-				n = await InvokeOnChildrenAsync(n);
-
 				if (n is Operator mult) {
 					int numNegative = 0;
 
@@ -42,19 +40,19 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 							}
 						}
 
-						return (new Operator(
+						return new Operator(
 							Operations.DivideOperation,
 							numerator.Length == 1 ? numerator[0] : new Operator(Operations.MultiplyOperation, numerator),
 							denominator.Length == 1 ? denominator[0] : new Operator(Operations.MultiplyOperation, denominator)
-						), true);
+						);
 					} else {
-						return (n, true);
+						return n;
 					}
 				} else {
-					return (n, true);
+					return n;
 				}
 			} else {
-				return (solvable, true);
+				return solvable;
 			}
 		}
 	}

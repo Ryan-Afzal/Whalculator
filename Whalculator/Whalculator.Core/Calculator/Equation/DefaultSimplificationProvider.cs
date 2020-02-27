@@ -39,10 +39,24 @@ namespace Whalculator.Core.Calculator.Equation {
 
 			while (!str.Equals(s.GetEquationString())) {
 				str = s.GetEquationString();
-				s = await this.first.InvokeBaseAsync(s);
+				Simplifier? node = this.first;
+				while (node is object) {
+					s = await Simplify(node, s);
+					node = node.Next;
+				}
 			}
 
 			return s;
+		}
+
+		private async Task<ISolvable> Simplify(Simplifier simp, ISolvable node) {
+			if (node is NestedSolvable n) {
+				for (int i = 0; i < n.operands.Length; i++) {
+					n.operands[i] = await Task.Run(() => simp.Invoke(n));
+				}
+			}
+
+			return await Task.Run(() => simp.Invoke(node));
 		}
 
 	}

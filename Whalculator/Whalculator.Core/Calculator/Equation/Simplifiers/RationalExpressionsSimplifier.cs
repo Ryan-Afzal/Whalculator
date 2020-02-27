@@ -5,12 +5,10 @@ using System.Threading.Tasks;
 
 namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 	public class RationalExpressionsSimplifier : Simplifier {
-		protected override async Task<(ISolvable, bool)> InvokeAsync(ISolvable solvable) {
+		public override ISolvable Invoke(ISolvable solvable) {
 			if (solvable is NestedSolvable n) {
-				n = await InvokeOnChildrenAsync(n);
-
 				if (n is Operator o && o.Operation.Name == '/') {
-					return (new Operator(
+					return new Operator(
 						Operations.MultiplyOperation, 
 						o.operands[0],
 						new Operator(
@@ -18,12 +16,12 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 							o.operands[1],
 							new Literal(-1)
 							)
-						), true);
+						);
 				} else {
-					return (solvable, true);
+					return solvable;
 				}
 			} else {
-				return (solvable, true);
+				return solvable;
 			}
 		}
 	}

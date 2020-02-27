@@ -5,17 +5,15 @@ using System.Threading.Tasks;
 
 namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 	public class LevelOperatorsSimplifier : Simplifier {
-		protected override async Task<(ISolvable, bool)> InvokeAsync(ISolvable solvable) {
+		public override ISolvable Invoke(ISolvable solvable) {
 			if (solvable is NestedSolvable n) {
-				n = await InvokeOnChildrenAsync(n);
-
 				if (n is Operator o
 				&& (o.Operation.Name == '+'
 				|| o.Operation.Name == '*')) {
 					int len = o.operands.Length;
 
 					if (len == 1) {
-						return (o.operands[0], true);
+						return o.operands[0];
 					}
 
 					for (int i = 0; i < o.operands.Length; i++) {
@@ -38,12 +36,12 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 						}
 					}
 
-					return (new Operator(o.Operation, arr), true);
+					return new Operator(o.Operation, arr);
 				} else {
-					return (solvable, true);
+					return solvable;
 				}
 			} else {
-				return (solvable, true);
+				return solvable;
 			}
 		}
 	}
