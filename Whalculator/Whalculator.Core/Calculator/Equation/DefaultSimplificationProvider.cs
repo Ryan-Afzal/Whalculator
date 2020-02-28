@@ -52,7 +52,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		private async Task<ISolvable> Simplify(Simplifier simp, ISolvable node) {
 			if (node is NestedSolvable n) {
 				for (int i = 0; i < n.operands.Length; i++) {
-					n.operands[i] = await Task.Run(() => simp.Invoke(n));
+					n.operands[i] = await Task.Run(() => simp.Invoke(n.operands[i]));
 				}
 			}
 
