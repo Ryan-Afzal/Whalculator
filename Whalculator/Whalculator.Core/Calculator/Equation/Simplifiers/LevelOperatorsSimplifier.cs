@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 
 namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 	public class LevelOperatorsSimplifier : Simplifier {
-		public override ISolvable Invoke(ISolvable solvable) {
+		public override ISolvable Invoke(ISolvable solvable, ISimplifierHook hook) {
 			if (solvable is NestedSolvable n) {
 				if (n is Operator o
 				&& (o.Operation.Name == '+'
 				|| o.Operation.Name == '*')) {
+					hook.Modified();
 					int len = o.operands.Length;
 
 					if (len == 1) {

@@ -9,7 +9,7 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		internal Simplifier? Next { get; set; }
 
-		public abstract ISolvable Invoke(ISolvable solvable);
+		public abstract ISolvable Invoke(ISolvable solvable, ISimplifierHook hook);
 
 	}
 

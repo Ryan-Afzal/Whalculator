@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 	public class NegativeExponentsSimplifier : Simplifier {
-		public override ISolvable Invoke(ISolvable solvable) {
+		public override ISolvable Invoke(ISolvable solvable, ISimplifierHook hook) {
 			if (solvable is NestedSolvable n) {
 				if (n is Operator mult) {
 					int numNegative = 0;
@@ -20,6 +20,7 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 					}
 
 					if (numNegative != 0) {
+						hook.Modified();
 						ISolvable[] numerator = new ISolvable[mult.operands.Length - numNegative];
 						ISolvable[] denominator = new ISolvable[numNegative];
 

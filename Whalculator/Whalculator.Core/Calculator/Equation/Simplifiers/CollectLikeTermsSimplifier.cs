@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 	public class CollectLikeTermsSimplifier : Simplifier {
-		public override ISolvable Invoke(ISolvable solvable) {
+		public override ISolvable Invoke(ISolvable solvable, ISimplifierHook hook) {
 			if (solvable is NestedSolvable n) {
 				if (n is Operator o) {
 					if (o.Operation.Name == '+') {
@@ -20,6 +20,10 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 									continue;
 								}
 							}
+						}
+
+						if (c < o.operands.Length - 1) {
+							hook.Modified();
 						}
 
 						ISolvable[] output = new ISolvable[c + 1];
@@ -61,6 +65,10 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 									}
 								}
 							}
+						}
+
+						if (c < o.operands.Length - 1) {
+							hook.Modified();
 						}
 
 						ISolvable[] output = new ISolvable[c + 1];

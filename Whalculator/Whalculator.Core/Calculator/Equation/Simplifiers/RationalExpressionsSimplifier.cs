@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 
 namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 	public class RationalExpressionsSimplifier : Simplifier {
-		public override ISolvable Invoke(ISolvable solvable) {
+		public override ISolvable Invoke(ISolvable solvable, ISimplifierHook hook) {
 			if (solvable is NestedSolvable n) {
 				if (n is Operator o && o.Operation.Name == '/') {
+					hook.Modified();
 					return new Operator(
 						Operations.MultiplyOperation, 
 						o.operands[0],

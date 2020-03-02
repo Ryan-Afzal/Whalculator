@@ -5,9 +5,14 @@ using System.Threading.Tasks;
 
 namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 	public class ExactValuesSimplifier : Simplifier {
-		public override ISolvable Invoke(ISolvable solvable) {
+		public override ISolvable Invoke(ISolvable solvable, ISimplifierHook hook) {
 			if (solvable is NestedSolvable n) {
 				if (n is Operator o) {
+					if (o.operands.Length == 1) {
+						hook.Modified();
+						return o.operands[0];
+					}
+
 					if (o.Operation.Name == Operations.AddOperation.Name) {
 						int c = o.operands.Length;
 
@@ -48,6 +53,10 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 							//}
 						}
 
+						if (c < o.operands.Length) {
+							hook.Modified();
+						}
+
 						/*
 						 * Remove nulls and return
 						 */
@@ -72,6 +81,7 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 								for (int k = i + 1; k < o.operands.Length; k++) {
 									if (o.operands[i] is Literal _l) {
 										if (_l.Value == 0) {
+											hook.Modified();
 											return new Literal(0);
 										}
 
@@ -83,6 +93,10 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 
 								break;
 							}
+						}
+
+						if (c < o.operands.Length) {
+							hook.Modified();
 						}
 
 						/*
@@ -109,7 +123,7 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 					}
 				} else if (n is BuiltinFunction b) {
 					if (b.Operation.Name == BuiltinFunctionOperations.LnOperation.Name) {
-						return n;
+						return b;
 					} else if (false) {
 						throw new NotImplementedException();
 					} else {

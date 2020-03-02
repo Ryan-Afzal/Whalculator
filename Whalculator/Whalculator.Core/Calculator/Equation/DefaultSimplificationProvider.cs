@@ -30,33 +30,33 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		public async Task<ISolvable> SimplifyAsync() {
 			ISolvable s = this.solvable.Clone();
-
+			
 			if (this.first is null) {
 				return s;
 			}
-
-			string str = "";
-
-			while (!str.Equals(s.GetEquationString())) {
-				str = s.GetEquationString();
+			
+			var hook = new DefaultSimplifierHook();
+			
+			do {
+				hook.IsModified = false;
 				Simplifier? node = this.first;
 				while (node is object) {
-					s = await Simplify(node, s);
+					s = await Simplify(node, s, hook);
 					node = node.Next;
 				}
-			}
-
+			} while (hook.IsModified);
+			
 			return s;
 		}
 
-		private async Task<ISolvable> Simplify(Simplifier simp, ISolvable node) {
+		private async Task<ISolvable> Simplify(Simplifier simp, ISolvable node, ISimplifierHook hook) {
 			if (node is NestedSolvable n) {
 				for (int i = 0; i < n.operands.Length; i++) {
-					n.operands[i] = await Task.Run(() => simp.Invoke(n.operands[i]));
+					n.operands[i] = await Simplify(simp, n.operands[i], hook);
 				}
 			}
 
-			return await Task.Run(() => simp.Invoke(node));
+			return await Task.Run(() => simp.Invoke(node, hook));
 		}
 
 	}
