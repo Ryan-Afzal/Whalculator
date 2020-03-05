@@ -10,7 +10,6 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 				if (n is Operator o
 				&& (o.Operation.Name == '+'
 				|| o.Operation.Name == '*')) {
-					hook.Modified();
 					int len = o.operands.Length;
 
 					if (len == 1) {
@@ -21,6 +20,10 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 						if (o.operands[i] is Operator _o && _o.Operation.Name == o.Operation.Name) {
 							len += _o.operands.Length - 1;
 						}
+					}
+
+					if (len != o.operands.Length) {
+						hook.Modified();
 					}
 
 					ISolvable[] arr = new ISolvable[len];
