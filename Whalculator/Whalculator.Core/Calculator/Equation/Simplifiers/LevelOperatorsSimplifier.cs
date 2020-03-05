@@ -13,6 +13,7 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 					int len = o.operands.Length;
 
 					if (len == 1) {
+						hook.Modified();
 						return o.operands[0];
 					}
 

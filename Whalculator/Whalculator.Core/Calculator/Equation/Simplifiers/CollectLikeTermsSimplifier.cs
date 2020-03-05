@@ -39,6 +39,8 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 					} else if (o.Operation.Name == '*') {
 						int c = o.operands.Length - 1;
 
+						int e = 0;
+
 						for (int i = c; i > 0; i--) {
 							if (o.operands[i] is Literal l) {
 								if (o.operands[i - 1] is Literal _l) {
@@ -51,6 +53,7 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 
 							if (!(o.operands[i] is Operator exp && exp.Operation.Name == '^')) {
 								o.operands[i] = new Operator(Operations.ExponateOperation, o.operands[i], new Literal(1));
+								e++;
 							}
 
 							var curr = (Operator)o.operands[i];
@@ -75,9 +78,19 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 						int k = 0;
 						for (int i = 0; i < o.operands.Length; i++) {
 							if (!(o.operands[i] is null)) {
-								output[k] = o.operands[i];
-								k++;
+								if (o.operands[i] is Operator exp && exp.Operation.Name == '^' && exp.operands[1] is Literal l && l.Value == 1) {
+									e--;
+									output[k] = exp.operands[0];
+									k++;
+								} else {
+									output[k] = o.operands[i];
+									k++;
+								}
 							}
+						}
+
+						if (e > 0) {
+							hook.Modified();
 						}
 
 						return new Operator(Operations.MultiplyOperation, output);
