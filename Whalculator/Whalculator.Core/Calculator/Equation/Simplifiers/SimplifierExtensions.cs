@@ -29,5 +29,9 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 			return provider.AddSimplifier(new NegativeExponentsSimplifier());
 		}
 
+		public static ISimplificationProvider AddExactValuesSimplifier(this ISimplificationProvider provider) {
+			return provider.AddSimplifier(new ExactValuesSimplifier());
+		}
+
 	}
 }

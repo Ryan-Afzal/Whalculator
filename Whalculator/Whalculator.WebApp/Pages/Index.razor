@@ -75,19 +75,18 @@
         if (this.instance is null) {
             return;
         }
-
-        string result;
         string input = InputModel.InputText ?? "";
 
         this.output.AddLast(input);
 
         try {
-            result = await this.instance.Calculator.ProcessInputAsync(input);
+            string output = await this.instance.Calculator.ProcessInputAsync(input);
+            foreach (var x in output.Split("\n")) {
+                this.output.AddLast($"=> {x}");
+            }
         } catch (Exception) {
-            result = "ERROR";
+            this.output.AddLast($"=> ERROR");
         }
-
-        this.output.AddLast($"=> {result}");
         InputModel.InputText = "";
     }
 

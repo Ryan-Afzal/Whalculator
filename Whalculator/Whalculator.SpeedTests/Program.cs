@@ -75,8 +75,7 @@ namespace Whalculator.SpeedTests {
 					.AddLevelOperatorSimplifier()
 					.AddRationalExpressionsSimplifier()
 					.AddRemoveZerosOnesSimplifier()
-					//.AddCollectLikeTermsSimplifier()
-					.AddSimplifier(new ExactValuesSimplifier());
+					.AddExactValuesSimplifier();
 
 			var result = await s.SimplifyAsync();
 			Console.WriteLine($"\tResult: {result.GetEquationString()}");

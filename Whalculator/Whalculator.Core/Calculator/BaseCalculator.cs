@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Whalculator.Core.Calculator.Equation;
+using Whalculator.Core.Calculator.Equation.Simplifiers;
 
 namespace Whalculator.Core.Calculator {
 	public class BaseCalculator {
@@ -46,6 +47,16 @@ namespace Whalculator.Core.Calculator {
 				.GetResultValueAsync(this.GetArgs());
 		}
 
+		public async Task<ISolvable> GetExactValueAsync(string input) {
+			return await (await this.GetSolvableFromTextAsync(input))
+				.GetSimplifier()
+					.AddLevelOperatorSimplifier()
+					.AddRationalExpressionsSimplifier()
+					.AddRemoveZerosOnesSimplifier()
+					.AddExactValuesSimplifier()
+				.SimplifyAsync();
+		}
+
 		public async Task<bool> SetVariableAsync(string head, string body) {
 			return Variables.SetVariable(head, await this.GetResultValueAsync(body));
 		}
@@ -77,7 +88,7 @@ namespace Whalculator.Core.Calculator {
 			return Functions.SetFunction(info.Name, info);
 		}
 
-		private ExpressionEvaluationArgs GetArgs() {
+		internal ExpressionEvaluationArgs GetArgs() {
 			return new ExpressionEvaluationArgs() {
 				VariableSet = Variables,
 				FunctionSet = Functions,

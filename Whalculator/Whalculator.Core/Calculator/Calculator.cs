@@ -89,7 +89,13 @@ namespace Whalculator.Core.Calculator {
 
 			int i = input.IndexOf('=');
 			if (i == -1) {
-				result = (await this.baseCalculator.GetResultValueAsync(input)).GetEquationString();
+				var res = await this.baseCalculator.GetExactValueAsync(input);
+
+				if (res is IResult) {
+					result = res.GetEquationString();
+				} else {
+					result = $"{res.GetEquationString()}\n{(await res.GetResultValueAsync(this.baseCalculator.GetArgs())).GetEquationString()}";
+				}
 			} else {
 				string head = input.Substring(0, i);
 				string body = input.Substring(i + 1);
