@@ -30,11 +30,14 @@ namespace Whalculator.SpeedTests {
 			Console.WriteLine("Ended Input Tests.");
 
 			Console.WriteLine("Starting Exact Value Tests...");
-			await TestExactValue(baseCalc, "1 + 5");
-			await TestExactValue(baseCalc, "1 + 5 + 3");
-			await TestExactValue(baseCalc, "1 + 5 + 3 + (-1)");
-			await TestExactValue(baseCalc, "1 + 5 + 3 + (-1)");
-			await TestExactValue(baseCalc, "1 + 5 + 3 + ln(10)");
+			await TestExactValue(baseCalc, "1 + 5");// 6
+			await TestExactValue(baseCalc, "1 + 5 + 3");// 9
+			await TestExactValue(baseCalc, "1 + 5 + 3 + (-1)");// 8
+			await TestExactValue(baseCalc, "1 + 5 + 3 + 2*(-1)");// 7
+			await TestExactValue(baseCalc, "2*4*1");// 8
+			await TestExactValue(baseCalc, "2*4*1 + 4");// 12
+			await TestExactValue(baseCalc, "2*1*128*0");// 0
+			await TestExactValue(baseCalc, "1 + 5 + 3 + ln(10)");// 9+ln(10)
 			Console.WriteLine("Ended Exact Value Tests.");
 		}
 
@@ -66,14 +69,16 @@ namespace Whalculator.SpeedTests {
 
 		private static async Task TestExactValue(BaseCalculator calc, string exp) {
 			Console.WriteLine($"Input: {exp}");
-			var result = await (await calc.GetSolvableFromTextAsync(exp))
+
+			var s = (await calc.GetSolvableFromTextAsync(exp))
 				.GetSimplifier()
-				.AddLevelOperatorSimplifier()
-				.AddRationalExpressionsSimplifier()
-				.AddRemoveZerosOnesSimplifier()
-				.AddCollectLikeTermsSimplifier()
-				.AddSimplifier(new ExactValuesSimplifier())
-				.SimplifyAsync();
+					.AddLevelOperatorSimplifier()
+					.AddRationalExpressionsSimplifier()
+					.AddRemoveZerosOnesSimplifier()
+					//.AddCollectLikeTermsSimplifier()
+					.AddSimplifier(new ExactValuesSimplifier());
+
+			var result = await s.SimplifyAsync();
 			Console.WriteLine($"\tResult: {result.GetEquationString()}");
 		}
 	}

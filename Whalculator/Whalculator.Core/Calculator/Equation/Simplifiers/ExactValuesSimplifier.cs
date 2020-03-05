@@ -20,10 +20,10 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 						 * Add Literals
 						 */
 						for (int i = 0; i < o.operands.Length - 1; i++) {// Go from 0 to the penultimate operand
-							if (o.operands[i] is Literal l) {// If the loop never finds a literal, it's OK: if the last operand is a literal, it couldn't be simplified here anyway.
+							if (o.operands[i] is Literal) {// If the loop never finds a literal, it's OK: if the last operand is a literal, it couldn't be simplified here anyway.
 								for (int k = i + 1; k < o.operands.Length; k++) {
-									if (o.operands[i] is Literal _l) {
-										o.operands[i] = new Literal(l.Value + _l.Value);
+									if (o.operands[k] is Literal _l) {
+										o.operands[i] = new Literal(((Literal)o.operands[i]).Value + _l.Value);
 										o.operands[k] = null!;
 										c--;
 									}
@@ -78,14 +78,19 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 						 */
 						for (int i = 0; i < o.operands.Length - 1; i++) {// Go from 0 to the penultimate operand
 							if (o.operands[i] is Literal l) {// If the loop never finds a literal, it's OK: if the last operand is a literal, it couldn't be simplified here anyway.
+								if (l.Value == 0) {
+									hook.Modified();
+									return new Literal(0);
+								}
+		
 								for (int k = i + 1; k < o.operands.Length; k++) {
-									if (o.operands[i] is Literal _l) {
+									if (o.operands[k] is Literal _l) {
 										if (_l.Value == 0) {
 											hook.Modified();
 											return new Literal(0);
 										}
 
-										o.operands[i] = new Literal(l.Value * _l.Value);
+										o.operands[i] = new Literal(((Literal)o.operands[i]).Value * _l.Value);
 										o.operands[k] = null!;
 										c--;
 									}
