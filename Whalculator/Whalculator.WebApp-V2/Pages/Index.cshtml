@@ -1,0 +1,37 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            <div id="console-input">
+                <ul class="list-group list-group-flush h-100">
+                    
+                </ul>
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="row">
+                <div class="col-12">
+                    <div id="console-output">
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div id="console-input">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/index.js" asp-append-version="true"></script>
+}

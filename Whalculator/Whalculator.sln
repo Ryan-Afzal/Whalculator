@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whalculator.ConsoleApp", "W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whalculator.WebApp", "Whalculator.WebApp\Whalculator.WebApp.csproj", "{246CA328-B93F-4E95-AAF5-DBD45326C301}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whalculator.SpeedTests", "Whalculator.SpeedTests\Whalculator.SpeedTests.csproj", "{E1709CF6-417C-4A98-890A-A8FA1C803F73}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whalculator.SpeedTests", "Whalculator.SpeedTests\Whalculator.SpeedTests.csproj", "{E1709CF6-417C-4A98-890A-A8FA1C803F73}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whalculator.WebApp-V2", "Whalculator.WebApp-V2\Whalculator.WebApp-V2.csproj", "{77592BA2-40EB-4D6D-B729-FBD1C82F1D21}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{E1709CF6-417C-4A98-890A-A8FA1C803F73}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1709CF6-417C-4A98-890A-A8FA1C803F73}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1709CF6-417C-4A98-890A-A8FA1C803F73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77592BA2-40EB-4D6D-B729-FBD1C82F1D21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77592BA2-40EB-4D6D-B729-FBD1C82F1D21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77592BA2-40EB-4D6D-B729-FBD1C82F1D21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77592BA2-40EB-4D6D-B729-FBD1C82F1D21}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
