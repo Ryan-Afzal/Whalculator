@@ -7,5 +7,6 @@ namespace Whalculator.Core.Calculator.Equation {
 		public ISolvable this[string name] { get; }
 		public bool IsVariable(string name);
 		public IEnumerable<(string, IResult)> GetAllVariables();
+		public string GetVariable(string name);
 	}
 }

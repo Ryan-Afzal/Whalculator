@@ -103,15 +103,15 @@ namespace Whalculator.Core.Calculator {
 				int hi = head.IndexOf('(');
 				if (hi == -1) {
 					if (await this.baseCalculator.SetVariableAsync(head, body)) {
-						result = $"{head} = {body}";
+						result = $"{head} = {Variables.GetVariable(head)}";
 					} else {
-						result = "ERROR";
+						throw new InvalidOperationException();
 					}
 				} else {
 					if (await this.baseCalculator.SetFunctionAsync(head, body)) {
 						result = $"{head} = {body}";
 					} else {
-						result = "ERROR";
+						throw new InvalidOperationException();
 					}
 				}
 			}

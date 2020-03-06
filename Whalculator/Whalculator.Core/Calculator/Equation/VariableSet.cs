@@ -65,5 +65,9 @@ namespace Whalculator.Core.Calculator.Equation {
 				yield return (item.Name, (IResult)item.Value.Clone());
 			}
 		}
+
+		public string GetVariable(string name) {
+			return this[name].GetEquationString();
+		}
 	}
 }
