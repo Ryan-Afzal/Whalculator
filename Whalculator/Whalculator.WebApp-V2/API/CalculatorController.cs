@@ -12,6 +12,11 @@ namespace Whalculator.WebApp_V2.API {
 	public class CalculatorController : ControllerBase {
 
 		[HttpGet]
+		public async Task<ActionResult<string>> Get() {
+			return "Hon Hon Hon Oui Oui Baguette Baguette";
+		}
+
+		//[HttpGet]
 		public async Task<ActionResult<string>> Get(IEnumerable<string> inputStrings) {
 			var calc = new Calculator();
 			var enumerator = inputStrings.GetEnumerator();
@@ -28,6 +33,12 @@ namespace Whalculator.WebApp_V2.API {
 			} else {
 				return output;
 			}
+		}
+
+		[HttpGet("{input}")]
+		public async Task<ActionResult<string>> Get(long input) {
+			var calc = new Calculator();
+			return await calc.ProcessInputAsync($"{input}");
 		}
 
 	}

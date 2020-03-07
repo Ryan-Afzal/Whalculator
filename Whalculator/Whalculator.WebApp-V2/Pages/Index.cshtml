@@ -5,33 +5,31 @@
 }
 
 <div class="container">
+    <div class="row">&nbsp;</div>
     <div class="row">
-        <div class="col-3 col-sm-3 col-md-4 col-lg-4 col-xl-4 custom-height">
+        <div id="left-pane" class="col-3 col-sm-3 col-md-4 col-lg-4 col-xl-4">
             <div class="card text-black-50 h-100">
                 <div class="card-header bg-dark">
 
                 </div>
                 <div class="card-body">
                     <ul id="variables-list" class="list-group list-group-flush">
-
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="col-9 col-sm-9 col-md-8 col-lg-8 col-xl-8 custom-height">
-            <div class="row">
-                <div class="col-12">
-                    <div id="console-output-container">
-                        <div id="console-output">
 
-                        </div>
-                    </div>
-                </div>
+        <div id="center-pane" class="col-9 col-sm-9 col-md-8 col-lg-8 col-xl-8">
+            <div id="console-output-container">
+                <div id="console-output"></div>
             </div>
-            <div class="row">
-                <div class="col-12">
-                    <div id="console-input">
 
+            <div class="console-input-container">
+                <div id="text-input-container">
+                    <div class="text-input">
+                        <div class="text-input-spacer">
+                            <div id="console-input" class="text-input-control" role="textbox" contenteditable="true" placeholder="Enter expression here"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -40,5 +38,6 @@
 </div>
 
 @section Scripts {
+    <link rel="stylesheet" href="~/css/index.css" asp-append-version="true" />
     <script src="~/js/index.js" asp-append-version="true"></script>
 }
