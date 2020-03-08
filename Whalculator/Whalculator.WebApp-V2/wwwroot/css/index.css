@@ -20,6 +20,7 @@
 }
 
 #console-output {
+    font-family: Consolas;
 }
 
 #console-input-container {
@@ -61,7 +62,7 @@
     width: 100%;
     word-wrap: break-word;
     word-break: break-word;
-    font-family: 'Roboto', 'Arial', sans-serif;
+    font-family: Consolas;
     text-align: left;
 }
 

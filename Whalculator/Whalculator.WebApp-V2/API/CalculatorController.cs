@@ -5,19 +5,29 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Whalculator.Core.Calculator;
+using Whalculator.WebApp_V2.Models;
 
 namespace Whalculator.WebApp_V2.API {
 	[Route("api/[controller]")]
 	[ApiController]
 	public class CalculatorController : ControllerBase {
 
-		[HttpGet]
-		public async Task<ActionResult<string>> Get() {
-			return "Hon Hon Hon Oui Oui Baguette Baguette";
+		[HttpPost]
+		public async Task<ActionResult<CalculatorResponseModel>> Post(CalculatorInputModel model) {
+			try {
+				var calc = new Calculator();
+				return new CalculatorResponseModel() {
+					Response = await calc.ProcessInputAsync(model.Input)
+				};
+			} catch (Exception) {
+				return new CalculatorResponseModel() {
+					Response = "UNKNOWN ERROR"
+				};
+			}
 		}
 
-		//[HttpGet]
-		public async Task<ActionResult<string>> Get(IEnumerable<string> inputStrings) {
+		[Obsolete]
+		public async Task<ActionResult<string>> Post(IEnumerable<string> inputStrings) {
 			var calc = new Calculator();
 			var enumerator = inputStrings.GetEnumerator();
 
@@ -33,12 +43,6 @@ namespace Whalculator.WebApp_V2.API {
 			} else {
 				return output;
 			}
-		}
-
-		[HttpGet("{input}")]
-		public async Task<ActionResult<string>> Get(long input) {
-			var calc = new Calculator();
-			return await calc.ProcessInputAsync($"{input}");
 		}
 
 	}
