@@ -11,7 +11,8 @@ var functions = {};// Functions
 
 $(document).ready(function () {
     getConsoleInput(true).keydown(function (event) {
-        if (event.key == "Enter" && !event.shiftKey) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13' && !event.shiftKey) {
             var node = getConsoleInput(false);
             var input = node.textContent;
 
