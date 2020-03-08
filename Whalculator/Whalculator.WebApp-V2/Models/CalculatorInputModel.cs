@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace Whalculator.WebApp_V2.Models {
 	public class CalculatorInputModel {
-		public string Input { get; set; }
+		public string[] Input { get; set; }
 	}
 }

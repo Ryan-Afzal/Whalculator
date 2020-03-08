@@ -6,6 +6,9 @@
 
 const apiURI = 'api/Calculator';
 
+var variables = {};
+var functions = {};
+
 $(document).ready(function () {
     getConsoleInput(true).keydown(function (event) {
         if (event.key == "Enter" && !event.shiftKey) {
@@ -13,12 +16,12 @@ $(document).ready(function () {
             var input = node.textContent;
 
             if (input.trim() == "") {
-
+                // Do Nothing
             } else {
                 node.textContent = "";
 
                 printInput(input);
-                getResult(input, printResponse);
+                getResult(input, processResponse);
 
                 event.preventDefault();
             }
@@ -27,8 +30,23 @@ $(document).ready(function () {
 });
 
 function getResult(input, callback) {
+    var strings = [];
+    var i = 0;
+
+    for (var v in variables) {
+        strings[i] = `${v}=${variables[v]}`;
+        i++;
+    }
+
+    for (var f in functions) {
+        strings[i] = `${f}=${functions[f]}`;
+        i++;
+    }
+
+    strings[i] = input;
+
     const body = {
-        input: input
+        input: strings
     };
 
     fetch(`${apiURI}`, {
@@ -72,20 +90,37 @@ function printOutput(output) {
     printMessage("🠖", output);
 }
 
-function printResponse(response) {
-    var index = response.indexOf("\n");
-    if (index == -1) {
-        printOutput(response);
-    } else {
-        var string = response;
-        do {
-            var sub = string.substring(0, index);
-            printOutput(sub);
-            string = string.substring(index + 1);
-            index = string.indexOf("\n");
-        } while (index != -1);
+function processResponse(response) {
+    var equals = response.indexOf('=');
 
-        printOutput(string);
+    if (equals == -1) {
+        var index = response.indexOf("\n");
+        if (index == -1) {
+            printOutput(response);
+        } else {
+            var string = response;
+            do {
+                var sub = string.substring(0, index);
+                printOutput(sub);
+                string = string.substring(index + 1);
+                index = string.indexOf("\n");
+            } while (index != -1);
+
+            printOutput(string);
+        }
+    } else {
+        var head = response.substring(0, equals);
+        var body = response.substring(equals + 1);
+
+        var paren = head.indexOf('(');
+
+        if (paren == -1) {
+            variables[head] = body;
+        } else {
+            functions[head] = body;
+        }
+
+        printOutput(response);
     }
 }
 

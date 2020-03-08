@@ -16,32 +16,24 @@ namespace Whalculator.WebApp_V2.API {
 		public async Task<ActionResult<CalculatorResponseModel>> Post(CalculatorInputModel model) {
 			try {
 				var calc = new Calculator();
-				return new CalculatorResponseModel() {
-					Response = await calc.ProcessInputAsync(model.Input)
-				};
+
+				string? output = null;
+
+				for (int i = 0; i < model.Input.Length; i++) {
+					output = await calc.ProcessInputAsync(model.Input[i]);
+				}
+
+				if (output is null) {
+					return BadRequest();
+				} else {
+					return new CalculatorResponseModel() {
+						Response = output
+					};
+				}
 			} catch (Exception) {
 				return new CalculatorResponseModel() {
 					Response = "UNKNOWN ERROR"
 				};
-			}
-		}
-
-		[Obsolete]
-		public async Task<ActionResult<string>> Post(IEnumerable<string> inputStrings) {
-			var calc = new Calculator();
-			var enumerator = inputStrings.GetEnumerator();
-
-			string? output;
-
-			do {
-				output = await calc.ProcessInputAsync(enumerator.Current);
-				enumerator.MoveNext();
-			} while (enumerator.Current is string);
-
-			if (output is null) {
-				return BadRequest();
-			} else {
-				return output;
 			}
 		}
 
