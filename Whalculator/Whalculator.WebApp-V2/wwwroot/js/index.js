@@ -9,6 +9,24 @@ const apiURI = 'api/Calculator';
 var variables = {};
 var functions = {};
 
+String.prototype.hashCode = function () {
+    var hash = 0;
+
+    if (this.length == 0) {
+        return hash;
+    } else {
+        var char;
+
+        for (var i = 0; i < this.length; i++) {
+            char = this.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash |= 0;
+        }
+
+        return hash;
+    }
+};
+
 $(document).ready(function () {
     getConsoleInput(true).keydown(function (event) {
         if (event.key == "Enter" && !event.shiftKey) {
@@ -116,8 +134,10 @@ function processResponse(response) {
 
         if (paren == -1) {
             variables[head] = body;
+            putVariable(head, body);
         } else {
             functions[head] = body;
+            putFunction(head, body);
         }
 
         printOutput(response);
@@ -134,4 +154,39 @@ function getConsoleInput(jQuery) {
     } else {
         return document.getElementById("console-input");
     }
+}
+
+function putData(node, key, value) {
+    key = key.trim();
+    value = value.trim();
+
+    var idKey = `key-${key.hashCode()}`;
+
+    var test = $(`#${idKey}`);
+
+    var containerNode;
+    var dataNode;
+
+    if (test.length == 0) {
+        dataNode = $('<div />').addClass("data-display-container");
+        containerNode = $(`<li id="${idKey}"/>`)
+            .addClass("data-display-container list-group-item")
+            .append(dataNode);
+    } else {
+        containerNode = test;
+        dataNode = containerNode
+            .children()
+            .first();
+    }
+
+    dataNode.text(`${key} = ${value}`);
+    node.append(containerNode);
+}
+
+function putVariable(head, body) {
+    putData($("#variables-list"), head, body);
+}
+
+function putFunction(head, body) {
+    putData($("#functions-list"), head, body);
 }
