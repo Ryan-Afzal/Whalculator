@@ -41,6 +41,12 @@
 </div>
 
 @section Scripts {
-    <link rel="stylesheet" href="~/css/index.css" asp-append-version="true" />
-    <script src="~/js/index.js" asp-append-version="true"></script>
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/index.css" asp-append-version="true" />
+        <script src="~/js/index.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/css/index.min.css" asp-append-version="true" />
+        <script src="~/js/index.min.js" asp-append-version="true"></script>
+    </environment>
 }

@@ -10,6 +10,8 @@
 .output-text {
     user-select: text;
     display: inline;
+    font-family: Consolas;
+    line-height: 16px;
 }
 
 .data-display-container {
@@ -26,7 +28,6 @@
 }
 
 #console-output {
-    font-family: Consolas;
 }
 
 #console-input-container {
@@ -71,6 +72,12 @@
     font-family: Consolas;
     text-align: left;
 }
+
+#console-input:empty:before {
+    color: gray;
+    content: attr(placeholder);
+}
+
 
 #left-pane {
     height: 75vh;

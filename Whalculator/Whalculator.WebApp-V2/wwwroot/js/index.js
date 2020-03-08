@@ -4,28 +4,10 @@
  * © Whalculator 2020 *
  **********************/
 
-const apiURI = 'api/Calculator';
+const apiURI = 'api/Calculator';// Calculator API URI
 
-var variables = {};
-var functions = {};
-
-String.prototype.hashCode = function () {
-    var hash = 0;
-
-    if (this.length == 0) {
-        return hash;
-    } else {
-        var char;
-
-        for (var i = 0; i < this.length; i++) {
-            char = this.charCodeAt(i);
-            hash = ((hash << 5) - hash) + char;
-            hash |= 0;
-        }
-
-        return hash;
-    }
-};
+var variables = {};// Variables
+var functions = {};// Functions
 
 $(document).ready(function () {
     getConsoleInput(true).keydown(function (event) {
@@ -47,6 +29,30 @@ $(document).ready(function () {
     });
 });
 
+/*
+ * Hash function for strings, used to make an ID key for variables and functions.
+ */
+String.prototype.hashCode = function () {
+    var hash = 0;
+
+    if (this.length == 0) {
+        return hash;
+    } else {
+        var char;
+
+        for (var i = 0; i < this.length; i++) {
+            char = this.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash |= 0;
+        }
+
+        return hash;
+    }
+};
+
+/*
+ * Sends a POST request to the API and calls the callback function with the returned JSON result.
+ */
 function getResult(input, callback) {
     var strings = [];
     var i = 0;
@@ -84,6 +90,9 @@ function getResult(input, callback) {
         });
 }
 
+/*
+ * Prints a message to the console.
+ */
 function printMessage(head, message) {
     var output = getConsoleOutput();
 
@@ -100,14 +109,23 @@ function printMessage(head, message) {
     $("#console-output-container").scrollTop(output[0].scrollHeight);
 }
 
+/*
+ * Prints a message formatted as a user input.
+ */
 function printInput(input) {
     printMessage("", input);
 }
 
+/*
+ * Prints a message formatted as a returned API response.
+ */
 function printOutput(output) {
     printMessage("🠖", output);
 }
 
+/*
+ * Processes a returned API response.
+ */
 function processResponse(response) {
     var equals = response.indexOf('=');
 
@@ -144,10 +162,17 @@ function processResponse(response) {
     }
 }
 
+/*
+ * Returns the console output.
+ */
 function getConsoleOutput() {
     return $("#console-output");
 }
 
+/*
+ * Returns the console input. Contains a boolean parameter to determine whether to return a JQuery object or a regular DOM object.
+ * This distinction is useful in certain scenarios.
+ */
 function getConsoleInput(jQuery) {
     if (jQuery) {
         return $("#console-input");
@@ -156,6 +181,9 @@ function getConsoleInput(jQuery) {
     }
 }
 
+/*
+ * Puts data to the a list group.
+ */
 function putData(node, key, value) {
     key = key.trim();
     value = value.trim();
@@ -183,10 +211,16 @@ function putData(node, key, value) {
     node.append(containerNode);
 }
 
+/*
+ * Puts data to the 'variables-list' group.
+ */
 function putVariable(head, body) {
     putData($("#variables-list"), head, body);
 }
 
+/*
+ * Puts data to the 'functions-list' group.
+ */
 function putFunction(head, body) {
     putData($("#functions-list"), head, body);
 }
