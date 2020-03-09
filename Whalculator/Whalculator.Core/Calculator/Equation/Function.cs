@@ -46,7 +46,7 @@ namespace Whalculator.Core.Calculator.Equation {
 				string argName = x.Current;
 
 				for (int i = 0; i < DifferentiationDegree; i++) {
-					solvable = await solvable.GetDerivativeAsync(argName, false);
+					solvable = await solvable.GetDerivativeAsync(argName, false, args.VariableSet);
 				}
 			}
 

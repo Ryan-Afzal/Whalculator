@@ -9,17 +9,19 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		private struct DerivativeArgs {
 
-			public DerivativeArgs(string ind, bool imp) {
+			public DerivativeArgs(string ind, bool imp, VariableSet variableSet) {
 				IndependentVariable = ind;
 				Implicit = imp;
+				VariableSet = variableSet;
 			}
 
 			public string IndependentVariable { get; }
 			public bool Implicit { get; }
+			public VariableSet VariableSet { get; }
 		}
 
-		public static async Task<ISolvable> GetDerivativeAsync(this ISolvable input, string ind, bool imp) {
-			ISolvable s = GetDerivative(input, new DerivativeArgs(ind, imp));
+		public static async Task<ISolvable> GetDerivativeAsync(this ISolvable input, string ind, bool imp, VariableSet variableSet) {
+			ISolvable s = GetDerivative(input, new DerivativeArgs(ind, imp, variableSet));
 
 			s = await s.SimplifyDerivative1Async();
 			s = await s.SimplifyDerivative2Async();
@@ -38,6 +40,10 @@ namespace Whalculator.Core.Calculator.Equation {
 			if (input is Literal) {
 				return new Literal(0);
 			} else if (input is Variable v) {
+				if (args.VariableSet.IsConstant(v.VariableName)) {
+					return new Literal(0);
+				}
+
 				if (v.VariableName.Equals(args.IndependentVariable)) {
 					return new Literal(1);
 				} else {
@@ -197,7 +203,8 @@ namespace Whalculator.Core.Calculator.Equation {
 					.AddRemoveZerosOnesSimplifier()
 					.AddLevelOperatorSimplifier()
 					.AddRationalExpressionsSimplifier()
-					.AddCollectLikeTermsSimplifier()
+					//.AddCollectLikeTermsSimplifier()
+					.AddExactValuesSimplifier()
 				.SimplifyAsync();
 		}
 
@@ -206,6 +213,7 @@ namespace Whalculator.Core.Calculator.Equation {
 				.GetSimplifier()
 					.AddRemoveZerosOnesSimplifier()
 					.AddLevelOperatorSimplifier()
+					.AddNegativeExponentsSimplifier()
 				.SimplifyAsync();
 		}
 	}

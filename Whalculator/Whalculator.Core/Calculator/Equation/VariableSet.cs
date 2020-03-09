@@ -23,8 +23,12 @@ namespace Whalculator.Core.Calculator.Equation {
 			this.variables = new Dictionary<string, VariableInfo>();
 
 			this.AddConstant("pi", new Literal(Math.PI));
+			this.AddConstant("π", new Literal(Math.PI));
+
+			this.AddConstant("tau", new Literal(Math.PI * 2));
+			this.AddConstant("τ", new Literal(Math.PI * 2));
+
 			this.AddConstant("e", new Literal(Math.E));
-			//this.AddConstant("i", );
 		}
 
 		private void AddConstant(string name, ISolvable value) {
@@ -57,6 +61,10 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public bool IsConstant(string name) {
+			if (!this.IsVariable(name)) {
+				return false;
+			}
+
 			return this.variables[name].IsConstant;
 		}
 

@@ -128,6 +128,27 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 					}
 				} else if (n is BuiltinFunction b) {
 					if (b.Operation.Name == BuiltinFunctionOperations.LnOperation.Name) {
+						var operand = b.operands[0];
+
+						if (operand is Literal l && l.Value == 1) {
+							return new Literal(0);
+						}
+
+						if (operand is Variable v && v.VariableName == "e") {
+							hook.Modified();
+							return new Literal(1);
+						}
+
+						if (operand is Operator operandO) {
+							if (operandO.Operation.Name == Operations.ExponateOperation.Name) {
+								hook.Modified();
+								return new Operator(Operations.MultiplyOperation,
+									operandO.operands[1], 
+									new BuiltinFunction(BuiltinFunctionOperations.LnOperation, operandO.operands[0])
+									);
+							}
+						}
+
 						return b;
 					} else if (false) {
 						throw new NotImplementedException();
