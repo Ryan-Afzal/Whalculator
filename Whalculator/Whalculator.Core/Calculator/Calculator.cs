@@ -105,13 +105,13 @@ namespace Whalculator.Core.Calculator {
 					if (await this.baseCalculator.SetVariableAsync(head, body)) {
 						result = $"{head} = {Variables.GetVariable(head)}";
 					} else {
-						throw new InvalidOperationException();
+						throw new InvalidEquationException(ErrorCode.ConstantRedefinition, head);
 					}
 				} else {
 					if (await this.baseCalculator.SetFunctionAsync(head, body)) {
 						result = $"{head} = {body}";
 					} else {
-						throw new InvalidOperationException();
+						throw new InvalidEquationException(ErrorCode.BuiltinFunctionRedefinition, head);
 					}
 				}
 			}

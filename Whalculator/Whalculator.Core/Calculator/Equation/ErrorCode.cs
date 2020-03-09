@@ -11,6 +11,8 @@ namespace Whalculator.Core.Calculator.Equation {
 		InvalidNumArguments,
 		InvalidArguments,
 		MultivariableDifferentiation,
-		MismatchedArgumentType
+		MismatchedArgumentType,
+		ConstantRedefinition,
+		BuiltinFunctionRedefinition
 	}
 }

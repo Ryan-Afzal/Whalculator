@@ -37,6 +37,7 @@ namespace Whalculator.Core.Calculator.Equation {
 		public override async Task<IResult> GetResultValueAsync(ExpressionEvaluationArgs args) {
 			ISolvable[] _args = await this.EvaluateOperandsResult(args);
 			var info = args.FunctionSet.GetFunction(Name);
+
 			ISolvable solvable = info.Function.Clone();
 
 			if (DifferentiationDegree > 0) {

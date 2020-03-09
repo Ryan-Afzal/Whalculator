@@ -49,7 +49,11 @@ namespace Whalculator.Core.Calculator.Equation {
 		}
 
 		public FunctionInfo GetFunction(string name) {
-			return this.functions[name];
+			if (this.ContainsFunction(name)) {
+				return this.functions[name];
+			} else {
+				throw new InvalidEquationException(ErrorCode.NonexistentFunction, name);
+			}
 		}
 
 		public IEnumerable<FunctionInfo> GetAllFunctions() {

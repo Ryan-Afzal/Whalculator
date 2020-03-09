@@ -28,7 +28,7 @@ namespace Whalculator.Core.Calculator.Equation {
 			} else if (args.VariableSet.IsVariable(VariableName)) {
 				return await args.VariableSet[VariableName].GetResultValueAsync(args);
 			} else {
-				throw new InvalidEquationException(ErrorCode.NonexistentVariable);
+				throw new InvalidEquationException(ErrorCode.NonexistentVariable, VariableName);
 			}
 		}
 

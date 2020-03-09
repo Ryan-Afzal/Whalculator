@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Whalculator.Core.Calculator;
+using Whalculator.Core.Calculator.Equation;
 using Whalculator.WebApp_V2.Models;
 
 namespace Whalculator.WebApp_V2.API {
@@ -30,9 +31,9 @@ namespace Whalculator.WebApp_V2.API {
 						Response = output
 					};
 				}
-			} catch (Exception) {
+			} catch (Exception e) {
 				return new CalculatorResponseModel() {
-					Response = "UNKNOWN ERROR"
+					Response = e is InvalidEquationException i ? i.GetMessageFromErrorCode() : "UNKNOWN ERROR"
 				};
 			}
 		}
