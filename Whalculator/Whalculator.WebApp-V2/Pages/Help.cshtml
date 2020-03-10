@@ -3,14 +3,14 @@
 @{
     ViewData["Title"] = "Help";
 }
-<h1 class="display-3">User Manual</h1>
+<h1 class="display-4">User Manual</h1>
 
 <div class="alert alert-danger">Work in Progress (WIP)</div>
 
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <p class="display-4">1. Overview</p>
+            <h4>1. Overview</h4>
 
             <p>
                 <strong>Whalculator</strong> is a free, online, console-based calculator. 
@@ -20,11 +20,101 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <p class="display-4">2. Basic Expressions</p>
+            <h4>2. Basic Expressions</h4>
+
+            <h5>2.1 Literals</h5>
 
             <p>
-
+                Numbers are written normally:
             </p>
+
+            <p><kbd>256</kbd></p>
+            <p><samp>=> 256</samp></p>
+
+            <h5>2.2 Variables/Constants</h5>
+
+            <p>
+                Variables and constants are used by writing the variable name:
+            </p>
+
+            <p><kbd>pi</kbd></p>
+            <p><samp>=> 3.141592653897932</samp></p>
+
+            <p>
+                For Greek-letter constants such as <code>π</code> and <code>τ</code>, there exists both an English and Greek constant. For the example above, the following is also valid:
+            </p>
+
+            <p><kbd>π</kbd></p>
+            <p><samp>=> 3.141592653897932</samp></p>
+
+            <p>
+                Variable names obey certain rules:
+                <ol>
+                    <li>
+                        Variables must contain only alphanumeric characters and underscores.
+                    </li>
+                    <li>
+                        Variables must not <strong>begin</strong> with a number, as this would be interpreted as a coefficient.
+                    </li>
+                    <li>
+                        It's already covered in Rule #1, but variables should never contain operator characters.
+                    </li>
+                </ol>
+            </p>
+
+            <h5>2.3 Operators</h5>
+
+            <p>
+                Whalculator supports six basic operators:
+                <ul>
+                    <li>Addition: <code>+</code></li>
+                    <li>Subtraction: <code>-</code></li>
+                    <li>Multiplication: <code>*</code></li>
+                    <li>Division: <code>/</code></li>
+                    <li>Exponation: <code>^</code></li>
+                    <li>Modulo: <code>%</code></li>
+                </ul>
+
+                Operators follow standard PEMDAS order of operations.
+            </p>
+
+            <p><kbd>16*3^2</kbd></p>
+            <p><samp>=> 144</samp></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="alert alert-info">More info to come!</div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+
+        let promise = Promise.resolve();
+
+        function typeset() {
+            promise = promise.then(() => {
+                return MathJax.typesetPromise();
+            }).catch((err) => {
+                console.log('Typeset failed: ' + err.message);
+            });
+
+            return promise;
+        }
+
+        $(document).ready(function () {
+            typeset();
+        });
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+}
