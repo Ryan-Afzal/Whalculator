@@ -120,6 +120,11 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 					} else if (o.Operation.Name == Operations.DivideOperation.Name) {
 						return o;
 					} else if (o.Operation.Name == Operations.ExponateOperation.Name) {
+						if (o.operands[0] is Literal l1
+							&& o.operands[1] is Literal l2) {
+							return new Literal(Math.Pow(l1.Value, l2.Value));
+						}
+
 						return o;
 					} else if (o.Operation.Name == Operations.DivideOperation.Name) {
 						return o;

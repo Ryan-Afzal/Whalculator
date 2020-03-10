@@ -74,6 +74,12 @@ namespace Whalculator.Core.Calculator.Equation {
 
 		}
 		
+		/// <summary>
+		/// Returns an <see cref="ISolvable"/> node-graph based representation of the input text.
+		/// </summary>
+		/// <param name="text">The input text</param>
+		/// <param name="args">Arguments required for generation.</param>
+		/// <returns></returns>
 		public static async Task<ISolvable> GetSolvableAsync(string text, GenerationArgs args) {
 			text = text.Replace(" ", "");
 
@@ -83,8 +89,8 @@ namespace Whalculator.Core.Calculator.Equation {
 
 			return await ParseText(text, args)
 				.GetSimplifier()
-				.AddTransformNegativesSimplifier()
-				.AddLevelOperatorSimplifier()
+					.AddTransformNegativesSimplifier()
+					.AddLevelOperatorSimplifier()
 				.SimplifyAsync();
 		}
 
@@ -104,6 +110,8 @@ namespace Whalculator.Core.Calculator.Equation {
 
 			bool isNumeric = true;
 			bool isAlphanumeric = true;
+
+			int numericSwitchIndex = -1;
 
 			ExpressionBuilderStack stack = new ExpressionBuilderStack();//Bracket stack
 
@@ -125,6 +133,11 @@ namespace Whalculator.Core.Calculator.Equation {
 				} else if (stack.IsEmpty) {
 					if (isAlphanumeric && !(char.IsDigit(c) || c == '.')) {
 						isNumeric = false;
+
+						if (numericSwitchIndex == -1) {
+							numericSwitchIndex = i;
+						}
+
 						if (!char.IsLetter(c)) {
 							isAlphanumeric = false;
 						}
@@ -150,7 +163,14 @@ namespace Whalculator.Core.Calculator.Equation {
 					if (isNumeric) {// Literal
 						return new Literal(double.Parse(text));
 					} else {// Variable
-						return new Variable(text);
+						if (numericSwitchIndex > 0) {
+							return new Operator(Operations.MultiplyOperation,
+								new Literal(double.Parse(text.Substring(0, numericSwitchIndex))),
+								new Variable(text.Substring(numericSwitchIndex))
+								);
+						} else {
+							return new Variable(text);
+						}
 					}
 				} else if (text[0] == '(') {// Entire expression is enclosed in parentheses
 					return ParseText(text[1..^1], args);

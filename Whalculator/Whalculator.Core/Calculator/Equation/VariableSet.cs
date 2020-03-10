@@ -48,6 +48,16 @@ namespace Whalculator.Core.Calculator.Equation {
 				return false;
 			}
 
+			if (char.IsDigit(name[0])) {
+				return false;
+			}
+
+			for (int i = 0; i < name.Length; i++) {
+				if (!char.IsLetterOrDigit(name[i]) && name[i] != '_') {
+					return false;
+				}
+			}
+
 			this.variables[name] = new VariableInfo() {
 				Name = name,
 				IsConstant = false,
