@@ -31,26 +31,6 @@ namespace Whalculator.Core.Calculator.Equation.Simplifiers {
 
 								break;
 							}
-
-							//if (!(o.operands[i] is Operator mult && mult.Operation.Name == Operations.MultiplyOperation.Name)) {
-							//	o.operands[i] = new Operator(Operations.MultiplyOperation, o.operands[i], new Literal(1));
-							//}
-							
-							//var curr = (Operator)o.operands[i];
-
-							//if (o.operands[i + 1] is Operator nextOperator) {
-							//	if (nextOperator.Operation.Name == Operations.ExponateOperation.Name && nextOperator.operands[0].Equals(curr.operands[0])) {
-							//		o.operands[i + 1] = new Operator(Operations.ExponateOperation, 
-							//			nextOperator.operands[0], 
-							//			new Operator(Operations.AddOperation, 
-							//				nextOperator.operands[1], 
-							//				curr.operands[1]
-							//				)
-							//			);
-							//		o.operands[i] = null!;
-							//		c--;
-							//	}
-							//}
 						}
 
 						if (c < o.operands.Length) {
